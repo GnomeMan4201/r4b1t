@@ -64,7 +64,7 @@ body {
 
 /* ── Preview card ── */
 .preview {
-  width: 380px;
+  width: 420px;
   margin-top: 20px;
   background: #151310;
   border: 1px solid #2a2620;
@@ -81,24 +81,107 @@ body {
   pointer-events: all;
 }
 
-.preview-domain {
-  padding: 20px 20px 8px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.9rem;
-  letter-spacing: 0.04em;
-  color: #e8e0d0;
-  word-break: break-all;
-  line-height: 1.1;
+.preview-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px 10px;
 }
 
-.preview-url {
-  padding: 0 20px 16px;
-  font-size: 0.48rem;
+.preview-favicon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: #1c1a16;
+  object-fit: contain;
+  display: block;
+}
+
+.preview-favicon-placeholder {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: #1c1a16;
+  border: 1px solid #2a2620;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  color: #2a2620;
+  font-family: 'DM Mono', monospace;
+}
+
+.preview-domain-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.preview-domain {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
   letter-spacing: 0.04em;
-  color: #3a342a;
+  color: #e8e0d0;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-og-title {
+  font-size: 0.52rem;
+  letter-spacing: 0.04em;
+  color: #9a8f7a;
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'DM Mono', monospace;
+}
+
+.preview-og-desc {
+  padding: 0 20px 14px;
+  font-size: 0.55rem;
+  letter-spacing: 0.02em;
+  color: #4a4238;
+  line-height: 1.7;
+  font-family: 'Courier Prime', monospace;
+  font-style: italic;
+  display: none;
+  border-bottom: 1px solid #1c1a16;
+}
+.preview-og-desc.visible { display: block; }
+
+.preview-og-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: none;
+  border-bottom: 1px solid #1c1a16;
+}
+.preview-og-image.visible { display: block; }
+
+.preview-url {
+  padding: 0 20px 12px;
+  font-size: 0.45rem;
+  letter-spacing: 0.04em;
+  color: #2a2620;
   word-break: break-all;
   line-height: 1.8;
+  font-family: 'DM Mono', monospace;
 }
+
+.preview-loading {
+  padding: 8px 20px;
+  font-size: 0.45rem;
+  letter-spacing: 0.15em;
+  color: #2a2620;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  display: none;
+}
+.preview-loading.visible { display: block; }
 
 .preview-meta {
   padding: 6px 20px;
@@ -376,11 +459,19 @@ body {
 
   <!-- Preview card -->
   <div class="preview" id="preview">
-    <div class="preview-domain" id="previewDomain">—</div>
-    <div class="preview-url" id="previewUrl">—</div>
-    <div class="preview-meta">
+    <div class="preview-og-image" id="ogImage" alt="site preview"></div>
+    <div class="preview-top">
+      <img class="preview-favicon" id="previewFavicon" src="" alt="" onerror="this.style.display='none';document.getElementById('faviconPlaceholder').style.display='flex'">
+      <div class="preview-favicon-placeholder" id="faviconPlaceholder" style="display:none">?</div>
+      <div class="preview-domain-wrap">
+        <div class="preview-domain" id="previewDomain">—</div>
+        <div class="preview-og-title" id="ogTitle"></div>
+      </div>
       <span class="dark-badge" id="darkBadge">TOR</span>
     </div>
+    <div class="preview-loading" id="previewLoading">fetching metadata...</div>
+    <div class="preview-og-desc" id="ogDesc"></div>
+    <div class="preview-url" id="previewUrl">—</div>
     <div class="preview-actions">
       <button class="btn-visit" onclick="visit()">VISIT ↗</button>
       <button class="btn-skip" onclick="roll()">SKIP →</button>
@@ -9567,8 +9658,11 @@ function initBookmark() {
 initBookmark();
 
 // ── Roll ──────────────────────────────────────────────────────────────────────
+// ── CORS proxy for OG metadata ───────────────────────────────────────────────
+// Uses allorigins.win — free, no key, returns page HTML
+const PROXY = 'https://api.allorigins.win/raw?url=';
+
 function roll() {
-  // Pick from full pool — onion included only if Tor confirmed
   const pool = torReady ? URLS : CLEARNET;
   let pick;
   let tries = 0;
@@ -9582,17 +9676,104 @@ function roll() {
   let domain = pick;
   try { domain = new URL(pick).hostname.replace(/^www\./, ''); } catch {}
 
+  // Reset card
   document.getElementById('previewDomain').textContent = domain;
   document.getElementById('previewUrl').textContent = pick;
+  document.getElementById('ogTitle').textContent = '';
+  document.getElementById('ogDesc').textContent = '';
+  document.getElementById('ogDesc').classList.remove('visible');
+  const ogImg = document.getElementById('ogImage');
+  ogImg.classList.remove('visible');
+  ogImg.src = '';
 
   const isOnion = pick.includes('.onion');
   document.getElementById('darkBadge').classList.toggle('visible', isOnion);
 
+  // Favicon — Google's favicon service (works for clearnet, skip for onion)
+  const favicon = document.getElementById('previewFavicon');
+  const placeholder = document.getElementById('faviconPlaceholder');
+  if (!isOnion) {
+    try {
+      const host = new URL(pick).hostname;
+      favicon.src = `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+      favicon.style.display = 'block';
+      placeholder.style.display = 'none';
+    } catch {
+      favicon.style.display = 'none';
+      placeholder.style.display = 'flex';
+    }
+  } else {
+    favicon.style.display = 'none';
+    placeholder.style.display = 'flex';
+    placeholder.textContent = '⊗';
+  }
+
+  // Show card
   const card = document.getElementById('preview');
   card.classList.remove('visible');
   requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
-
   document.getElementById('bookmarkHint').classList.add('visible');
+
+  // Fetch OG metadata in background (clearnet only, skip onion)
+  if (!isOnion) fetchOGMeta(pick, domain);
+}
+
+// ── OG metadata fetch ─────────────────────────────────────────────────────────
+async function fetchOGMeta(url, domain) {
+  const loading = document.getElementById('previewLoading');
+  loading.classList.add('visible');
+  try {
+    const resp = await fetch(PROXY + encodeURIComponent(url), {
+      signal: AbortSignal.timeout(6000)
+    });
+    if (!resp.ok) throw new Error('fetch failed');
+    const html = await resp.text();
+
+    // Parse OG tags from raw HTML string (no DOM — avoids browser security issues)
+    const getMeta = (prop) => {
+      const patterns = [
+        new RegExp(`<meta[^>]+property=["']og:${prop}["'][^>]+content=["']([^"']+)["']`, 'i'),
+        new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:${prop}["']`, 'i'),
+        new RegExp(`<meta[^>]+name=["']${prop}["'][^>]+content=["']([^"']+)["']`, 'i'),
+        new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+name=["']${prop}["']`, 'i'),
+      ];
+      for (const p of patterns) {
+        const m = html.match(p);
+        if (m && m[1]) return m[1].trim().replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"');
+      }
+      return null;
+    };
+
+    // Only update if current URL hasn't changed while fetching
+    if (current !== url) return;
+
+    const title   = getMeta('title') || getMeta('site_name');
+    const desc    = getMeta('description') || getMeta('description');
+    const image   = getMeta('image');
+
+    if (title) {
+      const t = document.getElementById('ogTitle');
+      t.textContent = title.slice(0, 60) + (title.length > 60 ? '…' : '');
+    }
+
+    if (desc) {
+      const d = document.getElementById('ogDesc');
+      d.textContent = desc.slice(0, 140) + (desc.length > 140 ? '…' : '');
+      d.classList.add('visible');
+    }
+
+    if (image && image.startsWith('http')) {
+      const img = document.getElementById('ogImage');
+      img.onload = () => img.classList.add('visible');
+      img.onerror = () => {};
+      img.src = image;
+    }
+
+  } catch(e) {
+    // Silent fail — metadata just doesn't show
+  } finally {
+    if (current === url) loading.classList.remove('visible');
+  }
 }
 
 // ── Visit ─────────────────────────────────────────────────────────────────────
