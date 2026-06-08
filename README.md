@@ -4,7 +4,7 @@
 
 **A StumbleUpon-style random discovery engine for OSINT, security tools, and the open web.**
 
-15,940 URLs. No algorithm. No recommendations. No filter. Pure chaos.
+31,573 URLs. No algorithm. No recommendations. No filter. Pure chaos.
 
 ---
 
