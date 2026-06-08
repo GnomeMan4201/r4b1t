@@ -1,0 +1,101 @@
+<svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg" width="800" height="480">
+  <defs>
+    <pattern id="grain" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#0e0d0b"/>
+      <rect x="0" y="0" width="1" height="1" fill="#161410" opacity="0.6"/>
+      <rect x="2" y="2" width="1" height="1" fill="#161410" opacity="0.4"/>
+      <rect x="1" y="3" width="1" height="1" fill="#161410" opacity="0.3"/>
+    </pattern>
+    <pattern id="lines" x="0" y="0" width="1" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1" height="4" fill="none"/>
+      <rect y="3" width="1" height="1" fill="#14120f" opacity="0.5"/>
+    </pattern>
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noiseOut"/>
+      <feColorMatrix type="saturate" values="0" in="noiseOut" result="grayNoise"/>
+      <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blended"/>
+      <feComponentTransfer in="blended">
+        <feFuncA type="linear" slope="1"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="#0e0d0b"/>
+  <rect width="800" height="480" fill="url(#grain)"/>
+  <rect width="800" height="480" fill="url(#lines)"/>
+
+  <!-- Subtle radial vignette -->
+  <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+    <stop offset="0%" stop-color="#0e0d0b" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+  </radialGradient>
+  <rect width="800" height="480" fill="url(#vignette)"/>
+
+  <!-- Faint contour rings -->
+  <ellipse cx="400" cy="210" rx="340" ry="200" fill="none" stroke="#161410" stroke-width="1" opacity="0.7"/>
+  <ellipse cx="400" cy="210" rx="280" ry="160" fill="none" stroke="#161410" stroke-width="1" opacity="0.5"/>
+  <ellipse cx="400" cy="210" rx="220" ry="120" fill="none" stroke="#161410" stroke-width="1" opacity="0.4"/>
+  <ellipse cx="400" cy="210" rx="160" ry="85" fill="none" stroke="#161410" stroke-width="1" opacity="0.3"/>
+
+  <!-- ── WORDMARK + BUTTON ── -->
+  <!-- r4B1T in red (Bebas Neue style — chunky condensed caps) -->
+  <text x="228" y="208" font-family="'Arial Black', 'Impact', sans-serif" font-size="54" font-weight="900" letter-spacing="2" fill="#cc1111">r4B1T</text>
+  <!-- _h0L3 in off-white -->
+  <text x="391" y="208" font-family="'Arial Black', 'Impact', sans-serif" font-size="54" font-weight="900" letter-spacing="2" fill="#e8e0d0">_h0L3</text>
+
+  <!-- GO button -->
+  <rect x="554" y="169" width="88" height="38" fill="#cc1111"/>
+  <text x="598" y="193" font-family="'Courier New', monospace" font-size="12" font-weight="700" letter-spacing="3" fill="#000000" text-anchor="middle">GO ↓</text>
+
+  <!-- ── PREVIEW CARD ── -->
+  <rect x="228" y="228" width="380" height="148" fill="#151310" stroke="#2a2620" stroke-width="1"/>
+  <!-- Red top border -->
+  <rect x="228" y="228" width="380" height="3" fill="#cc1111"/>
+
+  <!-- Domain name (big) -->
+  <text x="248" y="276" font-family="'Arial Black', 'Impact', sans-serif" font-size="26" font-weight="900" letter-spacing="1" fill="#e8e0d0">s0cm0nkey.gitbook.io</text>
+
+  <!-- URL (small, dim) -->
+  <text x="248" y="298" font-family="'Courier New', monospace" font-size="9" letter-spacing="0.5" fill="#3a342a">https://s0cm0nkey.gitbook.io/s0cm0nkeys-security-reference-guide</text>
+
+  <!-- Meta separator -->
+  <line x1="228" y1="312" x2="608" y2="312" stroke="#1c1a16" stroke-width="1"/>
+
+  <!-- Action buttons separator -->
+  <line x1="228" y1="340" x2="608" y2="340" stroke="#1c1a16" stroke-width="1"/>
+
+  <!-- VISIT button -->
+  <rect x="228" y="340" width="290" height="36" fill="#cc1111"/>
+  <text x="373" y="363" font-family="'Courier New', monospace" font-size="11" font-weight="700" letter-spacing="3" fill="#000000" text-anchor="middle">VISIT ↗</text>
+
+  <!-- SKIP button -->
+  <rect x="518" y="340" width="90" height="36" fill="#151310" stroke="#1c1a16" stroke-width="1"/>
+  <text x="563" y="363" font-family="'Courier New', monospace" font-size="11" letter-spacing="2" fill="#4a4238" text-anchor="middle">SKIP →</text>
+
+  <!-- Vertical divider between VISIT and SKIP -->
+  <line x1="518" y1="340" x2="518" y2="376" stroke="#1c1a16" stroke-width="1"/>
+
+  <!-- ── BOOKMARK HINT ── -->
+  <rect x="285" y="394" width="112" height="24" fill="#151310" stroke="#4a1010" stroke-width="1"/>
+  <rect x="289" y="398" width="8" height="16" fill="#cc1111" opacity="0.8"/>
+  <text x="303" y="410" font-family="'Courier New', monospace" font-size="9" letter-spacing="1" fill="#cc1111">r4B1T_h0L3</text>
+  <text x="407" y="403" font-family="'Courier New', monospace" font-size="7.5" letter-spacing="0.5" fill="#2a2620">drag to bookmarks bar</text>
+  <text x="407" y="414" font-family="'Courier New', monospace" font-size="7.5" letter-spacing="0.5" fill="#2a2620">to return from any page</text>
+
+  <!-- ── COUNTER ── -->
+  <text x="772" y="448" font-family="'Courier New', monospace" font-size="8" letter-spacing="2" fill="#2a2620" text-anchor="end">3 HOLES DEEP</text>
+
+  <!-- ── TRAIL BAR ── -->
+  <rect x="0" y="455" width="800" height="25" fill="#0e0d0b" stroke="#1a1814" stroke-width="1"/>
+  <line x1="0" y1="455" x2="800" y2="455" stroke="#1a1814" stroke-width="1"/>
+
+  <text x="16" y="471" font-family="'Courier New', monospace" font-size="7" letter-spacing="3" fill="#2a2620">TRAIL //</text>
+  <text x="72" y="471" font-family="'Courier New', monospace" font-size="8" letter-spacing="1" fill="#3a342a">s0cm0nkey.gitbook.io</text>
+  <text x="210" y="471" font-family="'Courier New', monospace" font-size="8" fill="#1c1a16">/</text>
+  <text x="222" y="471" font-family="'Courier New', monospace" font-size="8" letter-spacing="1" fill="#3a342a">shodan.io</text>
+  <text x="285" y="471" font-family="'Courier New', monospace" font-size="8" fill="#1c1a16">/</text>
+  <text x="297" y="471" font-family="'Courier New', monospace" font-size="8" letter-spacing="1" fill="#3a342a">osintframework.com</text>
+  <text x="415" y="471" font-family="'Courier New', monospace" font-size="8" fill="#1c1a16">/</text>
+  <text x="427" y="471" font-family="'Courier New', monospace" font-size="8" letter-spacing="1" fill="#2a2620">virustotal.com</text>
+</svg>
