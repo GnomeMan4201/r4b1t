@@ -119029,15 +119029,11 @@ https://www.attify-store.com/collections/frontpage
 http://www.giac.org/
 http://www.giac.org/certifications/gse.php
 https://map.lookingglasscyber.com
-http://codacoin.com/api/public.php?request=validate&address=xxx`
-https://chain.api.btc.com/v3/address/xxx`
 https://cryptoengineer.notion.site/cryptoengineer/9f1668632aa04a0a83a311a86e799254?v=f7c5c49231f44b91a44021411fa27e28
 https://shell-storm.org/shellcode/index.html
 https://onionlandsearchengine.com/
 https://gitcoin.co/grants/798/a-hitchhikers-guide-to-token-engineering
 https://www.giac.org/
-https://www.localize.im/`
-https://flattr.com/submit/auto?user_id=marcow&url=http%3A%2F%2Fwww.localize.im%2F&title=Localize&hidden=1&category=software`
 https://www.giac.org/certifications/open-source-intelligence-gosi/
 https://platform.sensity.ai/deepfake-detection
 https://www.tomordonez.com/?fbclid=IwAR2L-X-aAuTNtRu749O_fkOivzL8Uru73wKAvizBgm6iR6nIKSuZPksF0dg
@@ -119064,15 +119060,11 @@ https://www.attify-store.com/collections/frontpage
 http://www.giac.org/
 http://www.giac.org/certifications/gse.php
 https://map.lookingglasscyber.com
-http://codacoin.com/api/public.php?request=validate&address=xxx`
-https://chain.api.btc.com/v3/address/xxx`
 https://cryptoengineer.notion.site/cryptoengineer/9f1668632aa04a0a83a311a86e799254?v=f7c5c49231f44b91a44021411fa27e28
 https://shell-storm.org/shellcode/index.html
 https://onionlandsearchengine.com/
 https://gitcoin.co/grants/798/a-hitchhikers-guide-to-token-engineering
 https://www.giac.org/
-https://www.localize.im/`
-https://flattr.com/submit/auto?user_id=marcow&url=http%3A%2F%2Fwww.localize.im%2F&title=Localize&hidden=1&category=software`
 https://www.giac.org/certifications/open-source-intelligence-gosi/
 https://platform.sensity.ai/deepfake-detection
 https://www.tomordonez.com/?fbclid=IwAR2L-X-aAuTNtRu749O_fkOivzL8Uru73wKAvizBgm6iR6nIKSuZPksF0dg
@@ -119126,7 +119118,16 @@ function roll() {
   current = pick;
 
   let domain = pick;
-  try { domain = new URL(pick).hostname.replace(/^www\./, ''); } catch {}
+  try {
+    const _u = new URL(pick);
+    const _h = _u.hostname.replace(/^www\./, '');
+    if (_h === 'github.com') {
+      const _p = _u.pathname.split('/').filter(Boolean);
+      domain = _p.length >= 2 ? _p[0]+'/'+_p[1] : _p.length === 1 ? 'github/'+_p[0] : _h;
+    } else {
+      domain = _h;
+    }
+  } catch {}
 
   // Reset card
   document.getElementById('previewDomain').textContent = domain;
@@ -119281,7 +119282,16 @@ function torConfirmNo() {
   const pick = CLEARNET[Math.floor(Math.random() * CLEARNET.length)];
   current = pick;
   let domain = pick;
-  try { domain = new URL(pick).hostname.replace(/^www\./, ''); } catch {}
+  try {
+    const _u = new URL(pick);
+    const _h = _u.hostname.replace(/^www\./, '');
+    if (_h === 'github.com') {
+      const _p = _u.pathname.split('/').filter(Boolean);
+      domain = _p.length >= 2 ? _p[0]+'/'+_p[1] : _p.length === 1 ? 'github/'+_p[0] : _h;
+    } else {
+      domain = _h;
+    }
+  } catch {}
   document.getElementById('previewDomain').textContent = domain;
   document.getElementById('previewUrl').textContent = pick;
   document.getElementById('darkBadge').classList.remove('visible');
