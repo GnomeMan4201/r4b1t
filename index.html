@@ -736,7 +736,7 @@ body {
   </div>
 
   <!-- Mode toggle -->
-  <div class="mode-toggle" id="modeToggle" style="display:none">
+  <div class="mode-toggle" id="modeToggle" style="display:flex;opacity:0.35;pointer-events:none">
     <button class="mode-btn active" id="btnModeRandom" onclick="setMode('random')">⚡ RANDOM</button>
     <button class="mode-btn" id="btnModeBranch" onclick="setMode('branch')">🕳 BRANCH</button>
   </div>
@@ -119244,7 +119244,7 @@ function roll() {
   card.classList.remove('visible');
   requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
   document.getElementById('bookmarkHint').classList.add('visible');
-  const _mt = document.getElementById('modeToggle'); if (_mt) _mt.style.display = 'flex';
+  const _mt = document.getElementById('modeToggle'); if (_mt) { _mt.style.opacity = '1'; _mt.style.pointerEvents = 'auto'; }
 
   // Fetch OG metadata in background (clearnet only, skip onion)
   if (!isOnion) fetchOGMeta(pick, domain);
