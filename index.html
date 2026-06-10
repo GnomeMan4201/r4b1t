@@ -119196,7 +119196,7 @@ function roll() {
   // Reset card
   document.getElementById('previewDomain').textContent = domain;
   document.getElementById('previewUrl').textContent = pick;
-  document.getElementById('ogTitle').textContent = (typeof DOMAIN_LABELS!=='undefined' && DOMAIN_LABELS[new URL(pick).hostname.replace(/^www[.]/,'')] ? DOMAIN_LABELS[new URL(pick).hostname.replace(/^www[.]/,'')].hint : '');
+  try { var _h=new URL(pick).hostname.replace(/^www[.]/,''); document.getElementById('ogTitle').textContent = (typeof DOMAIN_LABELS!=='undefined' && DOMAIN_LABELS[_h]) ? DOMAIN_LABELS[_h].hint : ''; } catch(e) { document.getElementById('ogTitle').textContent=''; }
   document.getElementById('ogDesc').textContent = '';
   document.getElementById('ogDesc').classList.remove('visible');
   const ogImg = document.getElementById('ogImage');
