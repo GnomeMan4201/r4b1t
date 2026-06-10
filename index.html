@@ -119687,12 +119687,13 @@ window._branchVisitHook = function() {
   <div style="display:flex;align-items:center;gap:12px;padding:8px 16px;background:#0e0d0b;border-bottom:1px solid #2a2620;flex-shrink:0;">
     <span id="iframeDomain" style="font-family:DM Mono,monospace;font-size:0.65rem;letter-spacing:0.1em;color:#c8b89a;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
     <a id="iframeOpenTab" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;text-decoration:none;text-transform:uppercase;">open tab</a>
-    <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:none;padding:4px 10px;cursor:pointer;text-transform:uppercase;">skip</button>
+    <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#c8b89a;background:none;border:none;padding:4px 10px;cursor:pointer;text-transform:uppercase;">skip →</button>
     <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:4px 10px;cursor:pointer;text-transform:uppercase;">back</button>
   </div>
   <div id="iframeBlockMsg" style="display:none;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:#0e0d0b;">
     <span style="font-family:DM Mono,monospace;font-size:0.65rem;color:#6a5f52;letter-spacing:0.1em;">site blocked embedded preview</span>
     <a id="iframeBlockLink" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.15em;color:#cc1111;text-decoration:none;border:1px solid #4a1010;padding:6px 16px;text-transform:uppercase;">open in new tab</a>
+    <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:6px 16px;cursor:pointer;text-transform:uppercase;">skip to next</button>
     <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:none;cursor:pointer;text-transform:uppercase;">back</button>
   </div>
   <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
