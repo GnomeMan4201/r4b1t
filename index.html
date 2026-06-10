@@ -119295,7 +119295,14 @@ async function fetchOGMeta(url, domain) {
     const img = document.getElementById('ogImage');
     img.onload = () => img.classList.add('visible');
     img.onerror = () => {};
-    img.src = image && image.startsWith('http') ? image : 'https://api.microlink.io/?url=' + encodeURIComponent(url) + '&screenshot=true&meta=false&embed=screenshot.url';
+    if (image && image.startsWith('http')) {
+      img.src = image;
+    } else {
+      fetch('https://api.microlink.io/?url=' + encodeURIComponent(url) + '&screenshot=true&meta=false')
+        .then(r => r.json())
+        .then(d => { if (d.data && d.data.screenshot && d.data.screenshot.url) { img.src = d.data.screenshot.url; } })
+        .catch(() => {});
+    }
   } catch(e) {
     // Silent fail — metadata just doesn't show
   } finally {
