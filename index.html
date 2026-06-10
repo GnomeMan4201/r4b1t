@@ -119319,7 +119319,7 @@ function visit() {
 function doVisit() {
   last = current;
   count++;
-  window.open(current, '_blank', 'noopener,noreferrer');
+  openIframe(current);
   trail.unshift(current);
   if (trail.length > 14) trail.pop();
   renderTrail();
@@ -119682,5 +119682,116 @@ window._branchVisitHook = function() {
   </div>
 </div>
 
+
+<div id="iframeOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;flex-direction:column;">
+  <div id="iframeBar" style="display:flex;align-items:center;gap:12px;padding:8px 16px;background:#0e0d0b;border-bottom:1px solid #2a2620;flex-shrink:0;">
+    <span id="iframeDomain" style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;color:#c8b89a;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <a id="iframeOpenTab" href="#" target="_blank" rel="noopener noreferrer" style="font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;text-decoration:none;text-transform:uppercase;">open tab ↗</a>
+    <button onclick="closeIframe()" style="font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:4px 10px;cursor:pointer;text-transform:uppercase;">✕ back</button>
+  </div>
+  <div id="iframeBlockMsg" style="display:none;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:#0e0d0b;">
+    <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#6a5f52;letter-spacing:0.1em;">site blocked embedded preview</span>
+    <a id="iframeBlockLink" href="#" target="_blank" rel="noopener noreferrer" style="font-family:'DM Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;color:#cc1111;text-decoration:none;border:1px solid #4a1010;padding:6px 16px;text-transform:uppercase;">open in new tab ↗</a>
+    <button onclick="closeIframe()" style="font-family:'DM Mono',monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:none;cursor:pointer;text-transform:uppercase;">← back</button>
+  </div>
+  <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+</div>
+
+<script>
+function openIframe(url) {
+  const overlay = document.getElementById('iframeOverlay');
+  const iframe = document.getElementById('iframeEl');
+  const bar = document.getElementById('iframeBar');
+  const blockMsg = document.getElementById('iframeBlockMsg');
+  const domainEl = document.getElementById('iframeDomain');
+  const openTab = document.getElementById('iframeOpenTab');
+  const blockLink = document.getElementById('iframeBlockLink');
+  let domain = url;
+  try { domain = new URL(url).hostname.replace(/^www\./, ''); } catch {}
+  domainEl.textContent = domain;
+  openTab.href = url;
+  blockLink.href = url;
+  iframe.style.display = 'block';
+  blockMsg.style.display = 'none';
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  iframe.src = url;
+  iframe.onerror = () => {
+    iframe.style.display = 'none';
+    blockMsg.style.display = 'flex';
+  };
+  // Detect X-Frame-Options block via timeout + load check
+  let loaded = false;
+  iframe.onload = () => { loaded = true; };
+  setTimeout(() => {
+    if (!loaded) {
+      iframe.style.display = 'none';
+      blockMsg.style.display = 'flex';
+    }
+  }, 8000);
+}
+function closeIframe() {
+  const overlay = document.getElementById('iframeOverlay');
+  const iframe = document.getElementById('iframeEl');
+  overlay.style.display = 'none';
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.code === 'Escape') closeIframe();
+});
+</script>
+
+<div id="iframeOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;flex-direction:column;">
+  <div style="display:flex;align-items:center;gap:12px;padding:8px 16px;background:#0e0d0b;border-bottom:1px solid #2a2620;flex-shrink:0;">
+    <span id="iframeDomain" style="font-family:DM Mono,monospace;font-size:0.65rem;letter-spacing:0.1em;color:#c8b89a;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <a id="iframeOpenTab" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;text-decoration:none;text-transform:uppercase;">open tab</a>
+    <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:4px 10px;cursor:pointer;text-transform:uppercase;">back</button>
+  </div>
+  <div id="iframeBlockMsg" style="display:none;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:#0e0d0b;">
+    <span style="font-family:DM Mono,monospace;font-size:0.65rem;color:#6a5f52;letter-spacing:0.1em;">site blocked embedded preview</span>
+    <a id="iframeBlockLink" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.15em;color:#cc1111;text-decoration:none;border:1px solid #4a1010;padding:6px 16px;text-transform:uppercase;">open in new tab</a>
+    <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:none;cursor:pointer;text-transform:uppercase;">back</button>
+  </div>
+  <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+</div>
+<script>
+function openIframe(url) {
+  var overlay = document.getElementById("iframeOverlay");
+  var iframe = document.getElementById("iframeEl");
+  var blockMsg = document.getElementById("iframeBlockMsg");
+  var domainEl = document.getElementById("iframeDomain");
+  var openTab = document.getElementById("iframeOpenTab");
+  var blockLink = document.getElementById("iframeBlockLink");
+  var domain = url;
+  try { domain = new URL(url).hostname.replace(/^www[.]/, ""); } catch(e) {}
+  domainEl.textContent = domain;
+  openTab.href = url;
+  blockLink.href = url;
+  iframe.style.display = "block";
+  blockMsg.style.display = "none";
+  overlay.style.display = "flex";
+  document.body.style.overflow = "hidden";
+  var loaded = false;
+  iframe.onload = function() { loaded = true; };
+  iframe.src = url;
+  setTimeout(function() {
+    if (!loaded) {
+      iframe.style.display = "none";
+      blockMsg.style.display = "flex";
+    }
+  }, 6000);
+}
+function closeIframe() {
+  var overlay = document.getElementById("iframeOverlay");
+  var iframe = document.getElementById("iframeEl");
+  overlay.style.display = "none";
+  iframe.src = "";
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", function(e) {
+  if (e.code === "Escape") closeIframe();
+});
+</script>
 </body>
 </html>
