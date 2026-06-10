@@ -772,7 +772,7 @@ body {
 <div class="counter" id="counter"></div>
 
 <div class="trail" id="trail">
-  <span class="trail-label">trail //</span>
+  <span class="trail-label">trail //</span><button id="shareTrail" onclick="shareTrail()" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;cursor:pointer;text-transform:uppercase;margin-left:8px;vertical-align:middle;">copy trail</button>
 </div>
 
 <script>
@@ -119421,6 +119421,22 @@ function renderTrail() {
     el.title = url;
     el.onclick = () => window.open(url, '_blank', 'noopener,noreferrer');
     t.appendChild(el);
+  });
+}
+
+function shareTrail() {
+  if (!trail.length) return;
+  var lines = ['r4b1t_h0l3 trail // ' + count + ' holes deep', ''];
+  trail.forEach(function(url, i) {
+    lines.push((i + 1) + '. ' + url);
+  });
+  var text = lines.join('\n');
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('shareTrail');
+    if (btn) { btn.textContent = 'copied'; setTimeout(function() { btn.textContent = 'copy trail'; }, 1500); }
+  }).catch(function() {
+    var btn = document.getElementById('shareTrail');
+    if (btn) { btn.textContent = 'failed'; setTimeout(function() { btn.textContent = 'copy trail'; }, 1500); }
   });
 }
 
