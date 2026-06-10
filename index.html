@@ -119712,7 +119712,11 @@ window.fetchOGMeta = async function(url, domain) {
 
   } catch(e) {
     thinking.style.display = 'none';
-    grid.innerHTML = '<div style="font-size:0.52rem;color:var(--text-muted);padding:8px 0">branch error — ' + e.message + '</div>';
+    grid.innerHTML = '<div style="font-size:0.52rem;color:var(--text-muted);padding:8px 0">branch unavailable — falling back to random</div>';
+    setTimeout(function() {
+      setMode('random');
+      grid.innerHTML = '';
+    }, 2000);
   }
 }
 
