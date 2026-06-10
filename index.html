@@ -119160,8 +119160,14 @@ const ONION    = URLS.filter(u => u.includes('.onion'));
 
 let current  = null;
 let last     = null;
-let count    = 0;
-const trail  = [];
+let count = parseInt(localStorage.getItem("r4b1t_count") || "0", 10);
+const trail = JSON.parse(localStorage.getItem("r4b1t_trail") || "[]");
+document.addEventListener("DOMContentLoaded", function() {
+  if (count > 0) {
+    document.getElementById("counter").textContent = count + " holes deep";
+    renderTrail();
+  }
+});
 let torReady = false;       // flips to true once user confirms Tor installed
 let torAsked = false;       // have we shown the Tor modal yet
 
@@ -119336,6 +119342,8 @@ function doVisit() {
   if (trail.length > 14) trail.pop();
   renderTrail();
   document.getElementById('counter').textContent = count + ' holes deep';
+  localStorage.setItem('r4b1t_count', count);
+  localStorage.setItem('r4b1t_trail', JSON.stringify(trail));
 
   // Show mode toggle after first visit
   const mt = document.getElementById('modeToggle');
@@ -119598,6 +119606,8 @@ Return ONLY a JSON array, no markdown:
           if (trail.length > 14) trail.pop();
           renderTrail();
           document.getElementById('counter').textContent = count + ' holes deep';
+          localStorage.setItem('r4b1t_count', count);
+          localStorage.setItem('r4b1t_trail', JSON.stringify(trail));
 
   // Show mode toggle after first visit
 const DOMAIN_LABELS = {
