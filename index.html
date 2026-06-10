@@ -119723,9 +119723,14 @@ function openIframe(url) {
   var fb = document.getElementById("iframeFallback");
   if (fb) fb.style.display = "none";
   var t = setTimeout(function() {
-    try { var d = iframe.contentDocument || iframe.contentWindow.document;
-      if (fb) fb.style.display = "block";
-    } catch(e) { if (fb) fb.style.display = "block"; }
+    try {
+      var d = iframe.contentDocument || iframe.contentWindow.document;
+      if (!d || !d.body || d.body.innerHTML.trim() === "") {
+        if (fb) fb.style.display = "block";
+      }
+    } catch(e) {
+      // cross-origin — cannot inspect, leave fallback hidden
+    }
   }, 8000);
   iframe.addEventListener("load", function() { clearTimeout(t); }, {once:true});
 }
