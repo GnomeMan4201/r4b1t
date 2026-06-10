@@ -119241,6 +119241,7 @@ function roll() {
   card.classList.remove('visible');
   requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
   document.getElementById('bookmarkHint').classList.add('visible');
+  const _mt = document.getElementById('modeToggle'); if (_mt) _mt.style.display = 'flex';
 
   // Fetch OG metadata in background (clearnet only, skip onion)
   if (!isOnion) fetchOGMeta(pick, domain);
