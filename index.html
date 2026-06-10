@@ -119500,7 +119500,7 @@ Return ONLY a JSON array, no markdown:
 [{"dir":"DEEPER","desc":"...","url":"..."},{"dir":"SIDEWAYS","desc":"...","url":"..."},{"dir":"OPPOSITE","desc":"...","url":"..."},{"dir":"WEIRD","desc":"...","url":"..."}]`;
 
   try {
-    const resp = await fetch('https://lively-cloud-e66f.gnomeman4201.workers.dev', {
+    const resp = await fetch('https://lively-cloud-e66f.gnomeman4201.workers.dev/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -119764,7 +119764,7 @@ function openIframe(url) {
     iframe.style.display = "none";
     blockMsg.style.display = "flex";
   };
-  iframe.src = url;
+  iframe.src = "https://lively-cloud-e66f.gnomeman4201.workers.dev/proxy?url=" + encodeURIComponent(url);
 }
 function closeIframe() {
   var overlay = document.getElementById("iframeOverlay");
