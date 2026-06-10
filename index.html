@@ -119590,8 +119590,8 @@ Return ONLY a JSON array, no markdown:
 
           addDepth();
 
-          // Open in new tab
-          window.open(branch.url, '_blank', 'noopener,noreferrer');
+          // Open in iframe overlay (consistent with RANDOM visit flow)
+          openIframe(branch.url);
 
           // Add to trail
           trail.unshift(branch.url);
@@ -119623,11 +119623,13 @@ function getDomainLabel(url) {
 }
 var _origRoll = roll;
 window.roll = function() {
+  window._hintActive = false;
   _origRoll();
   var url = document.getElementById('previewUrl').textContent.trim();
   var meta = getDomainLabel(url);
   var badge = document.getElementById('darkBadge');
   if (meta) {
+    window._hintActive = true;
     document.getElementById('ogTitle').textContent = meta.hint;
     var hidden = badge && badge.classList.contains('visible') === false;
     if (hidden) { badge.textContent = meta.tag; badge.dataset.tag = meta.tag; badge.classList.add('visible'); }
@@ -119637,10 +119639,9 @@ var _origFetchOGMeta = fetchOGMeta;
 window.fetchOGMeta = async function(url, domain) {
   var meta = getDomainLabel(url);
   await _origFetchOGMeta(url, domain);
-  if (meta) {
+  if (meta && window._hintActive) {
     var t = document.getElementById('ogTitle');
-    var words = t.textContent.trim().split(' ').length;
-    if (t.textContent === '' || words <= 3) { t.textContent = meta.hint; }
+    if (!t.textContent || t.textContent.trim() === '') { t.textContent = meta.hint; }
   }
 };
   const mt = document.getElementById('modeToggle');
