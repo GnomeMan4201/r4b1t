@@ -542,52 +542,37 @@ body {
 
 .branch-item {
   display: flex;
-  gap: 0;
-  border: 1px solid var(--border2);
-  background: var(--surface2);
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #1c1a16;
   cursor: pointer;
-  transition: all 0.1s;
-  overflow: hidden;
+  transition: opacity 0.1s;
 }
-.branch-item:hover {
-  border-color: var(--accent);
-  background: var(--accent-glow);
-}
-
+.branch-item:hover { opacity: 0.7; }
 .branch-dir-tag {
+  font-family: 'DM Mono', monospace;
   font-size: 0.42rem;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 10px 8px;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+  color: #4a4238;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  font-weight: 500;
+  width: 52px;
 }
-.dir-DEEPER   { background: rgba(204,17,17,0.15);  color: #cc1111; }
-.dir-SIDEWAYS { background: rgba(184,138,42,0.15); color: #b88a2a; }
-.dir-OPPOSITE { background: rgba(74,154,106,0.15); color: #4a9a6a; }
-.dir-WEIRD    { background: rgba(138,106,170,0.15);color: #8a6aaa; }
-
 .branch-body {
-  padding: 10px 12px;
   flex: 1;
 }
 .branch-desc {
-  font-family: 'Courier Prime', monospace;
-  font-size: 0.65rem;
-  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  color: #c8b89a;
   line-height: 1.5;
-  margin-bottom: 4px;
 }
 .branch-url-hint {
   font-size: 0.44rem;
   letter-spacing: 0.04em;
-  color: var(--text-muted);
+  color: #4a4238;
+  margin-top: 2px;
 }
 
 /* Depth counter */
@@ -119535,7 +119520,7 @@ Return ONLY a JSON array, no markdown:
 
           document.getElementById('previewDomain').textContent = domain;
           document.getElementById('previewUrl').textContent = branch.url;
-          document.getElementById('ogTitle').textContent = '';
+          try { var _bh=new URL(branch.url).hostname.replace(/^www[.]/,''); document.getElementById('ogTitle').textContent = (typeof DOMAIN_LABELS!=='undefined' && DOMAIN_LABELS[_bh]) ? DOMAIN_LABELS[_bh].hint : ''; } catch(e) { document.getElementById('ogTitle').textContent=''; }
           document.getElementById('ogDesc').textContent = '';
           document.getElementById('ogDesc').classList.remove('visible');
 
