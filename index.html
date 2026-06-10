@@ -119699,10 +119699,37 @@ window._branchVisitHook = function() {
   <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
 </div>
 <script>
+var IFRAME_BLOCKERS = {
+  "github.com":1,"youtube.com":1,"youtu.be":1,"amazon.com":1,"twitter.com":1,
+  "x.com":1,"linkedin.com":1,"instagram.com":1,"facebook.com":1,"reddit.com":1,
+  "google.com":1,"netflix.com":1,"twitch.tv":1,"discord.com":1,"slack.com":1,
+  "notion.so":1,"figma.com":1,"shopify.com":1,"stripe.com":1,"cloudflare.com":1,
+  "medium.com":1,"substack.com":1,"wordpress.com":1,"squarespace.com":1,
+  "t.me":1,"telegram.org":1,"whatsapp.com":1,"tiktok.com":1,"pinterest.com":1,
+  "dropbox.com":1,"drive.google.com":1,"docs.google.com":1,"maps.google.com":1
+};
+function isKnownBlocker(url) {
+  try {
+    var host = new URL(url).hostname.replace(/^www[.]/, "");
+    return !!IFRAME_BLOCKERS[host];
+  } catch(e) { return false; }
+}
 function openIframe(url) {
   var overlay = document.getElementById("iframeOverlay");
   var iframe = document.getElementById("iframeEl");
   var blockMsg = document.getElementById("iframeBlockMsg");
+  var domainEl2 = document.getElementById("iframeDomain");
+  var openTab2 = document.getElementById("iframeOpenTab");
+  var blockLink2 = document.getElementById("iframeBlockLink");
+  if (isKnownBlocker(url)) {
+    var d = url; try { d = new URL(url).hostname.replace(/^www[.]/, ""); } catch(e) {}
+    domainEl2.textContent = d; openTab2.href = url; blockLink2.href = url;
+    iframe.style.display = "none";
+    blockMsg.style.display = "flex";
+    overlay.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    return;
+  }
   var domainEl = document.getElementById("iframeDomain");
   var openTab = document.getElementById("iframeOpenTab");
   var blockLink = document.getElementById("iframeBlockLink");
