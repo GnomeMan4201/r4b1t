@@ -713,6 +713,7 @@ body {
     <div class="wordmark"><span class="r4">r4B1T</span>_h0L3</div>
     <button class="btn-go" id="btnGo" onclick="roll()">↓</button>
   </div>
+  <div id="kbdHint" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.12em;color:#3a3028;text-align:right;">space / → to roll  ·  enter to visit</div>
 
   <!-- Preview card -->
   <div class="preview" id="preview">
@@ -772,7 +773,7 @@ body {
 <div class="counter" id="counter"></div>
 
 <div class="trail" id="trail">
-  <span class="trail-label">trail //</span><button id="shareTrail" onclick="shareTrail()" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;cursor:pointer;text-transform:uppercase;margin-left:8px;vertical-align:middle;">copy trail</button>
+  <span class="trail-label">trail //</span><button id="shareTrail" onclick="shareTrail()" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;cursor:pointer;text-transform:uppercase;margin-left:8px;vertical-align:baseline;position:relative;top:-1px;">copy trail</button><button id="exportTrailMd" onclick="exportTrailMd()" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;cursor:pointer;text-transform:uppercase;margin-left:8px;vertical-align:baseline;position:relative;top:-1px;">export md</button>
 </div>
 
 <script>
@@ -119160,8 +119161,40 @@ const ONION    = URLS.filter(u => u.includes('.onion'));
 
 let current  = null;
 let last     = null;
-let count = parseInt(localStorage.getItem("r4b1t_count") || "0", 10);
-const trail = JSON.parse(localStorage.getItem("r4b1t_trail") || "[]");
+// Migrate legacy unversioned keys to v1, then drop them
+try {
+  var _legacyCount = localStorage.getItem("r4b1t_count");
+  var _legacyTrail = localStorage.getItem("r4b1t_trail");
+  if (_legacyCount !== null || _legacyTrail !== null) {
+    if (localStorage.getItem("r4b1t_v1_count") === null && _legacyCount !== null) {
+      localStorage.setItem("r4b1t_v1_count", _legacyCount);
+    }
+    if (localStorage.getItem("r4b1t_v1_trail") === null && _legacyTrail !== null) {
+      localStorage.setItem("r4b1t_v1_trail", _legacyTrail);
+    }
+    localStorage.removeItem("r4b1t_count");
+    localStorage.removeItem("r4b1t_trail");
+  }
+} catch(e) {}
+
+let count = 0;
+try {
+  count = parseInt(localStorage.getItem("r4b1t_v1_count") || "0", 10);
+} catch(e) { count = 0; }
+if (isNaN(count) || count < 0) count = 0;
+
+let trail = [];
+try {
+  trail = JSON.parse(localStorage.getItem("r4b1t_v1_trail") || "[]");
+} catch(e) { trail = []; }
+if (!Array.isArray(trail)) trail = [];
+
+function persistSession() {
+  try {
+    localStorage.setItem('r4b1t_v1_count', count);
+    localStorage.setItem('r4b1t_v1_trail', JSON.stringify(trail));
+  } catch(e) {}
+}
 document.addEventListener("DOMContentLoaded", function() {
   if (count > 0) {
     document.getElementById("counter").textContent = count + " holes deep";
@@ -119292,14 +119325,16 @@ async function fetchOGMeta(url, domain) {
 
     if (title) {
       const t = document.getElementById('ogTitle');
-      const existingHint = t.textContent;
-      if (existingHint) {
-        if (!desc) {
+      const label = getDomainLabel(url);
+      if (window._hintActive && label && t.textContent === label.hint) {
+        t.textContent = title.slice(0, 60) + (title.length > 60 ? '…' : '');
+        window._hintActive = false;
+        if (desc) {
           const d = document.getElementById('ogDesc');
-          d.textContent = title.slice(0, 80) + (title.length > 80 ? '…' : '');
+          d.textContent = desc.slice(0, 140) + (desc.length > 140 ? '…' : '');
           d.classList.add('visible');
         }
-      } else {
+      } else if (!window._hintActive) {
         t.textContent = title.slice(0, 60) + (title.length > 60 ? '…' : '');
       }
     }
@@ -119321,6 +119356,94 @@ async function fetchOGMeta(url, domain) {
   }
 }
 
+const DOMAIN_LABELS = {
+  'github.com':                  { hint: 'OSS repos - tools, exploits, frameworks, research', tag: 'CODE' },
+  'gist.github.com':             { hint: 'GitHub Gists - snippets, PoCs, quick references', tag: 'CODE' },
+  'gitlab.com':                  { hint: 'Source forge - OSINT tools, frameworks, self-hosted repos', tag: 'CODE' },
+  'codeberg.org':                { hint: 'FOSS forge - privacy-focused dev, security projects', tag: 'CODE' },
+  'sourceforge.net':             { hint: 'Legacy OSS archive - old tools, historical projects', tag: 'CODE' },
+  'marketplace.visualstudio.com':{ hint: 'VS Code extensions - dev tooling, linters, debuggers', tag: 'CODE' },
+  'youtube.com':                 { hint: 'Security talks, CTF walkthroughs, conference recordings', tag: 'VIDEO' },
+  'youtu.be':                    { hint: 'YouTube short link - security talks, demos, tutorials', tag: 'VIDEO' },
+  'x.com':                       { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
+  'twitter.com':                 { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
+  'linkedin.com':                { hint: 'Researcher profiles, org pivots, corporate OSINT target', tag: 'SOCIAL' },
+  't.me':                        { hint: 'Threat actor channels, leak feeds, darknet comms', tag: 'SOCIAL' },
+  'reddit.com':                  { hint: 'r/netsec, r/OSINT, r/ReverseEngineering threads', tag: 'SOCIAL' },
+  'facebook.com':                { hint: 'Groups, pages - security communities, researcher networks', tag: 'SOCIAL' },
+  'instagram.com':               { hint: 'Visual OSINT target - profiles, geolocation, metadata', tag: 'SOCIAL' },
+  'quora.com':                   { hint: 'Q&A - security concepts, career advice, tool comparisons', tag: 'SOCIAL' },
+  'medium.com':                  { hint: 'Security writeups, CVE analyses, research posts', tag: 'BLOG' },
+  'dev.to':                      { hint: 'Developer writing - security tutorials, tool releases', tag: 'BLOG' },
+  'tarnkappe.info':              { hint: '[DE] Security news - privacy, cybercrime, digital rights', tag: 'NEWS' },
+  'heise.de':                    { hint: '[DE] Tech/security news - vulnerability coverage, hardware', tag: 'NEWS' },
+  'hackerone.com':               { hint: 'Bug bounty platform - disclosed reports, researcher profiles', tag: 'BOUNTY' },
+  'portswigger.net':             { hint: 'Burp Suite, Web Security Academy - web vuln research', tag: 'RESEARCH' },
+  'arxiv.org':                   { hint: 'Preprint server - crypto, ML security, academic papers', tag: 'PAPER' },
+  'semanticscholar.org':         { hint: 'Academic search - security papers, citation graphs', tag: 'PAPER' },
+  'cs.cornell.edu':              { hint: 'Cornell CS - academic papers, course materials', tag: 'PAPER' },
+  'en.wikipedia.org':            { hint: 'Wikipedia - concepts, history, attack taxonomy', tag: 'REF' },
+  'web.archive.org':             { hint: 'Wayback Machine - deleted content, historical snapshots', tag: 'ARCHIVE' },
+  'google.com':                  { hint: 'Search - dork-ready, cached pages, indexed content', tag: 'SEARCH' },
+  'feedproxy.google.com':        { hint: 'Google Feed Proxy - RSS/blog redirect, may be stale', tag: 'FEED' },
+  'chrome.google.com':           { hint: 'Chrome extensions - security tools, OSINT add-ons', tag: 'EXT' },
+  'docs.google.com':             { hint: 'Google Docs/Sheets - shared research, public datasets', tag: 'DOC' },
+  'crates.io':                   { hint: 'Rust package registry - security tooling, parsers', tag: 'PKG' },
+  'pypi.org':                    { hint: 'Python package index - OSINT libs, scraping frameworks', tag: 'PKG' },
+  'npmjs.com':                   { hint: 'JavaScript package registry - tooling, automation', tag: 'PKG' },
+  'hackage.haskell.org':         { hint: 'Haskell packages - crypto, parsers, formal methods', tag: 'PKG' },
+  'cran.r-project.org':          { hint: 'R packages - data analysis, statistical security research', tag: 'PKG' },
+  'amazon.com':                  { hint: 'Books, AWS docs - security references, cloud tooling', tag: 'REF' },
+  'goodreads.com':               { hint: 'Book listings - security reading lists, recommendations', tag: 'REF' },
+  'manning.com':                 { hint: 'Tech publisher - security, networking, systems books', tag: 'REF' },
+  'coursera.org':                { hint: 'Online courses - security certifications, ML, networking', tag: 'COURSE' },
+  'nptel.ac.in':                 { hint: 'Indian academic MOOC - CS, crypto, systems courses', tag: 'COURSE' },
+  'meetup.com':                  { hint: 'Security meetups, local hacker groups, conference events', tag: 'EVENT' },
+  'cnx-software.com':            { hint: 'Embedded/IoT hardware coverage - SBCs, firmware, chips', tag: 'HARDWARE' },
+};
+
+function getDomainLabel(url) {
+  try {
+    var host = new URL(url).hostname.replace(/^www[.]/, '');
+    if (DOMAIN_LABELS[host]) return DOMAIN_LABELS[host];
+    // subdomain fallback: try parent domain
+    var parts = host.split('.');
+    if (parts.length > 2) {
+      var parent = parts.slice(-2).join('.');
+      if (DOMAIN_LABELS[parent]) return DOMAIN_LABELS[parent];
+    }
+    // TLD-level hints
+    if (host.endsWith('.onion')) return { hint: 'Tor hidden service - proceed with caution', tag: 'TOR' };
+    if (host.endsWith('.github.io')) return { hint: 'GitHub Pages project - docs, tools, portfolios', tag: 'PAGES' };
+    if (host.endsWith('.gitlab.io')) return { hint: 'GitLab Pages project - docs, tools, demos', tag: 'PAGES' };
+    return null;
+  } catch(e) { return null; }
+}
+var _origRoll = roll;
+window.roll = function() {
+  window._hintActive = false;
+  _origRoll();
+  var kbdHint = document.getElementById('kbdHint');
+  if (kbdHint) kbdHint.remove();
+  var url = document.getElementById('previewUrl').textContent.trim();
+  var meta = getDomainLabel(url);
+  var badge = document.getElementById('darkBadge');
+  if (meta) {
+    window._hintActive = true;
+    document.getElementById('ogTitle').textContent = meta.hint;
+    var hidden = badge && badge.classList.contains('visible') === false;
+    if (hidden) { badge.textContent = meta.tag; badge.dataset.tag = meta.tag; badge.classList.add('visible'); }
+  }
+};
+var _origFetchOGMeta = fetchOGMeta;
+window.fetchOGMeta = async function(url, domain) {
+  var meta = getDomainLabel(url);
+  await _origFetchOGMeta(url, domain);
+  if (meta && window._hintActive) {
+    var t = document.getElementById('ogTitle');
+    if (!t.textContent || t.textContent.trim() === '') { t.textContent = meta.hint; }
+  }
+};
 // ── Visit ─────────────────────────────────────────────────────────────────────
 function visit() {
   if (!current) return;
@@ -119342,8 +119465,7 @@ function doVisit() {
   if (trail.length > 14) trail.pop();
   renderTrail();
   document.getElementById('counter').textContent = count + ' holes deep';
-  localStorage.setItem('r4b1t_count', count);
-  localStorage.setItem('r4b1t_trail', JSON.stringify(trail));
+  persistSession();
 
   // Show mode toggle after first visit
   const mt = document.getElementById('modeToggle');
@@ -119407,6 +119529,7 @@ function closeTorModal() {
 function renderTrail() {
   const t = document.getElementById('trail');
   t.innerHTML = '<span class="trail-label">trail //</span>';
+  var seenHosts = [];
   trail.forEach((url, i) => {
     if (i > 0) {
       const sep = document.createElement('span');
@@ -119416,10 +119539,15 @@ function renderTrail() {
     }
     const el = document.createElement('span');
     el.className = 'trail-item';
-    try { el.textContent = new URL(url).hostname.replace(/^www\./, ''); }
+    var host = '';
+    try { host = new URL(url).hostname.replace(/^www\./, ''); el.textContent = host; }
     catch { el.textContent = url.slice(0, 28); }
     el.title = url;
     el.onclick = () => window.open(url, '_blank', 'noopener,noreferrer');
+    if (host && seenHosts.indexOf(host) !== -1) {
+      el.style.opacity = '0.6';
+    }
+    if (host) seenHosts.push(host);
     t.appendChild(el);
   });
 }
@@ -119440,15 +119568,62 @@ function shareTrail() {
   });
 }
 
+function exportTrailMd() {
+  if (!trail.length) return;
+  var lines = ['# r4b1t_h0l3 trail', '', '**session depth:** ' + count + ' holes', ''];
+  trail.forEach(function(url, i) {
+    var host = url;
+    try { host = new URL(url).hostname.replace(/^www\./, ''); } catch(e) {}
+    lines.push((i + 1) + '. [' + host + '](' + url + ')');
+  });
+  var text = lines.join('\n');
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('exportTrailMd');
+    if (btn) { btn.textContent = 'copied'; setTimeout(function() { btn.textContent = 'export md'; }, 1500); }
+  }).catch(function() {
+    var btn = document.getElementById('exportTrailMd');
+    if (btn) { btn.textContent = 'failed'; setTimeout(function() { btn.textContent = 'export md'; }, 1500); }
+  });
+}
+
 document.addEventListener('keydown', e => {
   if (e.code === 'Space' || e.code === 'ArrowRight') { e.preventDefault(); roll(); }
   if (e.code === 'Enter') { e.preventDefault(); visit(); }
 });
 
+function resetSession() {
+  try {
+    localStorage.removeItem('r4b1t_v1_count');
+    localStorage.removeItem('r4b1t_v1_trail');
+  } catch(e) {}
+  count = 0;
+  trail.length = 0;
+  var counterEl = document.getElementById('counter');
+  counterEl.textContent = '';
+  var t = document.getElementById('trail');
+  if (t) t.innerHTML = '';
+  counterEl.textContent = 'session cleared';
+  counterEl.style.color = '#6a5f52';
+  setTimeout(function() {
+    counterEl.textContent = '';
+    counterEl.style.color = '';
+  }, 1200);
+}
+document.getElementById('counter').addEventListener('dblclick', resetSession);
+
+
 
 // ── BRANCH MODE ───────────────────────────────────────────────────────────────
 let branchMode = false;
 let branchDepth = 0;
+var _branchRetryTimer;
+var visitStreak = 0;
+var VISIT_STREAK_MILESTONES = {
+  5: "five deep",
+  10: "ten holes deep. still going.",
+  25: "twenty-five. you're lost now.",
+  50: "fifty. there is no bottom."
+};
 
 const DEPTH_MILESTONES = {
   5: "you're in",
@@ -119622,96 +119797,9 @@ Return ONLY a JSON array, no markdown:
           if (trail.length > 14) trail.pop();
           renderTrail();
           document.getElementById('counter').textContent = count + ' holes deep';
-          localStorage.setItem('r4b1t_count', count);
-          localStorage.setItem('r4b1t_trail', JSON.stringify(trail));
+          persistSession();
 
   // Show mode toggle after first visit
-const DOMAIN_LABELS = {
-  'github.com':                  { hint: 'OSS repos - tools, exploits, frameworks, research', tag: 'CODE' },
-  'gist.github.com':             { hint: 'GitHub Gists - snippets, PoCs, quick references', tag: 'CODE' },
-  'gitlab.com':                  { hint: 'Source forge - OSINT tools, frameworks, self-hosted repos', tag: 'CODE' },
-  'codeberg.org':                { hint: 'FOSS forge - privacy-focused dev, security projects', tag: 'CODE' },
-  'sourceforge.net':             { hint: 'Legacy OSS archive - old tools, historical projects', tag: 'CODE' },
-  'marketplace.visualstudio.com':{ hint: 'VS Code extensions - dev tooling, linters, debuggers', tag: 'CODE' },
-  'youtube.com':                 { hint: 'Security talks, CTF walkthroughs, conference recordings', tag: 'VIDEO' },
-  'youtu.be':                    { hint: 'YouTube short link - security talks, demos, tutorials', tag: 'VIDEO' },
-  'x.com':                       { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
-  'twitter.com':                 { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
-  'linkedin.com':                { hint: 'Researcher profiles, org pivots, corporate OSINT target', tag: 'SOCIAL' },
-  't.me':                        { hint: 'Threat actor channels, leak feeds, darknet comms', tag: 'SOCIAL' },
-  'reddit.com':                  { hint: 'r/netsec, r/OSINT, r/ReverseEngineering threads', tag: 'SOCIAL' },
-  'facebook.com':                { hint: 'Groups, pages - security communities, researcher networks', tag: 'SOCIAL' },
-  'instagram.com':               { hint: 'Visual OSINT target - profiles, geolocation, metadata', tag: 'SOCIAL' },
-  'quora.com':                   { hint: 'Q&A - security concepts, career advice, tool comparisons', tag: 'SOCIAL' },
-  'medium.com':                  { hint: 'Security writeups, CVE analyses, research posts', tag: 'BLOG' },
-  'dev.to':                      { hint: 'Developer writing - security tutorials, tool releases', tag: 'BLOG' },
-  'tarnkappe.info':              { hint: '[DE] Security news - privacy, cybercrime, digital rights', tag: 'NEWS' },
-  'heise.de':                    { hint: '[DE] Tech/security news - vulnerability coverage, hardware', tag: 'NEWS' },
-  'hackerone.com':               { hint: 'Bug bounty platform - disclosed reports, researcher profiles', tag: 'BOUNTY' },
-  'portswigger.net':             { hint: 'Burp Suite, Web Security Academy - web vuln research', tag: 'RESEARCH' },
-  'arxiv.org':                   { hint: 'Preprint server - crypto, ML security, academic papers', tag: 'PAPER' },
-  'semanticscholar.org':         { hint: 'Academic search - security papers, citation graphs', tag: 'PAPER' },
-  'cs.cornell.edu':              { hint: 'Cornell CS - academic papers, course materials', tag: 'PAPER' },
-  'en.wikipedia.org':            { hint: 'Wikipedia - concepts, history, attack taxonomy', tag: 'REF' },
-  'web.archive.org':             { hint: 'Wayback Machine - deleted content, historical snapshots', tag: 'ARCHIVE' },
-  'google.com':                  { hint: 'Search - dork-ready, cached pages, indexed content', tag: 'SEARCH' },
-  'feedproxy.google.com':        { hint: 'Google Feed Proxy - RSS/blog redirect, may be stale', tag: 'FEED' },
-  'chrome.google.com':           { hint: 'Chrome extensions - security tools, OSINT add-ons', tag: 'EXT' },
-  'docs.google.com':             { hint: 'Google Docs/Sheets - shared research, public datasets', tag: 'DOC' },
-  'crates.io':                   { hint: 'Rust package registry - security tooling, parsers', tag: 'PKG' },
-  'pypi.org':                    { hint: 'Python package index - OSINT libs, scraping frameworks', tag: 'PKG' },
-  'npmjs.com':                   { hint: 'JavaScript package registry - tooling, automation', tag: 'PKG' },
-  'hackage.haskell.org':         { hint: 'Haskell packages - crypto, parsers, formal methods', tag: 'PKG' },
-  'cran.r-project.org':          { hint: 'R packages - data analysis, statistical security research', tag: 'PKG' },
-  'amazon.com':                  { hint: 'Books, AWS docs - security references, cloud tooling', tag: 'REF' },
-  'goodreads.com':               { hint: 'Book listings - security reading lists, recommendations', tag: 'REF' },
-  'manning.com':                 { hint: 'Tech publisher - security, networking, systems books', tag: 'REF' },
-  'coursera.org':                { hint: 'Online courses - security certifications, ML, networking', tag: 'COURSE' },
-  'nptel.ac.in':                 { hint: 'Indian academic MOOC - CS, crypto, systems courses', tag: 'COURSE' },
-  'meetup.com':                  { hint: 'Security meetups, local hacker groups, conference events', tag: 'EVENT' },
-  'cnx-software.com':            { hint: 'Embedded/IoT hardware coverage - SBCs, firmware, chips', tag: 'HARDWARE' },
-};
-
-function getDomainLabel(url) {
-  try {
-    var host = new URL(url).hostname.replace(/^www[.]/, '');
-    if (DOMAIN_LABELS[host]) return DOMAIN_LABELS[host];
-    // subdomain fallback: try parent domain
-    var parts = host.split('.');
-    if (parts.length > 2) {
-      var parent = parts.slice(-2).join('.');
-      if (DOMAIN_LABELS[parent]) return DOMAIN_LABELS[parent];
-    }
-    // TLD-level hints
-    if (host.endsWith('.onion')) return { hint: 'Tor hidden service - proceed with caution', tag: 'TOR' };
-    if (host.endsWith('.github.io')) return { hint: 'GitHub Pages project - docs, tools, portfolios', tag: 'PAGES' };
-    if (host.endsWith('.gitlab.io')) return { hint: 'GitLab Pages project - docs, tools, demos', tag: 'PAGES' };
-    return null;
-  } catch(e) { return null; }
-}
-var _origRoll = roll;
-window.roll = function() {
-  window._hintActive = false;
-  _origRoll();
-  var url = document.getElementById('previewUrl').textContent.trim();
-  var meta = getDomainLabel(url);
-  var badge = document.getElementById('darkBadge');
-  if (meta) {
-    window._hintActive = true;
-    document.getElementById('ogTitle').textContent = meta.hint;
-    var hidden = badge && badge.classList.contains('visible') === false;
-    if (hidden) { badge.textContent = meta.tag; badge.dataset.tag = meta.tag; badge.classList.add('visible'); }
-  }
-};
-var _origFetchOGMeta = fetchOGMeta;
-window.fetchOGMeta = async function(url, domain) {
-  var meta = getDomainLabel(url);
-  await _origFetchOGMeta(url, domain);
-  if (meta && window._hintActive) {
-    var t = document.getElementById('ogTitle');
-    if (!t.textContent || t.textContent.trim() === '') { t.textContent = meta.hint; }
-  }
-};
   const mt = document.getElementById('modeToggle');
   if (mt) mt.style.display = 'flex';
 
@@ -119728,11 +119816,20 @@ window.fetchOGMeta = async function(url, domain) {
 
   } catch(e) {
     thinking.style.display = 'none';
-    grid.innerHTML = '<div style="font-size:0.52rem;color:var(--text-muted);padding:8px 0">branch unavailable — falling back to random</div>';
-    setTimeout(function() {
+    grid.innerHTML = '<div style="font-size:0.52rem;color:var(--text-muted);padding:8px 0">branch unavailable' +
+      '<button id="branchRetryBtn" style="font-family:DM Mono,monospace;font-size:0.5rem;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;margin-left:8px;cursor:pointer;text-transform:uppercase;">retry</button></div>';
+    var retryBtn = document.getElementById('branchRetryBtn');
+    if (retryBtn) {
+      retryBtn.onclick = function() {
+        clearTimeout(_branchRetryTimer);
+        grid.innerHTML = '';
+        generateBranches(url);
+      };
+    }
+    _branchRetryTimer = setTimeout(function() {
       setMode('random');
       grid.innerHTML = '';
-    }, 2000);
+    }, 4000);
   }
 }
 
@@ -119772,15 +119869,17 @@ window._branchVisitHook = function() {
 <div id="iframeOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;flex-direction:column;">
   <div style="display:flex;align-items:center;gap:12px;padding:8px 16px;background:#0e0d0b;border-bottom:1px solid #2a2620;flex-shrink:0;">
     <span id="iframeDomain" style="font-family:DM Mono,monospace;font-size:0.65rem;letter-spacing:0.1em;color:#c8b89a;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <span id="iframeStatusBadge" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.1em;color:#cc1111;"></span>
     <a id="iframeOpenTab" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.65rem;letter-spacing:0.15em;color:#c8b89a;text-decoration:none;text-transform:uppercase;border:1px solid #3a3028;padding:3px 8px;">open tab</a>
-    <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#c8b89a;background:none;border:none;padding:4px 10px;cursor:pointer;text-transform:uppercase;">skip</button>
-    <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:4px 10px;cursor:pointer;text-transform:uppercase;">back</button>
+    <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#c8b89a;background:none;border:1px solid #3a3028;padding:3px 8px;cursor:pointer;text-transform:uppercase;">skip</button>
+    <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:3px 6px;cursor:pointer;text-transform:uppercase;">back</button>
   </div>
   <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-  <div id="iframeFallback" style="display:none;position:absolute;bottom:32px;left:50%;transform:translateX(-50%);background:#1a1510;border:1px solid #2a2620;padding:10px 18px;font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.12em;color:#6a5f52;text-align:center;pointer-events:none;">site may not render in preview — use OPEN TAB for full experience</div>
+  <div id="iframeFallback" style="display:none;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:#1a1510;border:1px solid #2a2620;padding:10px 18px;font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.12em;color:#6a5f52;text-align:center;pointer-events:none;max-width:calc(100% - 32px);box-sizing:border-box;">preview unavailable — open tab for full experience</div>
 </div>
 <script>
 var PROXY_URL = "https://lively-cloud-e66f.gnomeman4201.workers.dev/proxy?url=";
+const _checkedHosts = new Set();
 function openIframe(url) {
   var overlay = document.getElementById("iframeOverlay");
   var iframe = document.getElementById("iframeEl");
@@ -119793,19 +119892,43 @@ function openIframe(url) {
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden";
   iframe.src = PROXY_URL + encodeURIComponent(url);
+  visitStreak++;
+  var streakMsg = VISIT_STREAK_MILESTONES[visitStreak];
+  if (streakMsg) {
+    var counterEl = document.getElementById('counter');
+    counterEl.textContent = streakMsg;
+    counterEl.style.color = '#cc1111';
+    setTimeout(function() {
+      counterEl.textContent = count + ' holes deep';
+      counterEl.style.color = '';
+    }, 1800);
+  }
   var fb = document.getElementById("iframeFallback");
   if (fb) fb.style.display = "none";
-  var t = setTimeout(function() {
-    try {
-      var d = iframe.contentDocument || iframe.contentWindow.document;
-      if (!d || !d.body || d.body.innerHTML.trim() === "") {
-        if (fb) fb.style.display = "block";
-      }
-    } catch(e) {
-      // cross-origin — cannot inspect, leave fallback hidden
+  var statusBadge = document.getElementById("iframeStatusBadge");
+  if (statusBadge) statusBadge.textContent = "";
+  var loaded = false;
+  iframe.addEventListener("load", function() {
+    loaded = true;
+    if (fb) fb.style.display = "none";
+    var host = "";
+    try { host = new URL(url).hostname; } catch(e) {}
+    if (host && !_checkedHosts.has(host)) {
+      _checkedHosts.add(host);
+      setTimeout(function() {
+        fetch(PROXY_URL + encodeURIComponent(url), { method: "HEAD" }).then(function(resp) {
+          if (resp.status === 404 || resp.status === 410 || resp.status >= 500) {
+            if (statusBadge) statusBadge.textContent = "⚠ site returned " + resp.status;
+          }
+        }).catch(function() {
+          if (statusBadge) statusBadge.textContent = "⚠ unreachable";
+        });
+      }, 3000);
     }
-  }, 8000);
-  iframe.addEventListener("load", function() { clearTimeout(t); }, {once:true});
+  }, {once:true});
+  setTimeout(function() {
+    if (!loaded && fb) fb.style.display = "block";
+  }, 12000);
 }
 function closeIframe() {
   var overlay = document.getElementById("iframeOverlay");
