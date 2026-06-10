@@ -119490,7 +119490,7 @@ Return ONLY a JSON array, no markdown:
 [{"dir":"DEEPER","desc":"...","url":"..."},{"dir":"SIDEWAYS","desc":"...","url":"..."},{"dir":"OPPOSITE","desc":"...","url":"..."},{"dir":"WEIRD","desc":"...","url":"..."}]`;
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://lively-cloud-e66f.gnomeman4201.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
