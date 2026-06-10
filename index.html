@@ -471,11 +471,11 @@ body {
   text-transform: uppercase;
   padding: 9px 0;
   background: var(--surface2);
-  color: var(--text-muted);
+  color: #8a7a6a;
   border: none;
   cursor: pointer;
   transition: all 0.12s;
-  border-right: 1px solid var(--border2);
+  border-right: 1px solid #2a2620;
 }
 .mode-btn:last-child { border-right: none; }
 .mode-btn.active {
@@ -665,7 +665,12 @@ body {
 .branch-dir-tag { color: #cc4422; font-size: 0.44rem; }
 .branch-desc { color: #e8d8b8; font-size: 0.68rem; }
 .branch-url-hint { color: #7a6a58; font-size: 0.48rem; }
-</style></style></head>
+<style id="r4b1t-spacing">
+.preview-og-desc { padding: 6px 20px 10px; line-height: 1.6; }
+.preview-top { padding: 14px 20px 8px; }
+.preview-url { padding: 0 20px 8px; }
+.mode-btn { font-size: 0.55rem; letter-spacing: 0.15em; }
+</style></style></style></head>
 <style id="r4b1t-ui-polish">
 .btn-go {
   font-size: 1.4rem;
@@ -119253,6 +119258,7 @@ async function fetchOGMeta(url, domain) {
     const html = await resp.text();
 
     // Parse OG tags from raw HTML string (no DOM — avoids browser security issues)
+    const stripEmoji = s => s ? s.replace(/[^\x00-\x7F]/g, '').trim() : s;
     const getMeta = (prop) => {
       const patterns = [
         new RegExp(`<meta[^>]+property=["']og:${prop}["'][^>]+content=["']([^"']+)["']`, 'i'),
@@ -119270,8 +119276,8 @@ async function fetchOGMeta(url, domain) {
     // Only update if current URL hasn't changed while fetching
     if (current !== url) return;
 
-    const title   = getMeta('title') || getMeta('site_name');
-    const desc    = getMeta('description') || getMeta('description');
+    const title   = stripEmoji(getMeta('title') || getMeta('site_name'));
+    const desc    = stripEmoji(getMeta('description') || getMeta('description'));
     const image   = getMeta('image');
 
     if (title) {
