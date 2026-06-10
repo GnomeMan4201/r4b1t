@@ -632,7 +632,36 @@ body {
 .depth-hide-btn:hover { opacity: 1; }
 
 </style>
-</head>
+<style id="r4b1t-enhancements">
+.preview {
+  width: 520px;
+}
+.preview-og-title {
+  font-size: 0.72rem;
+  color: #c8b89a;
+  white-space: normal;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+.preview-og-desc {
+  font-size: 0.72rem;
+  color: #a89880;
+  padding: 10px 20px 16px;
+  line-height: 1.8;
+  display: none;
+}
+.preview-og-desc.visible { display: block; }
+.preview-og-image {
+  height: 180px;
+}
+.preview-url {
+  font-size: 0.55rem;
+  color: #5a5248;
+}
+.preview-loading {
+  color: #5a5248;
+}
+</style></head>
 <body>
 
 <div class="rig">
@@ -119513,6 +119542,49 @@ Return ONLY a JSON array, no markdown:
           document.getElementById('counter').textContent = count + ' holes deep';
 
   // Show mode toggle after first visit
+const DOMAIN_LABELS = {
+  'youtube.com': { hint: 'Security talks, CTF walkthroughs, conference recordings', tag: 'VIDEO' },
+  'gitlab.com': { hint: 'Source forge - OSINT tools, frameworks, self-hosted repos', tag: 'CODE' },
+  'x.com': { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
+  'twitter.com': { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
+  'linkedin.com': { hint: 'Researcher profiles, org pivots, corporate OSINT target', tag: 'SOCIAL' },
+  't.me': { hint: 'Threat actor channels, leak feeds, darknet comms', tag: 'SOCIAL' },
+  'reddit.com': { hint: 'r/netsec, r/OSINT, r/ReverseEngineering threads', tag: 'SOCIAL' },
+  'medium.com': { hint: 'Security writeups, CVE analyses, research posts', tag: 'BLOG' },
+  'dev.to': { hint: 'Developer writing - security tutorials, tool releases', tag: 'BLOG' },
+  'google.com': { hint: 'Search engine - dork-ready, cached pages, indexed content', tag: 'SEARCH' },
+  'crates.io': { hint: 'Rust package registry - security tooling, parsers', tag: 'PKG' },
+  'pypi.org': { hint: 'Python package index - OSINT libs, scraping frameworks', tag: 'PKG' },
+  'npmjs.com': { hint: 'JavaScript package registry - tooling, automation', tag: 'PKG' },
+  'amazon.com': { hint: 'E-commerce / AWS - may surface security book references', tag: 'REF' },
+  'tarnkappe.info': { hint: '[DE] Security news - privacy, cybercrime, digital rights', tag: 'NEWS' },
+};
+function getDomainLabel(url) {
+  try { var host = new URL(url).hostname.replace(/^www[.]/, ''); return DOMAIN_LABELS[host] || null; }
+  catch(e) { return null; }
+}
+var _origRoll = roll;
+window.roll = function() {
+  _origRoll();
+  var url = document.getElementById('previewUrl').textContent.trim();
+  var meta = getDomainLabel(url);
+  var badge = document.getElementById('darkBadge');
+  if (meta) {
+    document.getElementById('ogTitle').textContent = meta.hint;
+    var hidden = badge && badge.classList.contains('visible') === false;
+    if (hidden) { badge.textContent = meta.tag; badge.dataset.tag = meta.tag; badge.classList.add('visible'); }
+  }
+};
+var _origFetchOGMeta = fetchOGMeta;
+window.fetchOGMeta = async function(url, domain) {
+  var meta = getDomainLabel(url);
+  await _origFetchOGMeta(url, domain);
+  if (meta) {
+    var t = document.getElementById('ogTitle');
+    var words = t.textContent.trim().split(' ').length;
+    if (t.textContent === '' || words <= 3) { t.textContent = meta.hint; }
+  }
+};
   const mt = document.getElementById('modeToggle');
   if (mt) mt.style.display = 'flex';
 
