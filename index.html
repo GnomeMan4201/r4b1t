@@ -119696,7 +119696,7 @@ window._branchVisitHook = function() {
     <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:6px 16px;cursor:pointer;text-transform:uppercase;">skip to next</button>
     <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:none;cursor:pointer;text-transform:uppercase;">back</button>
   </div>
-  <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+  <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
 </div>
 <script>
 function openIframe(url) {
