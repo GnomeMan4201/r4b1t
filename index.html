@@ -119715,7 +119715,12 @@ function openIframe(url) {
   blockMsg.style.display = "none";
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden";
+  var iframeTimer = setTimeout(function() {
+    iframe.style.display = "none";
+    blockMsg.style.display = "flex";
+  }, 7000);
   iframe.onload = function() {
+    clearTimeout(iframeTimer);
     try {
       var doc = iframe.contentDocument || iframe.contentWindow.document;
       if (!doc || doc.body === null || doc.body.innerHTML === "") {
@@ -119726,6 +119731,11 @@ function openIframe(url) {
       iframe.style.display = "none";
       blockMsg.style.display = "flex";
     }
+  };
+  iframe.onerror = function() {
+    clearTimeout(iframeTimer);
+    iframe.style.display = "none";
+    blockMsg.style.display = "flex";
   };
   iframe.src = url;
 }
