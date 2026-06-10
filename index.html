@@ -662,12 +662,44 @@ body {
   color: #5a5248;
 }
 </style></head>
-<body>
+<style id="r4b1t-ui-polish">
+.btn-go {
+  font-size: 1.4rem;
+  padding: 10px 22px;
+  letter-spacing: 0;
+  background: #cc1111;
+  color: #fff;
+  border: 2px solid #ff2222;
+  box-shadow: 0 0 12px rgba(204,17,17,0.4);
+}
+.btn-go:hover {
+  background: #e01414;
+  box-shadow: 0 0 20px rgba(204,17,17,0.7);
+}
+.btn-skip {
+  color: #6a5f52;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  border-left: 1px solid #2a2620;
+}
+.btn-skip:hover { color: #e8e0d0; border-left-color: #cc1111; }
+.bookmark-link {
+  font-size: 0.58rem;
+  color: #cc1111;
+  border-color: #6a1010;
+  letter-spacing: 0.15em;
+}
+.hint-text {
+  color: #5a5248;
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+}
+</style><body>
 
 <div class="rig">
   <div class="top-row">
     <div class="wordmark"><span class="r4">r4B1T</span>_h0L3</div>
-    <button class="btn-go" id="btnGo" onclick="roll()">GO ↓</button>
+    <button class="btn-go" id="btnGo" onclick="roll()">⬇</button>
   </div>
 
   <!-- Preview card -->
