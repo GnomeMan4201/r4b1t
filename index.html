@@ -119319,7 +119319,7 @@ function visit() {
 function doVisit() {
   last = current;
   count++;
-  openIframe(current);
+  window.open(current, '_blank', 'noopener,noreferrer');
   trail.unshift(current);
   if (trail.length > 14) trail.pop();
   renderTrail();
@@ -119683,103 +119683,5 @@ window._branchVisitHook = function() {
 </div>
 
 
-<div id="iframeOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;flex-direction:column;">
-  <div style="display:flex;align-items:center;gap:12px;padding:8px 16px;background:#0e0d0b;border-bottom:1px solid #2a2620;flex-shrink:0;">
-    <span id="iframeDomain" style="font-family:DM Mono,monospace;font-size:0.65rem;letter-spacing:0.1em;color:#c8b89a;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-    <a id="iframeOpenTab" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;text-decoration:none;text-transform:uppercase;">open tab</a>
-    <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#c8b89a;background:none;border:none;padding:4px 10px;cursor:pointer;text-transform:uppercase;">skip →</button>
-    <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:4px 10px;cursor:pointer;text-transform:uppercase;">back</button>
-  </div>
-  <div id="iframeBlockMsg" style="display:none;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:#0e0d0b;">
-    <span style="font-family:DM Mono,monospace;font-size:0.65rem;color:#6a5f52;letter-spacing:0.1em;">site blocked embedded preview</span>
-    <a id="iframeBlockLink" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.15em;color:#cc1111;text-decoration:none;border:1px solid #4a1010;padding:6px 16px;text-transform:uppercase;">open in new tab</a>
-    <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:6px 16px;cursor:pointer;text-transform:uppercase;">skip to next</button>
-    <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:none;cursor:pointer;text-transform:uppercase;">back</button>
-  </div>
-  <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-</div>
-<script>
-var IFRAME_BLOCKERS = {
-  "github.com":1,"youtube.com":1,"youtu.be":1,"amazon.com":1,"twitter.com":1,
-  "x.com":1,"linkedin.com":1,"instagram.com":1,"facebook.com":1,"reddit.com":1,
-  "google.com":1,"netflix.com":1,"twitch.tv":1,"discord.com":1,"slack.com":1,
-  "notion.so":1,"figma.com":1,"shopify.com":1,"stripe.com":1,"cloudflare.com":1,
-  "wordpress.com":1,"squarespace.com":1,
-  "t.me":1,"telegram.org":1,"whatsapp.com":1,"tiktok.com":1,"pinterest.com":1,
-  "dropbox.com":1,"drive.google.com":1,"docs.google.com":1,"maps.google.com":1
-};
-function isKnownBlocker(url) {
-  try {
-    var host = new URL(url).hostname.replace(/^www[.]/, "");
-    return !!IFRAME_BLOCKERS[host];
-  } catch(e) { return false; }
-}
-function openIframe(url) {
-  var overlay = document.getElementById("iframeOverlay");
-  var iframe = document.getElementById("iframeEl");
-  var blockMsg = document.getElementById("iframeBlockMsg");
-  var domainEl2 = document.getElementById("iframeDomain");
-  var openTab2 = document.getElementById("iframeOpenTab");
-  var blockLink2 = document.getElementById("iframeBlockLink");
-  if (isKnownBlocker(url)) {
-    var d = url; try { d = new URL(url).hostname.replace(/^www[.]/, ""); } catch(e) {}
-    domainEl2.textContent = d; openTab2.href = url; blockLink2.href = url;
-    iframe.style.display = "none";
-    blockMsg.style.display = "flex";
-    overlay.style.display = "flex";
-    document.body.style.overflow = "hidden";
-    return;
-  }
-  var domainEl = document.getElementById("iframeDomain");
-  var openTab = document.getElementById("iframeOpenTab");
-  var blockLink = document.getElementById("iframeBlockLink");
-  var domain = url;
-  try { domain = new URL(url).hostname.replace(/^www[.]/, ""); } catch(e) {}
-  domainEl.textContent = domain;
-  openTab.href = url;
-  blockLink.href = url;
-  iframe.style.display = "block";
-  blockMsg.style.display = "none";
-  overlay.style.display = "flex";
-  document.body.style.overflow = "hidden";
-  var iframeTimer = setTimeout(function() {
-    if (!iframeLoaded) {
-      iframe.style.display = "none";
-      blockMsg.style.display = "flex";
-    }
-  }, 12000);
-  var iframeLoaded = false;
-  iframe.onload = function() {
-    iframeLoaded = true;
-    clearTimeout(iframeTimer);
-    try {
-      var doc = iframe.contentDocument || iframe.contentWindow.document;
-      if (!doc || doc.body === null || doc.body.innerHTML === "") {
-        iframe.style.display = "none";
-        blockMsg.style.display = "flex";
-      }
-    } catch(e) {
-      iframe.style.display = "none";
-      blockMsg.style.display = "flex";
-    }
-  };
-  iframe.onerror = function() {
-    clearTimeout(iframeTimer);
-    iframe.style.display = "none";
-    blockMsg.style.display = "flex";
-  };
-  iframe.src = "https://lively-cloud-e66f.gnomeman4201.workers.dev/proxy?url=" + encodeURIComponent(url);
-}
-function closeIframe() {
-  var overlay = document.getElementById("iframeOverlay");
-  var iframe = document.getElementById("iframeEl");
-  overlay.style.display = "none";
-  iframe.src = "";
-  document.body.style.overflow = "";
-}
-document.addEventListener("keydown", function(e) {
-  if (e.code === "Escape") closeIframe();
-});
-</script>
 </body>
 </html>
