@@ -119611,25 +119611,67 @@ Return ONLY a JSON array, no markdown:
 
   // Show mode toggle after first visit
 const DOMAIN_LABELS = {
-  'youtube.com': { hint: 'Security talks, CTF walkthroughs, conference recordings', tag: 'VIDEO' },
-  'gitlab.com': { hint: 'Source forge - OSINT tools, frameworks, self-hosted repos', tag: 'CODE' },
-  'x.com': { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
-  'twitter.com': { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
-  'linkedin.com': { hint: 'Researcher profiles, org pivots, corporate OSINT target', tag: 'SOCIAL' },
-  't.me': { hint: 'Threat actor channels, leak feeds, darknet comms', tag: 'SOCIAL' },
-  'reddit.com': { hint: 'r/netsec, r/OSINT, r/ReverseEngineering threads', tag: 'SOCIAL' },
-  'medium.com': { hint: 'Security writeups, CVE analyses, research posts', tag: 'BLOG' },
-  'dev.to': { hint: 'Developer writing - security tutorials, tool releases', tag: 'BLOG' },
-  'google.com': { hint: 'Search engine - dork-ready, cached pages, indexed content', tag: 'SEARCH' },
-  'crates.io': { hint: 'Rust package registry - security tooling, parsers', tag: 'PKG' },
-  'pypi.org': { hint: 'Python package index - OSINT libs, scraping frameworks', tag: 'PKG' },
-  'npmjs.com': { hint: 'JavaScript package registry - tooling, automation', tag: 'PKG' },
-  'amazon.com': { hint: 'E-commerce / AWS - may surface security book references', tag: 'REF' },
-  'tarnkappe.info': { hint: '[DE] Security news - privacy, cybercrime, digital rights', tag: 'NEWS' },
+  'github.com':                  { hint: 'OSS repos - tools, exploits, frameworks, research', tag: 'CODE' },
+  'gist.github.com':             { hint: 'GitHub Gists - snippets, PoCs, quick references', tag: 'CODE' },
+  'gitlab.com':                  { hint: 'Source forge - OSINT tools, frameworks, self-hosted repos', tag: 'CODE' },
+  'codeberg.org':                { hint: 'FOSS forge - privacy-focused dev, security projects', tag: 'CODE' },
+  'sourceforge.net':             { hint: 'Legacy OSS archive - old tools, historical projects', tag: 'CODE' },
+  'marketplace.visualstudio.com':{ hint: 'VS Code extensions - dev tooling, linters, debuggers', tag: 'CODE' },
+  'youtube.com':                 { hint: 'Security talks, CTF walkthroughs, conference recordings', tag: 'VIDEO' },
+  'youtu.be':                    { hint: 'YouTube short link - security talks, demos, tutorials', tag: 'VIDEO' },
+  'x.com':                       { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
+  'twitter.com':                 { hint: 'Threat intel feeds, researcher posts, IOC sharing', tag: 'SOCIAL' },
+  'linkedin.com':                { hint: 'Researcher profiles, org pivots, corporate OSINT target', tag: 'SOCIAL' },
+  't.me':                        { hint: 'Threat actor channels, leak feeds, darknet comms', tag: 'SOCIAL' },
+  'reddit.com':                  { hint: 'r/netsec, r/OSINT, r/ReverseEngineering threads', tag: 'SOCIAL' },
+  'facebook.com':                { hint: 'Groups, pages - security communities, researcher networks', tag: 'SOCIAL' },
+  'instagram.com':               { hint: 'Visual OSINT target - profiles, geolocation, metadata', tag: 'SOCIAL' },
+  'quora.com':                   { hint: 'Q&A - security concepts, career advice, tool comparisons', tag: 'SOCIAL' },
+  'medium.com':                  { hint: 'Security writeups, CVE analyses, research posts', tag: 'BLOG' },
+  'dev.to':                      { hint: 'Developer writing - security tutorials, tool releases', tag: 'BLOG' },
+  'tarnkappe.info':              { hint: '[DE] Security news - privacy, cybercrime, digital rights', tag: 'NEWS' },
+  'heise.de':                    { hint: '[DE] Tech/security news - vulnerability coverage, hardware', tag: 'NEWS' },
+  'hackerone.com':               { hint: 'Bug bounty platform - disclosed reports, researcher profiles', tag: 'BOUNTY' },
+  'portswigger.net':             { hint: 'Burp Suite, Web Security Academy - web vuln research', tag: 'RESEARCH' },
+  'arxiv.org':                   { hint: 'Preprint server - crypto, ML security, academic papers', tag: 'PAPER' },
+  'semanticscholar.org':         { hint: 'Academic search - security papers, citation graphs', tag: 'PAPER' },
+  'cs.cornell.edu':              { hint: 'Cornell CS - academic papers, course materials', tag: 'PAPER' },
+  'en.wikipedia.org':            { hint: 'Wikipedia - concepts, history, attack taxonomy', tag: 'REF' },
+  'web.archive.org':             { hint: 'Wayback Machine - deleted content, historical snapshots', tag: 'ARCHIVE' },
+  'google.com':                  { hint: 'Search - dork-ready, cached pages, indexed content', tag: 'SEARCH' },
+  'feedproxy.google.com':        { hint: 'Google Feed Proxy - RSS/blog redirect, may be stale', tag: 'FEED' },
+  'chrome.google.com':           { hint: 'Chrome extensions - security tools, OSINT add-ons', tag: 'EXT' },
+  'docs.google.com':             { hint: 'Google Docs/Sheets - shared research, public datasets', tag: 'DOC' },
+  'crates.io':                   { hint: 'Rust package registry - security tooling, parsers', tag: 'PKG' },
+  'pypi.org':                    { hint: 'Python package index - OSINT libs, scraping frameworks', tag: 'PKG' },
+  'npmjs.com':                   { hint: 'JavaScript package registry - tooling, automation', tag: 'PKG' },
+  'hackage.haskell.org':         { hint: 'Haskell packages - crypto, parsers, formal methods', tag: 'PKG' },
+  'cran.r-project.org':          { hint: 'R packages - data analysis, statistical security research', tag: 'PKG' },
+  'amazon.com':                  { hint: 'Books, AWS docs - security references, cloud tooling', tag: 'REF' },
+  'goodreads.com':               { hint: 'Book listings - security reading lists, recommendations', tag: 'REF' },
+  'manning.com':                 { hint: 'Tech publisher - security, networking, systems books', tag: 'REF' },
+  'coursera.org':                { hint: 'Online courses - security certifications, ML, networking', tag: 'COURSE' },
+  'nptel.ac.in':                 { hint: 'Indian academic MOOC - CS, crypto, systems courses', tag: 'COURSE' },
+  'meetup.com':                  { hint: 'Security meetups, local hacker groups, conference events', tag: 'EVENT' },
+  'cnx-software.com':            { hint: 'Embedded/IoT hardware coverage - SBCs, firmware, chips', tag: 'HARDWARE' },
 };
+
 function getDomainLabel(url) {
-  try { var host = new URL(url).hostname.replace(/^www[.]/, ''); return DOMAIN_LABELS[host] || null; }
-  catch(e) { return null; }
+  try {
+    var host = new URL(url).hostname.replace(/^www[.]/, '');
+    if (DOMAIN_LABELS[host]) return DOMAIN_LABELS[host];
+    // subdomain fallback: try parent domain
+    var parts = host.split('.');
+    if (parts.length > 2) {
+      var parent = parts.slice(-2).join('.');
+      if (DOMAIN_LABELS[parent]) return DOMAIN_LABELS[parent];
+    }
+    // TLD-level hints
+    if (host.endsWith('.onion')) return { hint: 'Tor hidden service - proceed with caution', tag: 'TOR' };
+    if (host.endsWith('.github.io')) return { hint: 'GitHub Pages project - docs, tools, portfolios', tag: 'PAGES' };
+    if (host.endsWith('.gitlab.io')) return { hint: 'GitLab Pages project - docs, tools, demos', tag: 'PAGES' };
+    return null;
+  } catch(e) { return null; }
 }
 var _origRoll = roll;
 window.roll = function() {
