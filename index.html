@@ -119286,7 +119286,16 @@ async function fetchOGMeta(url, domain) {
 
     if (title) {
       const t = document.getElementById('ogTitle');
-      t.textContent = title.slice(0, 60) + (title.length > 60 ? '…' : '');
+      const existingHint = t.textContent;
+      if (existingHint) {
+        if (!desc) {
+          const d = document.getElementById('ogDesc');
+          d.textContent = title.slice(0, 80) + (title.length > 80 ? '…' : '');
+          d.classList.add('visible');
+        }
+      } else {
+        t.textContent = title.slice(0, 60) + (title.length > 60 ? '…' : '');
+      }
     }
 
     if (desc) {
@@ -119695,6 +119704,7 @@ window._branchVisitHook = function() {
     <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:4px 10px;cursor:pointer;text-transform:uppercase;">back</button>
   </div>
   <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+  <div id="iframeFallback" style="display:none;position:absolute;bottom:32px;left:50%;transform:translateX(-50%);background:#1a1510;border:1px solid #2a2620;padding:10px 18px;font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.12em;color:#6a5f52;text-align:center;pointer-events:none;">site may not render in preview — use OPEN TAB for full experience</div>
 </div>
 <script>
 var PROXY_URL = "https://lively-cloud-e66f.gnomeman4201.workers.dev/proxy?url=";
@@ -119710,6 +119720,14 @@ function openIframe(url) {
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden";
   iframe.src = PROXY_URL + encodeURIComponent(url);
+  var fb = document.getElementById("iframeFallback");
+  if (fb) fb.style.display = "none";
+  var t = setTimeout(function() {
+    try { var d = iframe.contentDocument || iframe.contentWindow.document;
+      if (fb) fb.style.display = "block";
+    } catch(e) { if (fb) fb.style.display = "block"; }
+  }, 8000);
+  iframe.addEventListener("load", function() { clearTimeout(t); }, {once:true});
 }
 function closeIframe() {
   var overlay = document.getElementById("iframeOverlay");
