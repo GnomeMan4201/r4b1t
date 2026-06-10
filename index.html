@@ -167,7 +167,9 @@ body {
   font-size: 0.45rem;
   letter-spacing: 0.04em;
   color: #2a2620;
-  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: 1.8;
   font-family: 'DM Mono', monospace;
 }
@@ -217,7 +219,7 @@ body {
   padding: 14px;
   background: #cc1111;
   color: #fff;
-  border: 2px solid #ff3333;
+  border: none;
   cursor: pointer;
   font-weight: 500;
   transition: background 0.1s;
@@ -232,7 +234,7 @@ body {
   padding: 14px 18px;
   background: transparent;
   color: #4a4238;
-  border: 2px solid #ff3333;
+  border: none;
   border-left: 1px solid #1c1a16;
   cursor: pointer;
   transition: color 0.1s;
@@ -370,7 +372,9 @@ body {
   font-size: 0.48rem;
   letter-spacing: 0.06em;
   color: #3a342a;
-  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: 1.7;
   margin-bottom: 16px;
   padding: 8px 10px;
@@ -412,7 +416,7 @@ body {
   padding: 12px;
   background: #cc1111;
   color: #fff;
-  border: 2px solid #ff3333;
+  border: none;
   cursor: pointer;
   font-weight: 500;
   transition: background 0.1s;
@@ -441,7 +445,7 @@ body {
   padding: 8px;
   background: transparent;
   color: #3a342a;
-  border: 2px solid #ff3333;
+  border: none;
   cursor: pointer;
   transition: color 0.1s;
 }
@@ -468,7 +472,7 @@ body {
   padding: 9px 0;
   background: var(--surface2);
   color: var(--text-muted);
-  border: 2px solid #ff3333;
+  border: none;
   cursor: pointer;
   transition: all 0.12s;
   border-right: 1px solid var(--border2);
@@ -699,7 +703,7 @@ body {
 <div class="rig">
   <div class="top-row">
     <div class="wordmark"><span class="r4">r4B1T</span>_h0L3</div>
-    <button class="btn-go" id="btnGo" onclick="roll()">⬇</button>
+    <button class="btn-go" id="btnGo" onclick="roll()">↓</button>
   </div>
 
   <!-- Preview card -->
