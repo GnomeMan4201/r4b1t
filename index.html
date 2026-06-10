@@ -650,7 +650,17 @@ body {
 .preview-loading {
   color: #5a5248;
 }
-<style id="r4b1t-branch-bright">
+<style id="r4b1t-vars">
+:root {
+  --text: #e8d8b8;
+  --text-muted: #6a5f52;
+  --surface2: #151310;
+  --surface3: #1c1a16;
+  --border2: #2a2620;
+  --accent: #cc1111;
+  --accent-glow: rgba(204,17,17,0.08);
+}
+</style><style id="r4b1t-branch-bright">
 .branch-header span { color: #8a7a6a; letter-spacing: 0.25em; }
 .branch-dir-tag { color: #cc4422; font-size: 0.44rem; }
 .branch-desc { color: #e8d8b8; font-size: 0.68rem; }
@@ -119167,7 +119177,13 @@ function roll() {
   do {
     pick = pool[Math.floor(Math.random() * pool.length)];
     tries++;
+    try {
+      var _pd = new URL(pick).hostname.replace(/^www[.]/, "");
+      var _pc = (window._domainCount = window._domainCount || {});
+      if ((_pc[_pd] || 0) >= 2 && tries < 25) continue;
+    } catch(e) {}
   } while (pick === last && pool.length > 1 && tries < 30);
+  try { var _h2=new URL(pick).hostname.replace(/^www[.]/,""); window._domainCount=window._domainCount||{}; window._domainCount[_h2]=(window._domainCount[_h2]||0)+1; } catch(e) {}
 
   current = pick;
 
