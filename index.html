@@ -119743,10 +119743,14 @@ function openIframe(url) {
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden";
   var iframeTimer = setTimeout(function() {
-    iframe.style.display = "none";
-    blockMsg.style.display = "flex";
-  }, 7000);
+    if (!iframeLoaded) {
+      iframe.style.display = "none";
+      blockMsg.style.display = "flex";
+    }
+  }, 12000);
+  var iframeLoaded = false;
   iframe.onload = function() {
+    iframeLoaded = true;
     clearTimeout(iframeTimer);
     try {
       var doc = iframe.contentDocument || iframe.contentWindow.document;
