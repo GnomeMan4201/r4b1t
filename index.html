@@ -119772,15 +119772,19 @@ function openIframe(url) {
   blockMsg.style.display = "none";
   overlay.style.display = "flex";
   document.body.style.overflow = "hidden";
-  var loaded = false;
-  iframe.onload = function() { loaded = true; };
-  iframe.src = url;
-  setTimeout(function() {
-    if (!loaded) {
+  iframe.onload = function() {
+    try {
+      var doc = iframe.contentDocument || iframe.contentWindow.document;
+      if (!doc || doc.body === null || doc.body.innerHTML === "") {
+        iframe.style.display = "none";
+        blockMsg.style.display = "flex";
+      }
+    } catch(e) {
       iframe.style.display = "none";
       blockMsg.style.display = "flex";
     }
-  }, 6000);
+  };
+  iframe.src = url;
 }
 function closeIframe() {
   var overlay = document.getElementById("iframeOverlay");
