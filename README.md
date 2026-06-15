@@ -4,10 +4,10 @@
 
 **A StumbleUpon-style random discovery engine for OSINT, security tools, and the open web.**
 
-17,848 URLs. No algorithm. No recommendations. No tracking. Pure chaos.
+103,394 URLs. No algorithm. No recommendations. No tracking. Pure chaos.
 
 [![Live](https://img.shields.io/badge/live-gnomeman4201.github.io%2Fr4b1t-red?style=flat-square)](https://gnomeman4201.github.io/r4b1t)
-[![URLs](https://img.shields.io/badge/pool-17%2C848_URLs-111?style=flat-square&labelColor=222)](https://gnomeman4201.github.io/r4b1t)
+[![URLs](https://img.shields.io/badge/pool-103%2C394_URLs-111?style=flat-square&labelColor=222)](https://gnomeman4201.github.io/r4b1t)
 [![No backend](https://img.shields.io/badge/backend-none-111?style=flat-square&labelColor=222)](https://gnomeman4201.github.io/r4b1t)
 [![No tracking](https://img.shields.io/badge/tracking-none-111?style=flat-square&labelColor=222)](https://gnomeman4201.github.io/r4b1t)
 [![badBANANA](https://img.shields.io/badge/badBANANA-Research_Collective-111?style=flat-square&labelColor=222)](https://github.com/GnomeMan4201)
@@ -22,7 +22,7 @@
 
 Remember StumbleUpon? You'd click a button and land somewhere unexpected, a weird personal site, an obscure tool, a community you didn't know existed. The discovery was the point. Then it died, and we got recommendation engines that already know what you think you want.
 
-r4b1t_h0l3 is that, rebuilt, except instead of recipe blogs and motivational quotes, it's 17,848 curated URLs across OSINT tools, threat intelligence platforms, security research blogs, dark web resources, CTF environments, and corners of the open web that don't rank well and don't have anyone promoting them.
+r4b1t_h0l3 is that, rebuilt, except instead of recipe blogs and motivational quotes, it's 103,394 curated URLs across OSINT tools, threat intelligence platforms, security research blogs, dark web resources, CTF environments, and corners of the open web that don't rank well and don't have anyone promoting them.
 
 Hit **GO**. See what surfaces. Go down the hole.
 
@@ -79,7 +79,7 @@ BRANCH on Cesium pulls in a different tree — cesiumjs.org, GitHub repos, video
 
 ## What's in the pool
 
-17,848 URLs assembled from a multi-source pipeline: Start.me public pages, GitHub awesome-lists, and manual curation. The pool covers:
+103,394 URLs assembled from a multi-source pipeline: Start.me public pages, GitHub awesome-lists, and manual curation. The pool covers:
 
 - OSINT tools and frameworks
 - Threat intelligence platforms
