@@ -736,6 +736,108 @@ body {
   border-color: #402020;
   color: #aa6666;
 }
+
+/* ── CATEGORY FILTER PANEL ─────────────────────────────────── */
+.filter-panel {
+  width: 420px;
+  margin-top: 0;
+  background: #111009;
+  border: 1px solid #2a2620;
+  border-top: none;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease, padding 0.2s ease;
+}
+.filter-panel.visible {
+  max-height: 400px;
+  padding: 14px 16px;
+}
+.filter-panel-header {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.38rem;
+  letter-spacing: 0.2em;
+  color: #4a4238;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-panel-header button {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.36rem;
+  letter-spacing: 0.1em;
+  color: #4a4238;
+  background: none;
+  border: 1px solid #2a2620;
+  padding: 2px 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.filter-panel-header button:hover {
+  color: #cc1111;
+  border-color: #4a1010;
+}
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 7px;
+  border: 1px solid #1c1a16;
+  cursor: pointer;
+  transition: all 0.1s;
+  background: #0e0d0b;
+}
+.filter-item:hover {
+  border-color: #3a3028;
+}
+.filter-item.excluded {
+  opacity: 0.35;
+}
+.filter-item.excluded .filter-dot {
+  background: #2a2620 !important;
+}
+.filter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.1s;
+}
+.filter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.38rem;
+  letter-spacing: 0.1em;
+  color: #6a5a48;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.filter-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.32rem;
+  color: #3a3028;
+  margin-left: auto;
+}
+.filter-active-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.32rem;
+  letter-spacing: 0.1em;
+  color: #cc1111;
+  border: 1px solid #4a1010;
+  padding: 1px 4px;
+  display: none;
+}
+.filter-active-badge.visible {
+  display: inline-block;
+}
+/* ─────────────────────────────────────────── */
+
 </style>
 <style id="r4b1t-enhancements">
 .preview {
@@ -853,6 +955,7 @@ body {
   <div class="mode-toggle" id="modeToggle" style="display:flex;opacity:0.35;pointer-events:none">
     <button class="mode-btn active" id="btnModeRandom" onclick="setMode('random')">⚡ RANDOM</button>
     <button class="mode-btn" id="btnModeBranch" onclick="setMode('branch')">🕳 BRANCH</button>
+    <button class="mode-btn" id="btnFilter" onclick="toggleFilter()">⚙ FILTER <span class="filter-active-badge" id="filterBadge">ON</span></button>
   </div>
 
   <!-- Branch panel -->
@@ -865,6 +968,21 @@ body {
       </div>
     </div>
     <div class="branch-grid" id="branchGrid"></div>
+  </div>
+
+  
+  <!-- Category filter panel -->
+  <div class="filter-panel" id="filterPanel">
+    <div class="filter-panel-header">
+      <span>filter by category</span>
+      <div style="display:flex;gap:6px">
+        <button onclick="setAllFilters(true)">all on</button>
+        <button onclick="setAllFilters(false)">all off</button>
+      </div>
+    </div>
+    <div class="filter-grid" id="filterGrid">
+      <!-- populated by JS -->
+    </div>
   </div>
 
   <!-- Bookmark drag handle (appears after first use) -->
@@ -121381,8 +121499,9 @@ function roll() {
   const pool = torReady ? URLS : CLEARNET;
   let pick;
   let tries = 0;
+  const _rPool = getActivePool();
   do {
-    pick = pool[Math.floor(Math.random() * pool.length)];
+    pick = _rPool[Math.floor(Math.random() * _rPool.length)];
     tries++;
     try {
       var _pd = new URL(pick).hostname.replace(/^www[.]/, "");
@@ -121792,6 +121911,156 @@ const DEPTH_MILESTONES = {
   50: "what day is it",
   100: "lost forever",
 };
+
+
+// ── CATEGORY FILTER ─────────────────────────────────────────────
+const FILTER_COLORS = {
+  OSINT_Tool:        '#5a9a5a',
+  ThreatIntel_Feed:  '#cc4444',
+  Security_Blog:     '#5a5acc',
+  CTF_Platform:      '#aaaa44',
+  SDR_Interface:     '#44aaaa',
+  Mesh_Node:         '#aa44aa',
+  Radio_Comms:       '#44aaaa',
+  Onion_Service:     '#888888',
+  I2P_Node:          '#8844cc',
+  Yggdrasil_Node:    '#44aa44',
+  Sovereign_Gateway: '#cc6644',
+  Decentralized_Net: '#6666cc',
+  Privacy_Tool:      '#aaaaaa',
+  Crypto_Infra:      '#cc9944',
+  Research_Archive:  '#6699aa',
+  Gov_Data:          '#aa6666',
+  Unknown:           '#3a3028',
+};
+
+const FILTER_LABELS = {
+  OSINT_Tool:        'OSINT',
+  ThreatIntel_Feed:  'Threat Intel',
+  Security_Blog:     'Sec Blog',
+  CTF_Platform:      'CTF',
+  SDR_Interface:     'SDR',
+  Mesh_Node:         'Mesh',
+  Radio_Comms:       'Radio',
+  Onion_Service:     'Onion',
+  I2P_Node:          'I2P',
+  Yggdrasil_Node:    'Yggdrasil',
+  Sovereign_Gateway: 'Sovereign',
+  Decentralized_Net: 'Decentral',
+  Privacy_Tool:      'Privacy',
+  Crypto_Infra:      'Crypto',
+  Research_Archive:  'Research',
+  Gov_Data:          'Gov Data',
+  Unknown:           'Untagged',
+};
+
+// Categories currently excluded from the pool
+let excludedCategories = new Set();
+let filterOpen = false;
+
+function toggleFilter() {
+  filterOpen = !filterOpen;
+  const panel = document.getElementById('filterPanel');
+  panel.classList.toggle('visible', filterOpen);
+  document.getElementById('btnFilter').classList.toggle('active', filterOpen);
+  if (filterOpen && document.getElementById('filterGrid').children.length === 0) {
+    renderFilterGrid();
+  }
+}
+
+function renderFilterGrid() {
+  const grid = document.getElementById('filterGrid');
+  grid.innerHTML = '';
+
+  // Count URLs per category from TAG_MAP
+  const counts = {};
+  if (typeof TAG_MAP !== 'undefined') {
+    for (const cat of Object.values(TAG_MAP)) {
+      counts[cat] = (counts[cat] || 0) + 1;
+    }
+  }
+  counts['Unknown'] = (typeof URLS !== 'undefined' ? URLS.length : 0) - Object.values(counts).reduce((a,b) => a+b, 0);
+
+  // Render all categories
+  const allCats = Object.keys(FILTER_LABELS);
+  for (const cat of allCats) {
+    const count = counts[cat] || 0;
+    const excluded = excludedCategories.has(cat);
+    const color = FILTER_COLORS[cat] || '#3a3028';
+    const label = FILTER_LABELS[cat] || cat;
+
+    const item = document.createElement('div');
+    item.className = 'filter-item' + (excluded ? ' excluded' : '');
+    item.dataset.cat = cat;
+    item.innerHTML = `
+      <div class="filter-dot" style="background:${color}"></div>
+      <span class="filter-label">${label}</span>
+      <span class="filter-count">${count > 0 ? count : ''}</span>
+    `;
+    item.onclick = () => toggleCategory(cat, item);
+    grid.appendChild(item);
+  }
+}
+
+function toggleCategory(cat, el) {
+  if (excludedCategories.has(cat)) {
+    excludedCategories.delete(cat);
+    el.classList.remove('excluded');
+  } else {
+    excludedCategories.add(cat);
+    el.classList.add('excluded');
+  }
+  updateFilterBadge();
+  // Rebuild filtered pool
+  rebuildFilteredPool();
+}
+
+function setAllFilters(include) {
+  excludedCategories.clear();
+  if (!include) {
+    // Exclude everything except Unknown
+    Object.keys(FILTER_LABELS).forEach(cat => {
+      if (cat !== 'Unknown') excludedCategories.add(cat);
+    });
+  }
+  renderFilterGrid();
+  updateFilterBadge();
+  rebuildFilteredPool();
+}
+
+function updateFilterBadge() {
+  const badge = document.getElementById('filterBadge');
+  const active = excludedCategories.size > 0;
+  badge.classList.toggle('visible', active);
+  if (active) {
+    badge.textContent = excludedCategories.size + ' OFF';
+  }
+}
+
+// Filtered URL pool — used by random roll when filters are active
+let FILTERED_URLS = null;
+
+function rebuildFilteredPool() {
+  if (excludedCategories.size === 0) {
+    FILTERED_URLS = null; // use full pool
+    return;
+  }
+
+  if (typeof URLS === 'undefined') return;
+
+  FILTERED_URLS = URLS.filter(url => {
+    const cat = (typeof TAG_MAP !== 'undefined' && TAG_MAP[url]) || 'Unknown';
+    return !excludedCategories.has(cat);
+  });
+
+  console.log(`[filter] pool: ${FILTERED_URLS.length} / ${URLS.length} URLs`);
+}
+
+// Get the active pool (filtered or full)
+function getActivePool() {
+  return FILTERED_URLS || (typeof URLS !== 'undefined' ? URLS : []);
+}
+// ────────────────────────────────────────────────────────────────
 
 const DIR_CLASS = {
   DEEPER:   'dir-DEEPER',
