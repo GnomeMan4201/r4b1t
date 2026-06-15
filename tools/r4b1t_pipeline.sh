@@ -39,3 +39,7 @@ python3 "$TOOLS/generate_branch_injection.py" --tagged tagged_final.json --outpu
 
 echo "=== done $(date) ==="
 echo "cd $REPO && git add index.html && git commit -m 'chore: weekly pool refresh' && git push"
+
+# Cleanup: fix stray uncommented poolFormatted line from branch injection
+sed -i '/^[[:space:]]*const poolFormatted = formatPoolForPrompt(pool);$/s/^/\/\//' "$REPO/index.html"
+echo "[cleanup] stray poolFormatted line fixed"
