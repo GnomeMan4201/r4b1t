@@ -20,9 +20,9 @@
 
 ## What it is
 
-Remember StumbleUpon? You'd click a button and land somewhere unexpected — a weird personal site, an obscure tool, a community you didn't know existed. The discovery was the point. Then it died, and we got recommendation engines that already know what you think you want.
+Remember StumbleUpon? You'd click a button and land somewhere unexpected, a weird personal site, an obscure tool, a community you didn't know existed. The discovery was the point. Then it died, and we got recommendation engines that already know what you think you want.
 
-r4b1t_h0l3 is that, rebuilt — except instead of recipe blogs and motivational quotes, it's 103,394 curated URLs across OSINT tools, threat intelligence platforms, security research blogs, dark web resources, CTF environments, and corners of the open web that don't rank well and don't have anyone promoting them.
+r4b1t_h0l3 is that, rebuilt, except instead of recipe blogs and motivational quotes, it's 103,394 curated URLs across OSINT tools, threat intelligence platforms, security research blogs, dark web resources, CTF environments, and corners of the open web that don't rank well and don't have anyone promoting them.
 
 Hit **GO**. See what surfaces. Go down the hole.
 
@@ -65,7 +65,7 @@ Each intent rolls a URL that fits. You can follow a thread or break from it enti
 
 ## Another roll
 
-Every session is different. Here's Cesium surfacing on a second roll — a 3D geospatial platform most people in the OSINT space haven't encountered directly.
+Every session is different. Here's Cesium surfacing on a second roll, a 3D geospatial platform most people in the OSINT space haven't encountered directly.
 
 ![Cesium.com surfaces — The Platform for 3D Geospatial, with a globe render in the preview card](Screenshot%20from%202026-06-15%2004-36-00.png)
 
