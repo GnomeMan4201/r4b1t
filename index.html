@@ -623,6 +623,119 @@ body {
 }
 .depth-hide-btn:hover { opacity: 1; }
 
+
+.branch-cat-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.36rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-top: 3px;
+  border: 1px solid transparent;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+.branch-cat-badge.cat-unknown {
+  display: none;
+}
+
+.branch-cat-badge.cat-osint-tool {
+  background: #1a2a1a;
+  border-color: #2a4a2a;
+  color: #5a9a5a;
+}
+
+.branch-cat-badge.cat-threatintel-feed {
+  background: #2a1a1a;
+  border-color: #5a2020;
+  color: #cc4444;
+}
+
+.branch-cat-badge.cat-security-blog {
+  background: #1a1a2a;
+  border-color: #2a2a5a;
+  color: #5a5acc;
+}
+
+.branch-cat-badge.cat-ctf-platform {
+  background: #2a2a1a;
+  border-color: #4a4a20;
+  color: #aaaa44;
+}
+
+.branch-cat-badge.cat-sdr-interface {
+  background: #1a2a2a;
+  border-color: #205050;
+  color: #44aaaa;
+}
+
+.branch-cat-badge.cat-mesh-node {
+  background: #2a1a2a;
+  border-color: #4a204a;
+  color: #aa44aa;
+}
+
+.branch-cat-badge.cat-radio-comms {
+  background: #1a2020;
+  border-color: #204040;
+  color: #44aaaa;
+}
+
+.branch-cat-badge.cat-onion-service {
+  background: #1a1a1a;
+  border-color: #3a3a3a;
+  color: #888888;
+}
+
+.branch-cat-badge.cat-i2p-node {
+  background: #201a2a;
+  border-color: #402050;
+  color: #8844cc;
+}
+
+.branch-cat-badge.cat-yggdrasil-node {
+  background: #1a201a;
+  border-color: #204020;
+  color: #44aa44;
+}
+
+.branch-cat-badge.cat-sovereign-gateway {
+  background: #201a1a;
+  border-color: #502020;
+  color: #cc6644;
+}
+
+.branch-cat-badge.cat-decentralized-net {
+  background: #1a1a20;
+  border-color: #20204a;
+  color: #6666cc;
+}
+
+.branch-cat-badge.cat-privacy-tool {
+  background: #202020;
+  border-color: #444444;
+  color: #aaaaaa;
+}
+
+.branch-cat-badge.cat-crypto-infra {
+  background: #201e1a;
+  border-color: #4a3a20;
+  color: #cc9944;
+}
+
+.branch-cat-badge.cat-research-archive {
+  background: #1a1e20;
+  border-color: #203040;
+  color: #6699aa;
+}
+
+.branch-cat-badge.cat-gov-data {
+  background: #1e1a1a;
+  border-color: #402020;
+  color: #aa6666;
+}
 </style>
 <style id="r4b1t-enhancements">
 .preview {
@@ -121687,6 +121800,20 @@ const DIR_CLASS = {
   WEIRD:    'dir-WEIRD',
 };
 
+// ── Phase 3: Category badge rendering ──────────────────────────
+const CAT_LABELS = {"OSINT_Tool": "OSINT", "ThreatIntel_Feed": "THREAT INTEL", "Security_Blog": "SEC BLOG", "CTF_Platform": "CTF", "SDR_Interface": "SDR", "Mesh_Node": "MESH", "Radio_Comms": "RADIO", "Onion_Service": "ONION", "I2P_Node": "I2P", "Yggdrasil_Node": "YGGDRASIL", "Sovereign_Gateway": "SOVEREIGN", "Decentralized_Net": "DECENTRAL", "Privacy_Tool": "PRIVACY", "Crypto_Infra": "CRYPTO", "Research_Archive": "RESEARCH", "Gov_Data": "GOV DATA", "Unknown": ""};
+const CAT_CSS = {"OSINT_Tool": "cat-osint-tool", "ThreatIntel_Feed": "cat-threatintel-feed", "Security_Blog": "cat-security-blog", "CTF_Platform": "cat-ctf-platform", "SDR_Interface": "cat-sdr-interface", "Mesh_Node": "cat-mesh-node", "Radio_Comms": "cat-radio-comms", "Onion_Service": "cat-onion-service", "I2P_Node": "cat-i2p-node", "Yggdrasil_Node": "cat-yggdrasil-node", "Sovereign_Gateway": "cat-sovereign-gateway", "Decentralized_Net": "cat-decentralized-net", "Privacy_Tool": "cat-privacy-tool", "Crypto_Infra": "cat-crypto-infra", "Research_Archive": "cat-research-archive", "Gov_Data": "cat-gov-data", "Unknown": "cat-unknown"};
+
+function getCatBadgeHTML(url) {
+  const cat = getUrlCategory(url);
+  if (!cat || cat === 'Unknown') return '';
+  const label = CAT_LABELS[cat] || cat;
+  const cssClass = CAT_CSS[cat] || 'cat-unknown';
+  return `<span class="branch-cat-badge ${cssClass}">${label}</span>`;
+}
+// ───────────────────────────────────────────────────────────────
+
+
 function setMode(mode) {
   branchMode = mode === 'branch';
   document.getElementById('btnModeRandom').classList.toggle('active', !branchMode);
@@ -121796,6 +121923,7 @@ Return ONLY a JSON array, no markdown:
         <div class="branch-body">
           <div class="branch-desc">${branch.desc}</div>
           <div class="branch-url-hint">${urlLabel}</div>
+          ${getCatBadgeHTML(branch.url)}
         </div>
       `;
 
