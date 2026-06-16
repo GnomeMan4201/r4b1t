@@ -20031,6 +20031,7 @@ function renderBranchHistory() {
     item.querySelector('.branch-history-url').onclick = () => window.open(entry.url, '_blank', 'noopener');
     list.appendChild(item);
   });
+  renderBranchHistorySVG();
 }
 
 function clearBranchHistory() {
@@ -20135,11 +20136,7 @@ function renderBranchHistorySVG() {
 }
 
 // Override renderBranchHistory to also render SVG
-const _origRenderBranchHistory = renderBranchHistory;
-function renderBranchHistory() {
-  _origRenderBranchHistory();
-  renderBranchHistorySVG();
-}
+// renderBranchHistory SVG hook — inlined below
 // ────────────────────────────────────────────────────────────────
 
 // ── KEYBOARD SHORTCUTS ──────────────────────────────────────────
