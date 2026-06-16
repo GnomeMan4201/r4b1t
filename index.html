@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>r4B1T_h0L3</title>
+<meta name="description" content="17,848 verified live URLs. No algorithm. No recommendations. Fall in.">
+<meta name="author" content="GnomeMan4201 / badBANANA Research Collective">
+<meta property="og:title" content="r4B1T_h0L3">
+<meta property="og:description" content="17,848 verified live URLs across OSINT, security research, and the weird internet. No algorithm. No recommendations. Press ↓ to fall in.">
+<meta property="og:url" content="https://gnomeman4201.github.io/r4b1t/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="r4B1T_h0L3">
+<meta name="twitter:description" content="17,848 verified live URLs. No algorithm. No recommendations. Fall in.">
+<meta name="twitter:creator" content="@GnomeMan4201">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e0d0b'/><text y='.9em' font-size='90' fill='%23cc1111'>↓</text></svg>">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Bebas+Neue&display=swap');
 
@@ -1212,6 +1223,22 @@ body {
 }
 /* ─────────────────────────────────────────────────────────────── */
 
+
+/* ── ATTRIBUTION FOOTER ─────────────────────────────────────────── */
+.attribution {
+  position: fixed;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.32rem;
+  letter-spacing: 0.15em;
+  color: #1c1a16;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+/* ─────────────────────────────────────────────────────────────── */
 </style>
 <style id="r4b1t-enhancements">
 .preview {
@@ -1302,7 +1329,7 @@ body {
     <div class="wordmark"><span class="r4">r4B1T</span>_h0L3</div>
     <button class="btn-go" id="btnGo" onclick="roll()">↓</button>
   </div>
-  <div id="kbdHint" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.12em;color:#3a3028;text-align:right;">space / → to roll  ·  enter to visit</div>
+
 
   <!-- Preview card -->
   <div class="preview" id="preview">
@@ -19554,7 +19581,13 @@ function doVisit() {
   last = current;
   count++;
   updateDepthInline();
-  openIframe(current);
+  // On mobile, skip iframe and open directly — iframe UX is broken on small screens
+  const isMobile = window.innerWidth < 480 || /Mobi|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.open(current, '_blank', 'noopener');
+  } else {
+    openIframe(current);
+  }
   trail.unshift(current);
   if (trail.length > 14) trail.pop();
   renderTrail();
@@ -20286,16 +20319,21 @@ function showToast(msg) {
       }).filter(Boolean);
 
       if (urls.length > 0) {
+        // Validate URLs exist in pool, warn if not
+        const poolSet = new Set(typeof URLS !== 'undefined' ? URLS : []);
+        const validUrls = urls.filter(u => poolSet.size === 0 || poolSet.has(u));
+        const deadCount = urls.length - validUrls.length;
+        const loadUrls = validUrls.length > 0 ? validUrls : urls;
         // Preload the shared trail
-        trail = urls;
+        trail = loadUrls;
         persistSession();
-        // Start from the first URL
-        current = urls[0];
-        // Show a toast explaining this is a shared trail
+        current = loadUrls[0];
         setTimeout(() => {
-          showToast('loading shared trail — ' + urls.length + ' URLs');
+          const msg = deadCount > 0
+            ? 'shared trail loaded — ' + deadCount + ' URL(s) no longer in pool'
+            : 'shared trail loaded — ' + loadUrls.length + ' URLs';
+          showToast(msg);
           renderTrail();
-          // Auto-roll to first URL after brief delay
           setTimeout(() => {
             if (current) visit(current);
           }, 800);
@@ -20304,6 +20342,15 @@ function showToast(msg) {
     }
   } catch(e) {}
 })();
+// ─────────────────────────────────────────────────────────────────
+
+// ── OFFLINE HANDLER ──────────────────────────────────────────────
+window.addEventListener('offline', () => {
+  showToast('connection lost — trail preserved locally');
+});
+window.addEventListener('online', () => {
+  showToast('back online');
+});
 // ─────────────────────────────────────────────────────────────────
 
 const DIR_CLASS = {
@@ -27268,5 +27315,6 @@ document.addEventListener("keydown", function(e) {
   </div>
 
   <div class="share-toast" id="shareToast"></div>
+  <div class="attribution">gnomeman4201 · badbanana research collective · gnomeman4201.github.io/r4b1t</div>
 </body>
 </html>
