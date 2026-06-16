@@ -1090,6 +1090,54 @@ body {
 }
 /* ─────────────────────────────────────────────────────────────── */
 
+
+/* ── ONBOARDING OVERLAY ─────────────────────────────────────────── */
+#onboardingOverlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(5,4,3,0.92);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+#onboardingOverlay .ob-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.2rem;
+  letter-spacing: 0.3em;
+  color: #cc1111;
+  text-transform: uppercase;
+}
+#onboardingOverlay .ob-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.15em;
+  color: #6a5a48;
+  text-transform: uppercase;
+  text-align: center;
+  max-width: 320px;
+  line-height: 1.8;
+}
+#onboardingOverlay .ob-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  color: #c8b89a;
+  background: none;
+  border: 1px solid #3a3028;
+  padding: 8px 24px;
+  cursor: pointer;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+#onboardingOverlay .ob-btn:hover {
+  border-color: #cc1111;
+  color: #cc1111;
+}
+/* ─────────────────────────────────────────────────────────────── */
+
 </style>
 <style id="r4b1t-enhancements">
 .preview {
@@ -1199,7 +1247,7 @@ body {
     <div class="preview-url" id="previewUrl">—</div>
     <div class="preview-actions">
       <button class="btn-visit" onclick="visit()">VISIT ↗</button>
-      <button class="btn-skip" onclick="roll()">SKIP →</button>
+      <button class="btn-skip" onclick="roll()">SKIP ↓</button>
     </div>
   </div>
 
@@ -20088,6 +20136,22 @@ function updateDepthInline() {
 }
 // ────────────────────────────────────────────────────────────────
 
+// ── ONBOARDING ───────────────────────────────────────────────────
+function dismissOnboarding() {
+  const el = document.getElementById('onboardingOverlay');
+  if (el) el.style.display = 'none';
+  try { localStorage.setItem('r4b1t_seen', '1'); } catch(e) {}
+}
+(function() {
+  try {
+    if (!localStorage.getItem('r4b1t_seen')) {
+      const el = document.getElementById('onboardingOverlay');
+      if (el) el.style.display = 'flex';
+    }
+  } catch(e) {}
+})();
+// ─────────────────────────────────────────────────────────────────
+
 const DIR_CLASS = {
   DEEPER:   'dir-DEEPER',
   SIDEWAYS: 'dir-SIDEWAYS',
@@ -26931,7 +26995,11 @@ function formatPoolForPrompt(urls) {
     <button onclick="closeIframe()" style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.15em;color:#cc1111;background:none;border:1px solid #4a1010;padding:3px 6px;cursor:pointer;text-transform:uppercase;">back</button>
   </div>
   <iframe id="iframeEl" src="" style="flex:1;border:none;background:#0e0d0b;" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-  <div id="iframeFallback" style="display:none;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:#1a1510;border:1px solid #2a2620;padding:10px 18px;font-family:DM Mono,monospace;font-size:0.55rem;letter-spacing:0.12em;color:#6a5f52;text-align:center;pointer-events:none;max-width:calc(100% - 32px);box-sizing:border-box;">preview unavailable — open tab for full experience</div>
+  <div id="iframeFallback" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:#0a0908;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:10;">
+  <div style="font-family:DM Mono,monospace;font-size:0.5rem;letter-spacing:0.2em;color:#3a3028;text-transform:uppercase;">this site blocks embedding</div>
+  <a id="iframeFallbackOpenTab" href="#" target="_blank" rel="noopener noreferrer" style="font-family:DM Mono,monospace;font-size:0.7rem;letter-spacing:0.2em;color:#cc1111;text-decoration:none;text-transform:uppercase;border:1px solid #4a1010;padding:8px 20px;">open tab ↗</a>
+  <button onclick="closeIframe();roll();" style="font-family:DM Mono,monospace;font-size:0.42rem;letter-spacing:0.15em;color:#4a3a2a;background:none;border:1px solid #2a2018;padding:4px 12px;cursor:pointer;text-transform:uppercase;">skip this site →</button>
+</div>
 </div>
 <script>
 var PROXY_URL = "https://r4b1t-proxy.gnomeman4201.workers.dev/proxy?url=";
@@ -26960,7 +27028,9 @@ function openIframe(url) {
     }, 1800);
   }
   var fb = document.getElementById("iframeFallback");
-  if (fb) fb.style.display = "none";
+  if (fb) { fb.style.display = "none"; }
+  var fbt = document.getElementById("iframeFallbackOpenTab");
+  if (fbt) fbt.href = url;
   var statusBadge = document.getElementById("iframeStatusBadge");
   if (statusBadge) statusBadge.textContent = "";
   var loaded = false;
@@ -26983,8 +27053,32 @@ function openIframe(url) {
     }
   }, {once:true});
   setTimeout(function() {
-    if (!loaded && fb) fb.style.display = "block";
-  }, 12000);
+    if (!loaded && fb) {
+      fb.style.display = "flex";
+      var fbt = document.getElementById("iframeFallbackOpenTab");
+      if (fbt) fbt.href = url;
+    }
+  }, 4000);
+  // Early HEAD check at 1.5s to detect X-Frame-Options blocks
+  setTimeout(function() {
+    if (!loaded) {
+      fetch(PROXY_URL + encodeURIComponent(url), { method: "HEAD" })
+        .then(function(resp) {
+          if (!loaded && (resp.status === 403 || resp.status === 404 || resp.status >= 500)) {
+            if (fb) { fb.style.display = "flex"; }
+            var fbt = document.getElementById("iframeFallbackOpenTab");
+            if (fbt) fbt.href = url;
+          }
+        })
+        .catch(function() {
+          if (!loaded && fb) {
+            fb.style.display = "flex";
+            var fbt = document.getElementById("iframeFallbackOpenTab");
+            if (fbt) fbt.href = url;
+          }
+        });
+    }
+  }, 1500);
 }
 function closeIframe() {
   var overlay = document.getElementById("iframeOverlay");
@@ -27005,6 +27099,18 @@ document.addEventListener("keydown", function(e) {
     <span>F filter</span>
     <span>H history</span>
     <span>? help</span>
+  </div>
+
+
+  <!-- First-visit onboarding overlay -->
+  <div id="onboardingOverlay" style="display:none;">
+    <div class="ob-title">R4B1T_H0L3</div>
+    <div class="ob-sub">
+      17,848 verified live URLs.<br>
+      No algorithm. No recommendations.<br>
+      Press ↓ to fall in.
+    </div>
+    <button class="ob-btn" onclick="dismissOnboarding()">got it — let's go</button>
   </div>
 
 </body>
