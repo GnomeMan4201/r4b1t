@@ -19887,171 +19887,206 @@ function addDepth() {
   }
 }
 
+// ── PURE JS BRANCH (no API) ─────────────────────────────────────────────────
+
+const CAT_ADJACENT = {
+  OSINT_Tool:        ['ThreatIntel_Feed', 'Security_Blog', 'Research_Archive', 'Gov_Data'],
+  ThreatIntel_Feed:  ['OSINT_Tool', 'Security_Blog', 'CTF_Platform', 'Onion_Service'],
+  Security_Blog:     ['OSINT_Tool', 'ThreatIntel_Feed', 'CTF_Platform', 'Research_Archive'],
+  CTF_Platform:      ['Security_Blog', 'OSINT_Tool', 'ThreatIntel_Feed'],
+  SDR_Interface:     ['Radio_Comms', 'Mesh_Node', 'OSINT_Tool'],
+  Radio_Comms:       ['SDR_Interface', 'Mesh_Node', 'Decentralized_Net'],
+  Mesh_Node:         ['Radio_Comms', 'SDR_Interface', 'Decentralized_Net', 'Privacy_Tool'],
+  Onion_Service:     ['Privacy_Tool', 'Decentralized_Net', 'I2P_Node'],
+  I2P_Node:          ['Onion_Service', 'Privacy_Tool', 'Yggdrasil_Node'],
+  Yggdrasil_Node:    ['I2P_Node', 'Decentralized_Net', 'Mesh_Node'],
+  Sovereign_Gateway: ['Decentralized_Net', 'Privacy_Tool', 'Crypto_Infra'],
+  Decentralized_Net: ['Sovereign_Gateway', 'Privacy_Tool', 'Onion_Service', 'Crypto_Infra'],
+  Privacy_Tool:      ['Onion_Service', 'Decentralized_Net', 'Security_Blog'],
+  Crypto_Infra:      ['Decentralized_Net', 'Sovereign_Gateway', 'Privacy_Tool'],
+  Research_Archive:  ['Gov_Data', 'Security_Blog', 'OSINT_Tool'],
+  Gov_Data:          ['Research_Archive', 'OSINT_Tool'],
+  Unknown:           ['Research_Archive', 'Security_Blog', 'OSINT_Tool'],
+};
+
+const CAT_OPPOSITE = {
+  OSINT_Tool:        ['Privacy_Tool', 'Onion_Service', 'Decentralized_Net'],
+  ThreatIntel_Feed:  ['Privacy_Tool', 'Decentralized_Net', 'Sovereign_Gateway'],
+  Security_Blog:     ['Gov_Data', 'Sovereign_Gateway', 'Crypto_Infra'],
+  CTF_Platform:      ['Gov_Data', 'Research_Archive', 'Radio_Comms'],
+  SDR_Interface:     ['Onion_Service', 'I2P_Node', 'Gov_Data'],
+  Radio_Comms:       ['Onion_Service', 'Gov_Data', 'ThreatIntel_Feed'],
+  Mesh_Node:         ['Gov_Data', 'ThreatIntel_Feed', 'CTF_Platform'],
+  Onion_Service:     ['Gov_Data', 'ThreatIntel_Feed', 'OSINT_Tool'],
+  I2P_Node:          ['Gov_Data', 'ThreatIntel_Feed', 'OSINT_Tool'],
+  Yggdrasil_Node:    ['Gov_Data', 'ThreatIntel_Feed', 'CTF_Platform'],
+  Sovereign_Gateway: ['OSINT_Tool', 'ThreatIntel_Feed', 'Gov_Data'],
+  Decentralized_Net: ['Gov_Data', 'ThreatIntel_Feed', 'OSINT_Tool'],
+  Privacy_Tool:      ['OSINT_Tool', 'ThreatIntel_Feed', 'Gov_Data'],
+  Crypto_Infra:      ['Gov_Data', 'OSINT_Tool', 'ThreatIntel_Feed'],
+  Research_Archive:  ['Onion_Service', 'Crypto_Infra', 'Mesh_Node'],
+  Gov_Data:          ['Onion_Service', 'Privacy_Tool', 'Decentralized_Net'],
+  Unknown:           ['Onion_Service', 'CTF_Platform', 'SDR_Interface'],
+};
+
+const DIR_DESCS = {
+  DEEPER: [
+    'More of the same rabbit hole.',
+    'Deeper into this exact niche.',
+    'The same thread, further down.',
+    'Drill further into this topic.',
+    'More signal, same frequency.',
+    'Adjacent content, same category.',
+  ],
+  SIDEWAYS: [
+    'A related angle on this subject.',
+    'Adjacent territory worth exploring.',
+    'Similar world, different entrance.',
+    'Neighboring discipline, new perspective.',
+    'Same energy, different domain.',
+    'Close cousin of where you just were.',
+  ],
+  OPPOSITE: [
+    'The other side of this coin.',
+    'Contrasting perspective on this world.',
+    'What the opposition looks like.',
+    'The inverse of where you just were.',
+    'Same field, opposite pole.',
+    'Counterpoint to the current direction.',
+  ],
+  WEIRD: [
+    'An unexpected tangent.',
+    'Something you did not see coming.',
+    'Conceptual leap into the unknown.',
+    'Unrelated but strangely compelling.',
+    'Off the map entirely.',
+    'The algorithm would never suggest this.',
+  ],
+};
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getUrlsForCats(cats, exclude, pool) {
+  // Find URLs in the pool matching any of the given categories
+  const matches = pool.filter(u => {
+    if (u === exclude) return false;
+    const cat = (typeof TAG_MAP !== 'undefined' && TAG_MAP[u]) || 'Unknown';
+    return cats.includes(cat);
+  });
+  return matches;
+}
+
+function pickBranchUrl(dir, currentUrl, currentCat, pool) {
+  let candidates = [];
+
+  if (dir === 'DEEPER') {
+    candidates = getUrlsForCats([currentCat], currentUrl, pool);
+    if (!candidates.length) {
+      // fallback: adjacent
+      candidates = getUrlsForCats(CAT_ADJACENT[currentCat] || [], currentUrl, pool);
+    }
+  } else if (dir === 'SIDEWAYS') {
+    const adj = CAT_ADJACENT[currentCat] || [];
+    candidates = getUrlsForCats(adj, currentUrl, pool);
+    if (!candidates.length) {
+      candidates = getUrlsForCats([currentCat], currentUrl, pool);
+    }
+  } else if (dir === 'OPPOSITE') {
+    const opp = CAT_OPPOSITE[currentCat] || [];
+    candidates = getUrlsForCats(opp, currentUrl, pool);
+    if (!candidates.length) {
+      // fallback: anything not in same category
+      candidates = pool.filter(u => {
+        if (u === currentUrl) return false;
+        const cat = (typeof TAG_MAP !== 'undefined' && TAG_MAP[u]) || 'Unknown';
+        return cat !== currentCat;
+      });
+    }
+  } else if (dir === 'WEIRD') {
+    // Bias toward rare/unusual categories
+    const rareCats = ['SDR_Interface', 'Mesh_Node', 'Radio_Comms', 'I2P_Node',
+                      'Yggdrasil_Node', 'Onion_Service', 'Sovereign_Gateway'];
+    candidates = getUrlsForCats(rareCats, currentUrl, pool);
+    if (candidates.length < 3) {
+      // Fallback: anything from a different category
+      candidates = pool.filter(u => {
+        if (u === currentUrl) return false;
+        const cat = (typeof TAG_MAP !== 'undefined' && TAG_MAP[u]) || 'Unknown';
+        return cat !== currentCat;
+      });
+    }
+  }
+
+  if (!candidates.length) {
+    // Last resort: any URL except current
+    candidates = pool.filter(u => u !== currentUrl);
+  }
+
+  return pickRandom(candidates) || pool[0];
+}
+
 async function generateBranches(url) {
   if (!branchMode) return;
-
   const panel = document.getElementById('branchPanel');
   const grid = document.getElementById('branchGrid');
   const thinking = document.getElementById('branchThinking');
-
   panel.classList.add('visible');
   grid.innerHTML = '';
   thinking.style.display = 'inline-flex';
 
-  // Pick 50 random URLs from pool for context
+  // Small delay so the thinking indicator shows
+  await new Promise(r => setTimeout(r, 120));
+
   const pool = getWeightedSample(50, url, URLS);
-  const poolFormatted = formatPoolForPrompt(pool);
+  const currentCat = (typeof TAG_MAP !== 'undefined' && TAG_MAP[url]) || 'Unknown';
 
-  const prompt = `You are a rabbit hole navigation AI for r4B1T_h0L3, a discovery tool for OSINT, security research, and the weird internet.
+  const usedUrls = new Set([url]);
+  const branches = [];
 
-Current URL the user just visited: ${url}
-
-Available URL pool (choose ONLY from these, with category tags):
-${poolFormatted}
-
-Generate exactly 4 branch directions. Each is a way to continue the rabbit hole.
-
-Direction labels (use EXACTLY these):
-- DEEPER: go further into the same topic
-- SIDEWAYS: adjacent topic, different angle  
-- OPPOSITE: other side of the coin (offensive→defensive, technical→human, modern→historical)
-- WEIRD: unexpected conceptual leap, something surprising
-
-Each URL in the pool may have a [Category] tag. Use these to make intelligent selections:
-- DEEPER: pick a URL with the SAME category as the current URL
-- SIDEWAYS: pick a URL from an ADJACENT or related category
-- OPPOSITE: pick a URL from a CONTRASTING category (e.g. Privacy_Tool vs ThreatIntel_Feed, Gov_Data vs Decentralized_Net)
-- WEIRD: IGNORE categories entirely — pick something unexpected and surprising
-
-For each branch write ONE sentence max 12 words describing where it leads, then pick the single best URL from the pool.
-
-Return ONLY a JSON array, no markdown:
-[{"dir":"DEEPER","desc":"...","url":"..."},{"dir":"SIDEWAYS","desc":"...","url":"..."},{"dir":"OPPOSITE","desc":"...","url":"..."},{"dir":"WEIRD","desc":"...","url":"..."}]`;
-
-  try {
-    const resp = await fetch('https://r4b1t-proxy.gnomeman4201.workers.dev/api', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 800,
-        messages: [{ role: 'user', content: prompt }]
-      })
+  for (const dir of ['DEEPER', 'SIDEWAYS', 'OPPOSITE', 'WEIRD']) {
+    const availPool = pool.filter(u => !usedUrls.has(u));
+    const picked = pickBranchUrl(dir, url, currentCat, availPool.length ? availPool : pool);
+    usedUrls.add(picked);
+    branches.push({
+      dir,
+      desc: pickRandom(DIR_DESCS[dir]),
+      url: picked,
     });
-
-    if (!resp.ok) throw new Error('API ' + resp.status);
-    const data = await resp.json();
-    const text = data.content.map(b => b.type === 'text' ? b.text : '').join('');
-    const clean = text.replace(/```json|```/g, '').trim();
-    const branches = JSON.parse(clean);
-
-    thinking.style.display = 'none';
-    grid.innerHTML = '';
-
-    branches.forEach(branch => {
-      const item = document.createElement('div');
-      item.className = 'branch-item';
-
-      let urlLabel = branch.url || '';
-      try { urlLabel = new URL(branch.url).hostname.replace(/^www\./, ''); } catch {}
-
-      item.innerHTML = `
-        <div class="branch-dir-tag ${DIR_CLASS[branch.dir] || 'dir-DEEPER'}">${branch.dir}</div>
-        <div class="branch-body">
-          <div class="branch-desc">${branch.desc}</div>
-          <div class="branch-url-hint">${urlLabel}</div>
-          ${getCatBadgeHTML(branch.url)}
-        </div>
-      `;
-
-      item.onclick = () => {
-        if (branch.url) {
-          recordBranchChoice(branch.dir, branch.url, branch.desc);
-          // Navigate to branch URL
-          current = branch.url;
-          last = branch.url;
-
-          let domain = branch.url;
-          try { domain = new URL(branch.url).hostname.replace(/^www\./, ''); } catch {}
-
-          document.getElementById('previewDomain').textContent = domain;
-          document.getElementById('previewUrl').textContent = branch.url;
-          try { var _bh=new URL(branch.url).hostname.replace(/^www[.]/,''); document.getElementById('ogTitle').textContent = (typeof DOMAIN_LABELS!=='undefined' && DOMAIN_LABELS[_bh]) ? DOMAIN_LABELS[_bh].hint : ''; } catch(e) { document.getElementById('ogTitle').textContent=''; }
-          document.getElementById('ogDesc').textContent = '';
-          document.getElementById('ogDesc').classList.remove('visible');
-
-          const favicon = document.getElementById('previewFavicon');
-          const placeholder = document.getElementById('faviconPlaceholder');
-          const isOnion = branch.url.includes('.onion');
-
-          if (!isOnion) {
-            try {
-              const host = new URL(branch.url).hostname;
-              favicon.src = 'https://www.google.com/s2/favicons?domain=' + host + '&sz=64';
-              favicon.style.display = 'block';
-              placeholder.style.display = 'none';
-            } catch {
-              favicon.style.display = 'none';
-              placeholder.style.display = 'flex';
-            }
-            fetchOGMeta(branch.url, domain);
-          } else {
-            favicon.style.display = 'none';
-            placeholder.style.display = 'flex';
-            placeholder.textContent = '⊗';
-          }
-
-          document.getElementById('darkBadge').classList.toggle('visible', isOnion);
-
-          const card = document.getElementById('preview');
-          card.classList.remove('visible');
-          requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
-
-          addDepth();
-
-          // Open in iframe overlay (consistent with RANDOM visit flow)
-          openIframe(branch.url);
-
-          // Add to trail
-          trail.unshift(branch.url);
-          if (trail.length > 14) trail.pop();
-          renderTrail();
-          document.getElementById('counter').textContent = count + ' holes deep';
-          persistSession();
-
-  // Show mode toggle after first visit
-  const mt = document.getElementById('modeToggle');
-  if (mt) mt.style.display = 'flex';
-
-  // If branch mode, generate branches
-  window._branchVisitHook && window._branchVisitHook();
-
-          // Generate next branches
-          setTimeout(() => generateBranches(branch.url), 300);
-        }
-      };
-
-      grid.appendChild(item);
-    });
-
-  } catch(e) {
-    thinking.style.display = 'none';
-    grid.innerHTML = '<div style="font-size:0.52rem;color:var(--text-muted);padding:8px 0">branch unavailable' +
-      '<button id="branchRetryBtn" style="font-family:DM Mono,monospace;font-size:0.5rem;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;margin-left:8px;cursor:pointer;text-transform:uppercase;">retry</button></div>';
-    var retryBtn = document.getElementById('branchRetryBtn');
-    if (retryBtn) {
-      retryBtn.onclick = function() {
-        clearTimeout(_branchRetryTimer);
-        grid.innerHTML = '';
-        generateBranches(url);
-      };
-    }
-    _branchRetryTimer = setTimeout(function() {
-      setMode('random');
-      grid.innerHTML = '';
-    }, 4000);
   }
+
+  thinking.style.display = 'none';
+  grid.innerHTML = '';
+
+  branches.forEach(branch => {
+    const item = document.createElement('div');
+    item.className = 'branch-item';
+    let urlLabel = branch.url || '';
+    try { urlLabel = new URL(branch.url).hostname.replace(/^www\./, ''); } catch {}
+    const catBadge = (typeof getCatBadgeHTML !== 'undefined') ? getCatBadgeHTML(branch.url) : '';
+    item.innerHTML = `
+      <div class="branch-dir-tag ${DIR_CLASS[branch.dir] || 'dir-DEEPER'}">${branch.dir}</div>
+      <div class="branch-body">
+        <div class="branch-desc">${branch.desc}</div>
+        <div class="branch-url">${urlLabel} ${catBadge}</div>
+      </div>`;
+    item.onclick = () => {
+      if (branch.url) {
+        recordBranchChoice(branch.dir, branch.url, branch.desc);
+        current = branch.url;
+        recordSeenCategory(branch.url);
+        trail.push(branch.url);
+        persistSession();
+        renderTrail();
+        visit(branch.url);
+        generateBranches(branch.url);
+      }
+    };
+    grid.appendChild(item);
+  });
 }
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Hook into existing visit() to trigger branches in branch mode
 const _origVisit = visit;
