@@ -1044,6 +1044,52 @@ body {
 .bh-root-label  { font-size: 5px; fill: #fff; text-anchor: middle; dominant-baseline: middle; }
 /* ──────────────────────────────────────────────────────────────── */
 
+
+/* ── KEYBOARD HINTS ────────────────────────────────────────────── */
+.kbd-hint {
+  position: fixed;
+  bottom: 10px;
+  right: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.32rem;
+  letter-spacing: 0.12em;
+  color: #2a2218;
+  text-transform: uppercase;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 100;
+}
+.kbd-hint.visible {
+  opacity: 1;
+}
+.kbd-hint span {
+  background: #0e0d0b;
+  border: 1px solid #1c1a16;
+  padding: 1px 4px;
+}
+/* ── TRAIL DEPTH (always visible version) ───────────────────────── */
+.depth-counter-inline {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.36rem;
+  letter-spacing: 0.15em;
+  color: #3a3028;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 4px;
+  display: none;
+}
+.depth-counter-inline.visible {
+  display: block;
+}
+.depth-counter-inline .depth-n {
+  color: #cc1111;
+  font-size: 0.5rem;
+}
+/* ─────────────────────────────────────────────────────────────── */
+
 </style>
 <style id="r4b1t-enhancements">
 .preview {
@@ -1225,6 +1271,7 @@ body {
 <div class="trail" id="trail">
   <span class="trail-label">trail //</span><button id="shareTrail" onclick="shareTrail()" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;cursor:pointer;text-transform:uppercase;margin-left:8px;vertical-align:baseline;position:relative;top:-1px;">copy trail</button><button id="exportTrailMd" onclick="exportTrailMd()" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;cursor:pointer;text-transform:uppercase;margin-left:8px;vertical-align:baseline;position:relative;top:-1px;">export md</button><button onclick="exportTrailJSON()" style="font-family:DM Mono,monospace;font-size:0.45rem;letter-spacing:0.15em;color:#6a5f52;background:none;border:1px solid #2a2620;padding:2px 7px;cursor:pointer;text-transform:uppercase;margin-left:4px;vertical-align:baseline;position:relative;top:-1px;">export json</button>
 </div>
+<div class="depth-counter-inline" id="depthInline"></div>
 
 <script>
 const URLS = `http://www.linuxsurvival.com/
@@ -19383,6 +19430,7 @@ function visit() {
 function doVisit() {
   last = current;
   count++;
+  updateDepthInline();
   openIframe(current);
   trail.unshift(current);
   if (trail.length > 14) trail.pop();
@@ -19967,6 +20015,76 @@ const _origRenderBranchHistory = renderBranchHistory;
 function renderBranchHistory() {
   _origRenderBranchHistory();
   renderBranchHistorySVG();
+}
+// ────────────────────────────────────────────────────────────────
+
+// ── KEYBOARD SHORTCUTS ──────────────────────────────────────────
+const SHORTCUTS = {
+  'j': () => { roll(); },                          // J = next random
+  'k': () => { if (typeof back === 'function') back(); }, // K = back
+  's': () => { roll(); },                          // S = skip
+  'b': () => { setMode(branchMode ? 'random' : 'branch'); }, // B = toggle branch
+  'r': () => { setMode('random'); roll(); },       // R = random mode
+  'f': () => { toggleFilter(); },                  // F = filter
+  'h': () => { toggleBranchHistory(); },           // H = history
+  '?': () => { toggleKbdHelp(); },                 // ? = help
+};
+
+let kbdHelpVisible = false;
+
+function toggleKbdHelp() {
+  kbdHelpVisible = !kbdHelpVisible;
+  const hint = document.getElementById('kbdHint');
+  if (hint) hint.classList.toggle('visible', kbdHelpVisible);
+}
+
+document.addEventListener('keydown', (e) => {
+  // Don't fire if user is typing in an input
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+  const key = e.key.toLowerCase();
+  if (SHORTCUTS[key]) {
+    e.preventDefault();
+    SHORTCUTS[key]();
+  }
+});
+
+// Show kbd hint briefly on first keypress
+let kbdHintShown = false;
+document.addEventListener('keydown', () => {
+  if (!kbdHintShown) {
+    kbdHintShown = true;
+    const hint = document.getElementById('kbdHint');
+    if (hint) {
+      hint.classList.add('visible');
+      setTimeout(() => {
+        if (!kbdHelpVisible) hint.classList.remove('visible');
+      }, 3000);
+    }
+  }
+}, { once: true });
+
+// ── TRAIL DEPTH INLINE INDICATOR ────────────────────────────────
+const DEPTH_MILESTONES = {
+  5:  'five layers deep',
+  10: 'ten holes in',
+  25: 'twenty-five and counting',
+  50: 'fifty. you live here now.',
+  100: 'one hundred. there is no surface.',
+};
+
+function updateDepthInline() {
+  const el = document.getElementById('depthInline');
+  if (!el) return;
+  const n = typeof count !== 'undefined' ? count : 0;
+  if (n === 0) {
+    el.classList.remove('visible');
+    return;
+  }
+  el.classList.add('visible');
+  const milestone = DEPTH_MILESTONES[n] || '';
+  el.innerHTML = `<span class="depth-n">${n}</span> URL${n !== 1 ? 's' : ''} visited${milestone ? ' — ' + milestone : ''}`;
 }
 // ────────────────────────────────────────────────────────────────
 
@@ -26879,5 +26997,15 @@ document.addEventListener("keydown", function(e) {
   if (e.code === "Escape") closeIframe();
 });
 </script>
+
+  <!-- Keyboard shortcuts hint -->
+  <div class="kbd-hint" id="kbdHint">
+    <span>J skip</span>
+    <span>B branch</span>
+    <span>F filter</span>
+    <span>H history</span>
+    <span>? help</span>
+  </div>
+
 </body>
 </html>
