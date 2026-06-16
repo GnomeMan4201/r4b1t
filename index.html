@@ -28,6 +28,8 @@ body {
   justify-content: center;
   min-height: 100vh;
   font-family: 'DM Mono', monospace;
+  overflow-x: hidden;
+  padding: 0 4px;
 }
 
 /* ── Main layout ── */
@@ -75,7 +77,7 @@ body {
 
 /* ── Preview card ── */
 .preview {
-  width: 420px;
+  width: min(420px, 92vw);
   margin-top: 20px;
   background: #151310;
   border: 1px solid #2a2620;
@@ -469,9 +471,9 @@ body {
   align-items: center;
   gap: 0;
   margin-top: 14px;
+  width: min(420px, 92vw);
   border: 1px solid var(--border2);
   overflow: hidden;
-  width: 420px;
 }
 
 .mode-btn {
@@ -503,7 +505,7 @@ body {
 
 /* Branch panel — appears below preview card */
 .branch-panel {
-  width: 520px;
+  width: min(520px, 92vw);
   margin-top: 14px;
   opacity: 0;
   transform: translateY(-8px);
@@ -926,7 +928,7 @@ body {
 
 /* ── BRANCH HISTORY ─────────────────────────────────────────── */
 .branch-history-panel {
-  width: 420px;
+  width: min(420px, 92vw);
   margin-top: 8px;
   background: #0a0908;
   border: 1px solid #1c1a16;
@@ -1242,7 +1244,7 @@ body {
 </style>
 <style id="r4b1t-enhancements">
 .preview {
-  width: 520px;
+  width: min(520px, 92vw);
 }
 .preview-og-title {
   font-size: 0.72rem;
