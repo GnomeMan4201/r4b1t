@@ -482,6 +482,8 @@ body {
   background: var(--accent);
   color: #fff;
   font-weight: 700;
+  box-shadow: inset 0 -2px 0 rgba(255,255,255,0.3);
+  letter-spacing: 0.22em;
 }
 .mode-btn:not(.active):hover {
   background: var(--surface3);
@@ -571,6 +573,15 @@ body {
   color: #c8b89a;
   line-height: 1.5;
 }
+.branch-url {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.44rem;
+  letter-spacing: 0.1em;
+  color: #8a7a68;
+  margin-top: 3px;
+  word-break: break-all;
+}
+.branch-url:hover { color: #c8b89a; }
 .branch-url-hint {
   font-size: 0.44rem;
   letter-spacing: 0.04em;
@@ -627,10 +638,10 @@ body {
 .branch-cat-badge {
   display: inline-block;
   font-family: 'DM Mono', monospace;
-  font-size: 0.36rem;
-  letter-spacing: 0.14em;
+  font-size: 0.44rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 1px 5px;
+  padding: 2px 6px;
   border-radius: 2px;
   margin-top: 3px;
   border: 1px solid transparent;
