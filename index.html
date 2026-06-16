@@ -20139,8 +20139,8 @@ function renderBranchHistorySVG() {
     cy = ny;
   });
 
-  const svgW = Math.max(...nodes.map(n => n.x)) + PAD + NODE_R + 20;
-  const svgH = Math.max(...nodes.map(n => n.y)) + PAD + NODE_R + 8;
+  const svgW = nodes.reduce((m, n) => Math.max(m, n.x), 0) + PAD + NODE_R + 20;
+  const svgH = nodes.reduce((m, n) => Math.max(m, n.y), 0) + PAD + NODE_R + 8;
 
   let svg = `<svg class="bh-svg" viewBox="0 0 ${svgW} ${svgH}" width="${svgW}" height="${svgH}" xmlns="http://www.w3.org/2000/svg">`;
 
@@ -27238,6 +27238,22 @@ function openIframe(url) {
   iframe.addEventListener("load", function() {
     loaded = true;
     if (fb) fb.style.display = "none";
+    // Check if iframe loaded an error page (530, 1016, etc)
+    setTimeout(function() {
+      try {
+        var iDoc = iframe.contentDocument || iframe.contentWindow.document;
+        var bodyText = iDoc && iDoc.body ? iDoc.body.innerText : '';
+        if (bodyText && (bodyText.includes('error code') || bodyText.includes('530') || bodyText.length < 50)) {
+          if (fb) {
+            fb.style.display = 'flex';
+            var fbt = document.getElementById('iframeFallbackOpenTab');
+            if (fbt) fbt.href = url;
+            var ftxt = fb.querySelector('div');
+            if (ftxt) ftxt.textContent = 'site unreachable — try open tab ↗';
+          }
+        }
+      } catch(e) {} // cross-origin — ignore
+    }, 3000);
     var host = "";
     try { host = new URL(url).hostname; } catch(e) {}
     if (host && !_checkedHosts.has(host)) {
