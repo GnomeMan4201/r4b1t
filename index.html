@@ -92,7 +92,7 @@
 <div class="trail-bar">
   <span class="trail-label" id="trailLabel" style="display:none">trail //</span>
   <div id="trailItems"></div>
-  <button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px">history</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button>
+  <button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">history</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button>
 </div>
 
 <!-- ── Iframe overlay ───────────────────────────────────────────────────────── -->
@@ -197,7 +197,7 @@ function _initCatFilter(){
     var b=document.createElement("button");
     b.textContent=c;
     b.dataset.cat=c;
-    b.style.cssText="font-family:'DM Mono',monospace;font-size:.38rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;background:transparent;color:#6a5f52;border:1px solid #2a2825;cursor:pointer;transition:all .1s";
+    b.style.cssText="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;background:transparent;color:#9a8f7a;border:1px solid #4a4238;cursor:pointer;transition:all .1s";
     b.onclick=function(){
       _activeCat=_activeCat===c?null:c;
       cf.querySelectorAll("button").forEach(function(x){
