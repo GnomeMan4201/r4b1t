@@ -92,7 +92,7 @@
 <div class="trail-bar">
   <span class="trail-label" id="trailLabel" style="display:none">trail //</span>
   <div id="trailItems"></div>
-  <button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">history</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button>
+  <button class="btn-share-trail" onclick="submitUrl()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">submit url</button><button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">history</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button>
 </div>
 
 <!-- ── Iframe overlay ───────────────────────────────────────────────────────── -->
@@ -255,6 +255,14 @@ function toggleHistory(){
   }
 }
 window.toggleHistory=toggleHistory;
+function submitUrl(){
+  var u=s.current||"";
+  if(!u){alert("Roll a URL first, then submit it.");return;}
+  var body="**URL:** "+u+"\n\n**Why it belongs in r4b1t_h0l3:**\n(describe the resource)\n\n**Category suggestion:**\n(CODE / BLOG / NEWS / RESEARCH / OSINT / BOUNTY / VIDEO / SOCIAL / REF / ARCHIVE / PKG / COURSE / EVENT / HARDWARE / OTHER)\n\n---\n*Submitted via r4b1t_h0l3*";
+  var issue="https://github.com/GnomeMan4201/r4b1t/issues/new?title="+encodeURIComponent("URL Submission: "+u)+"&body="+encodeURIComponent(body)+"&labels=url-submission";
+  window.open(issue,"_blank");
+}
+window.submitUrl=submitUrl;
 var P=x(()=>{R();S();ie();se();H();ue();Oe();_initCatFilter();});P();})();
 </script>
 </body>
