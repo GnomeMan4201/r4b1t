@@ -6,6 +6,23 @@
 
 ---
 
+## Screenshots
+
+<table>
+<tr>
+<td><img src="docs/demo1.png" alt="First load" width="100%"/></td>
+<td><img src="docs/demo2.png" alt="OG card preview with trail" width="100%"/></td>
+</tr>
+<tr>
+<td><img src="docs/demo3.png" alt="Screenshot proxy overlay" width="100%"/></td>
+<td><img src="docs/demo4.png" alt="Category filter + SVG tree" width="100%"/></td>
+</tr>
+</table>
+
+<img src="docs/demo5.png" alt="BRANCH mode with SPROUT directions" width="100%"/>
+
+---
+
 ## What it is
 
 StumbleUpon for the security and OSINT community. Roll a random URL from a hand-curated pool of 53k+ verified live resources. Visit it, skip it, or SPROUT — generate four directional suggestions (deeper, sideways, opposite, weird) based on the page's semantic content.
