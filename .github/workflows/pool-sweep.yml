@@ -20,7 +20,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install aiohttp tqdm
+        run: pip install requests tqdm
 
       - name: Run pool sweep
         run: |
