@@ -1,0 +1,46 @@
+name: Weekly Pool Sweep
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Every Sunday at 3am UTC
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install aiohttp tqdm
+
+      - name: Run pool sweep
+        run: |
+          python pool_sweep.py --workers 30 --timeout 8
+        timeout-minutes: 300
+
+      - name: Replace urls.txt with swept output
+        run: |
+          if [ -f pool_alive.txt ] && [ -s pool_alive.txt ]; then
+            cp pool_alive.txt urls.txt
+            echo "Pool updated: $(wc -l < urls.txt) live URLs"
+          else
+            echo "Sweep output missing or empty — keeping existing urls.txt"
+            exit 1
+          fi
+
+      - name: Commit updated pool
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add urls.txt
+          git diff --staged --quiet || git commit -m "pool: weekly sweep update $(date -u '+%Y-%m-%d')"
+          git push
