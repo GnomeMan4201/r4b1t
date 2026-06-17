@@ -1,0 +1,18 @@
+{
+  "name": "r4B1T_h0L3",
+  "short_name": "r4B1T",
+  "description": "Curated web discovery — 53k URLs across security, OSINT, and the weird internet",
+  "start_url": "/r4b1t/",
+  "scope": "/r4b1t/",
+  "display": "standalone",
+  "background_color": "#0e0d0b",
+  "theme_color": "#cc1111",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e0d0b'/><text y='75' font-size='80' font-family='monospace' fill='%23cc1111'>r4</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
