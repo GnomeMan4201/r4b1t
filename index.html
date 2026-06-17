@@ -96,7 +96,7 @@
 <div class="trail-bar">
   <span class="trail-label" id="trailLabel" style="display:none">trail //</span>
   <div id="trailItems"></div>
-  <button class="btn-share-trail" onclick="submitUrl()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">submit url</button><button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">history</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button>
+  <button class="btn-share-trail" onclick="submitUrl()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">submit url</button><button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">history</button><button class="btn-share-trail" onclick="shareCard()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">share card</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button>
 </div>
 
 <!-- ── Iframe overlay ───────────────────────────────────────────────────────── -->
@@ -267,6 +267,67 @@ function submitUrl(){
   window.open(issue,"_blank");
 }
 window.submitUrl=submitUrl;
+function shareCard(){
+  var cvs=document.createElement("canvas");
+  cvs.width=800;cvs.height=420;
+  var ctx=cvs.getContext("2d");
+  // Background
+  ctx.fillStyle="#0e0d0b";
+  ctx.fillRect(0,0,800,420);
+  // Red top bar
+  ctx.fillStyle="#cc1111";
+  ctx.fillRect(0,0,800,4);
+  // Wordmark
+  ctx.fillStyle="#cc1111";
+  ctx.font="bold 72px 'Arial Black',sans-serif";
+  ctx.fillText("R4B1T",40,90);
+  ctx.fillStyle="#e8e0d0";
+  ctx.fillText("_H0L3",220,90);
+  // Divider
+  ctx.strokeStyle="#2a2825";
+  ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(40,110);ctx.lineTo(760,110);ctx.stroke();
+  // Current URL
+  var curl=s.current||"";
+  var cdomain=curl;try{cdomain=new URL(curl).hostname.replace(/^www\./,"");}catch{}
+  ctx.fillStyle="#ff3333";
+  ctx.font="bold 28px 'Courier New',monospace";
+  ctx.fillText(cdomain.slice(0,40),40,155);
+  ctx.fillStyle="#6a5f52";
+  ctx.font="13px 'Courier New',monospace";
+  ctx.fillText(curl.slice(0,70)+(curl.length>70?"…":""),40,180);
+  // Depth
+  ctx.fillStyle="#e8e0d0";
+  ctx.font="bold 48px 'Arial Black',sans-serif";
+  var depthStr=s.count+" HOLES DEEP";
+  ctx.fillText(depthStr,40,250);
+  // Trail path
+  ctx.fillStyle="#4a4238";
+  ctx.font="12px 'Courier New',monospace";
+  ctx.fillText("TRAIL",40,290);
+  ctx.fillStyle="#9a8f7a";
+  var trail=s.trail.slice(0,6).map(function(t){
+    var u=typeof t==="string"?t:t.url;
+    try{return new URL(u).hostname.replace(/^www\./,"");}catch{return u;}
+  }).join(" › ");
+  ctx.font="13px 'Courier New',monospace";
+  ctx.fillText(trail.slice(0,80),40,315);
+  // Bottom attribution
+  ctx.fillStyle="#3a342a";
+  ctx.font="11px 'Courier New',monospace";
+  ctx.fillText("gnomeman4201.github.io/r4b1t",40,390);
+  ctx.fillStyle="#cc1111";
+  ctx.fillText("badBANANA Research Collective",530,390);
+  // Red bottom bar
+  ctx.fillStyle="#cc1111";
+  ctx.fillRect(0,416,800,4);
+  // Download
+  var link=document.createElement("a");
+  link.download="r4b1t_"+cdomain.replace(/[^a-z0-9]/gi,"_")+".png";
+  link.href=cvs.toDataURL("image/png");
+  link.click();
+}
+window.shareCard=shareCard;
 var P=x(()=>{R();S();ie();se();H();ue();Oe();_initCatFilter();});P();})();
 </script>
 </body>
