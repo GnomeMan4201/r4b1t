@@ -82,3 +82,19 @@ Found something worth adding? Click **SUBMIT URL** in the tool or [open an issue
 [badBANANA Research Collective](https://github.com/GnomeMan4201) / GnomeMan4201
 
 Part of the BANANA_TREE ecosystem of independent security research tooling.
+
+
+---
+
+## Part of the BANANA_TREE Research Ecosystem
+
+| | |
+|--|--|
+| **Research Hub** | [GnomeMan4201](https://github.com/GnomeMan4201/GnomeMan4201) |
+| **Corpus & Discovery** | [r4b1t](https://gnomeman4201.github.io/r4b1t) — 53,869 verified OSINT/security URLs |
+| **Investigation Management** | [inv-hub](https://github.com/GnomeMan4201/inv-hub) |
+| **Knowledge Base** | [PRAXIS](https://github.com/GnomeMan4201/PRAXIS) |
+| **Detection Engineering** | [SHENRON](https://github.com/GnomeMan4201/SHENRON) |
+| **Kernel Telemetry** | [bpf-watch](https://github.com/GnomeMan4201/bpf-watch) |
+
+*badBANANA Research Collective · [dev.to/gnomeman4201](https://dev.to/gnomeman4201)*
