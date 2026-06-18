@@ -36,7 +36,7 @@ The URL corpus was assembled from:
 - GitHub awesome-lists across 21 categories
 - Manual curation passes with a two-stage liveness gate (automated HTTP sweep + human relevance sign-off)
 
-Raw input: ~120,000 URLs. After deduplication, liveness sweep (HEAD requests, 10s timeout), and relevance filtering: **53,869 verified live URLs** across 14,488 unique domains. The sweep runs weekly via GitHub Actions and auto-commits the pruned pool.
+Raw input: ~53,869 URLs. After deduplication, liveness sweep (HEAD requests, 10s timeout), and relevance filtering: **53,869 verified live URLs** across 14,488 unique domains. The sweep runs weekly via GitHub Actions and auto-commits the pruned pool.
 
 ## Features
 
