@@ -262,7 +262,6 @@ https://github.com/daijro/camoufox
 https://github.com/lwthiker/curl-impersonate
 https://scrapy.org
 https://github.com/berstend/puppeteer-extra
-https://metasleuth.io
 https://misttrack.io
 https://www.nansen.ai
 https://blockchair.com
@@ -275,13 +274,11 @@ https://metrics.torproject.org
 https://map.snapchat.com
 https://github.com/sinwindie/OSINT
 https://storiesig.info
-https://lookup-id.com
 https://whopostedwhat.com
 https://onemilliontweetmap.com
 https://www.twitonomy.com
 https://keybase.io
 https://tchannels.me
-https://linkedin.com
 https://www.social-searcher.com
 https://snusbase.com
 https://leakcheck.io
@@ -448,7 +445,6 @@ http://a.placebetween.us/
 http://apnic.net/
 http://app.gjzwfw.gov.cn/jmopen/webapp/html5/swbdwcbgcjyztcx/index.html
 http://app.graphystories.com
-http://app.webinspector.com/
 http://arborjs.org
 http://argumentsearch.com/
 http://askmid.com/
@@ -508,7 +504,6 @@ http://data.worldbank.org
 http://deturl.com
 http://dev.360.cn/html/vulscan/scanning.html
 http://diergeneeskunderegister.nl/zoeken
-http://digg.com/login?next=%2Freader
 http://discord.gg/fortnite
 http://dmitrybaranovskiy.github.io/raphael
 http://dnssec-debugger.verisignlabs.com
@@ -545,7 +540,6 @@ http://foodblogsearch.com/
 http://foodcredit.miit.gov.cn/
 http://fortinet.com/blog/threat-research.html
 http://forums.peerblock.com
-http://freesmsverification.com/
 http://free-timeline.com/
 http://fsec.foi.hr
 http://fumalwareanalysis.blogspot.nl/p/malware-analysis-tutorials-reverse.html
@@ -777,7 +771,6 @@ https://addons.mozilla.org/nl/firefox/addon/reveye-ris
 https://addy.io/
 https://adespresso.com/
 https://adium.im
-https://administraitor.video
 https://adsecurity.org/?p=2053
 https://adsecurity.org/wp-content/uploads/2017/04/2017-BSidesCharm-DetectingtheElusive-ActiveDirectoryThreatHunting-Final.pdf
 https://advocacyassembly.org/en
@@ -803,7 +796,6 @@ https://alinush.github.io//
 https://allcraigslistsearch.com/
 https://alternative.me/
 https://amazing-python-scripts.avinashranjan.com/
-http://sameid.net
 https://amiunique.org/
 https://amlbot.com/
 https://amlcrypto.io/ru
@@ -1149,10 +1141,6 @@ https://centralops.net/co/DomainDossier.aspx
 https://centralops.net/co/emaildossier.aspx
 https://certsocietegenerale.github.io/fame/
 https://cesium.com/ion/stories/viewer/?id=8be6f99c-0d4c-46ce-91a3-313e3cac62fe
-https://cfreds.nist.gov/all
-https://cfreds.nist.gov/all/JoshuaHickman/iOS1314iOS14BigSur
-https://cfreds.nist.gov/all/MagnetForensics/2021macOSMagnetCTF
-https://cfreds.nist.gov/all/NIST/BasicMacImage
 https://challenges.re
 https://changedetection.io
 https://chaplin.app/
@@ -1430,7 +1418,6 @@ https://cse.google.com/cse/publicurl?cx=006290531980334157382:qcaf4enph7i
 https://csilinux.com/csi-linux-downloads/
 https://ctftime.org/
 https://ctf.viblo.asia
-https://cti-cmm.org/
 https://ctid.mitre.org/
 https://ctid.mitre.org/inform
 https://ctid.mitre.org/projects/attack-powered-suit/
@@ -1537,7 +1524,6 @@ https://dictionary.cambridge.org/
 https://dictzone.com/osszes-szotar/
 https://d.id/bit/create
 https://digdeeper.neocities.org/
-https://digg.com/
 https://digi.ninja/projects/cewl.php
 https://digitalcorpora.s3.amazonaws.com/s3_browser.html#corpora/scenarios/2019-tuck/
 https://digitaldigging.org/osint/
@@ -1661,7 +1647,6 @@ https://easypanel.io/
 https://ebra.be/worldwide-registers
 https://echoctf.red/
 https://eclecticlight.co/
-http://seclists.org/fulldisclosure/
 http://sectools.org/
 http://securityblog.gr/4434/a-stealthy-python-based-windows-backdoor-that-uses-github-as-a-cc-server/
 http://security.qunar.com/
@@ -1792,7 +1777,6 @@ https://forums.craigslist.org/?areaID=3
 https://forums.daybreakgames.com/eq/index.php
 https://forums.ubisoft.com/
 https://fouanalytics.com/
-https://fourcore.io/
 https://fourcore.io/blogs/mitre-attack-mitre-defend-detection-engineering-threat-hunting
 https://foursquare.com/
 https://freebiesupply.com/
@@ -1817,14 +1801,8 @@ https://garwarner.blogspot.com/
 https://g.co/gemini/share/2403bc7556b6
 https://gdelt.github.io/
 https://gemini.google.com/app
-https://genai.owasp.org/ai-security-solutions-landscape/
-https://genai.owasp.org/initiatives/#ai-redteaming
 https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/
 https://genai.owasp.org/resource/agent-name-service-ans-for-secure-al-agent-discovery-v1-0/
-https://genai.owasp.org/resource/cheatsheet-a-practical-guide-for-securely-using-third-party-mcp-servers-1-0/
-https://genai.owasp.org/resource/finbot-agentic-ai-capture-the-flag-ctf-application/
-https://genai.owasp.org/resource/genai-incident-response-guide-1-0/
-https://genai.owasp.org/resource/llm-and-gen-ai-data-security-best-practices/
 https://genai.owasp.org/resource/llm-and-generative-ai-security-center-of-excellence-guide/
 https://genai.owasp.org/resource/llm-applications-cybersecurity-and-governance-checklist-english/
 https://genai.owasp.org/resource/multi-agentic-system-threat-modeling-guide-v1-0/
@@ -2850,7 +2828,6 @@ https://kartavision.com/
 https://karyakarsa.com/
 https://kasmweb.com/
 https://katb.in
-https://kau.foldhivatal.hu/auth/login
 https://kb.cert.org/vuls/guidance/
 https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html
 https://keep.google.com/
@@ -2901,7 +2878,6 @@ https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/concept-face
 https://learn.microsoft.com/en-us/docs/
 https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook?tabs=newteams%2Cdotnet
 https://lecoupa.github.io/awesome-cheatsheets/
-https://lemon.co.id/en/
 https://lens.google.com/
 https://lenso.ai
 https://leonardocolor.io/
@@ -3480,7 +3456,6 @@ https://roamresearch.com/
 https://ronin-rb.dev
 https://roundcube.net/
 https://rss.app/
-https://ru-98.ru/
 https://ruarq.github.io/ukraine-war-heatmap
 https://rufus.ie/
 https://runbox.com/
@@ -3510,7 +3485,6 @@ https://sayari.com/
 https://saymineapp.com/
 https://scammerlist.now.sh/
 https://scatteredsecrets.com/
-https://scholar.google.com/
 https://scinapse.io/
 https://scouts.yutori.com/
 https://scrapestack.com/
@@ -3539,8 +3513,6 @@ https://searx.space/
 https://sebsauvage.net/paste/
 https://secapps.com/
 https://seclists.org/fulldisclosure/2026/May/17
-https://seclists.org/fulldisclosure/2026/May/19
-https://seclists.org/fulldisclosure/2026/May/21
 https://seclists.org/fulldisclosure/2026/May/22
 https://secrss.com/
 https://securelist.com/
@@ -3913,7 +3885,6 @@ https://t.me/WhoisDomBot
 https://tokimekibluesky.vercel.app/login
 https://toolbox.google.com/datasetsearch
 https://toolbox.google.com/factcheck/explorer
-https://tool.lu/coordinate/
 https://tools.cmlabs.co/en/technology-lookup
 https://tools.kali.org/password-attacks/hydra
 https://tools.myosint.training/
@@ -4035,7 +4006,6 @@ https://webcam.nl/live_streaming/
 https://web-check.as93.net/
 https://webcitation.org/
 https://weberblog.net/the-ultimate-pcap/
-https://webmii.com/
 https://webresolver.nl/
 https://webresolver.nl/tools/resolve
 https://webscout.io/
@@ -4359,7 +4329,6 @@ https://www.denic.de/webwhois/
 https://www.descript.com/
 https://www.designhill.com/tools/logo-maker
 https://www.deskmodder.de/blog/
-https://www.deviceinfo.me/
 https://www.diffchecker.com/image-diff/
 https://www.digikam.org/
 https://www.digitalattackmap.com/#anim=1&color=0&country=ALL&list=0&time=18388&view=map
@@ -4426,7 +4395,6 @@ https://www.elsevier.com/books/violent-python/unknown/978-1-59749-957-6
 https://www.email-format.com/
 https://www.email-format.com/i/search/
 https://www.emailondeck.com/
-https://www.email-validator.net/
 https://www.emobiletracker.com/
 https://www.endgame.com/blog/how-get-started-ctf
 https://www.engadget.com/2018/05/06/facebook-friend-suggestions-helped-connect-extremists/?guccounter=1
@@ -4497,7 +4465,6 @@ https://www.flickr.com/search/people/?username=
 https://www.flurry.com/
 https://www.followthemoney.org/
 https://www.fontspace.com/
-https://www.foodiesfeed.com/
 https://www.forbes.com/sites/bernardmarr/2019/07/22/the-best-and-scariest-examples-of-ai-enabled-deepfakes/
 https://www.forensicosint.com/
 https://www.forocoches.com/
@@ -4657,7 +4624,6 @@ https://www.infostealers.com/article/infostealers-just-spawned-a-5000-repo-githu
 https://www.infostealers.com/article/inside-the-coinbase-cartel-how-infostealer-credentials-fueled-a-100-company-ransomware-spree/
 https://www.infostealers.com/article/reddit-users-share-what-really-happens-when-you-get-infected-by-an-infostealer/
 https://www.infostealers.com/article/the-missing-link-how-infostealers-fuel-ransomware-attacks-and-our-new-partnership-with-ransomware-live/
-https://www.infotelefonica.es/
 https://www.inmarsat.com/en/support-and-info/support/ships-directory.html
 https://www.innocentlivesfoundation.org/
 https://www.inoreader.com/stream/user/1006093244/tag/Cyber%20Intelligence%20/view/html?t=AzuleOnyx%27s%20Cyber%20Intelligence%20Feed&l=https%3A%2F%2Fwww.inoreader.com%2Fcache%2Fbundle_images%2F1006093244%2Fbacf81eb1fca7eaf5802a6fc05b05610.jpg&cs=m&sb=y
@@ -4697,7 +4663,6 @@ https://www.jaiminton.com/cheatsheet/DFIR/#
 https://www.jetbrains.com/decompiler/
 https://www.jianweidata.com/
 https://www.joesandbox.com/
-https://www.joomla.org/
 https://www.journalguide.com
 https://www.jstor.org/
 https://www.judyrecords.com/
@@ -4833,7 +4798,6 @@ https://www.matthewroberts.io/api/threatlist/latest
 https://www.max.com/hu/hu
 https://www.maxmind.com
 https://www.maxmind.com/en/geoip2-precision-demo
-https://www.mdsec.co.uk/2016/12/cna-eventvwr-uac-bypass/
 https://www.mdsec.co.uk/2017/02/tor-fronting-utilising-hidden-services-for-privacy/
 https://www.melissa.com/
 https://www.memuplay.com/
@@ -4870,7 +4834,6 @@ https://www.mooncalc.org/
 https://www.mozilla.org
 https://www.mozilla.org/en-US/security/bug-bounty/
 https://www.mozilla.org/security/advisories/
-https://www.mvg.lu/
 https://www.myfonts.com/
 https://www.myshiptracking.com/
 https://www.mytweetalerts.com/
@@ -4964,7 +4927,6 @@ https://www.osint-tool.com/
 https://www.osint.uk/join
 https://www.ossec.net/
 https://www.otwartezrodla.pl/?fbclid=IwAR3E_dK20xcC3hWPeGHZxYS9u4v1DbW_wFv-fLLEJr-P_fvKA1JjeLWljYg
-https://www.otzberg.net/iguserid/
 https://www.owasp.org/images/4/4b/Red_Team_Operating_in_a_Modern_Environment.pdf
 https://www.owasp.org/index.php/Category:OWASP_Joomla_Vulnerability_Scanner_Project
 https://www.owasp.org/index.php/Main_Page
@@ -5127,7 +5089,6 @@ https://www.scaler.com/topics/
 https://www.scamadviser.com/
 https://www.science.gov/scigov/desktop/en/search.html
 https://www.scribblemaps.com/
-https://www.scrintal.com/
 https://www.searchenginecolossus.com/
 https://www.searchenginesindex.com/
 https://www.searchmy.bio/
@@ -5368,7 +5329,6 @@ https://www.volexity.com/blog/2025/12/04/dangerous-invitations-russian-threat-ac
 https://www.volexity.com/blog/tag/storm-cloud/
 https://www.w3schools.com/
 https://www.wachete.com/
-https://www.wallpaperflare.com/astronaut-digital-wallpaper-astronaut-nasa-space-suit-digital-art-wallpaper-qtd/download
 https://www.wappalyzer.com/
 https://www.wappalyzer.com/lookup/
 https://www.warp.dev/
@@ -5543,7 +5503,6 @@ https://zenfolio.com/intl/
 https://zimmer.fresnostate.edu/~haralds/htmlfiles/gang-signs.html
 https://zipline.diced.sh/
 https://zmap.io/
-https://zoek.officielebekendmakingen.nl/
 https://zoom.earth/
 https://zoominfo.com/
 https://zulu.zscaler.com/#
@@ -5557,7 +5516,6 @@ http://tracker.ardour.org/my_view_page.php
 http://trends.google.com/
 http://trooclick.com
 http://tsear.ch/
-http://tweetreports.com/twitter-chat-schedule
 http://tweettopicexplorer.neoformix.com/#n=NYTimes
 http://uis.unesco.org
 http://umap.openstreetmap.fr/en/map/islamic-state-claimed-provinces-map_29647#7/33.409/42.902
@@ -5571,7 +5529,6 @@ http://vk5.city4me.com
 http://vk.barkov.net
 http://vxvault.net
 http://vxvault.net/ViriList.php
-http://waarbenjij.nu/
 http://wassame.com/tools/
 http://web3.com/
 http://webhacking.kr
@@ -5637,7 +5594,6 @@ http://www.chartjs.org
 http://www.chinatax.gov.cn/
 http://www.chinatrace.org/
 http://www.chkrootkit.org/
-http://www.circl.lu/services/misp-malware-information-sharing-platform/
 http://www.ckd.cn/
 http://www.clamav.net/
 http://www.clipblast.com
@@ -5656,7 +5612,6 @@ http://www.decalage.info/python/olevba
 http://www.dice.com
 http://www.dnsstuff.com
 http://www.doingbusiness.org
-http://www.domaincrawler.com
 http://www.dotmatics.com/products/vortex
 http://www.dowjones.com/factiva
 http://www.downloadtwittervideo.com/
@@ -5686,7 +5641,6 @@ http://www.feedreader.com
 http://www.felonspy.com/
 http://www.fenrir-inc.com/jp/sleipnir
 http://www.findmypast.com/mocavo-info
-http://www.findpdfdoc.com
 http://www.fish4.co.uk
 http://www.flags.net/
 http://www.flashearth.com
@@ -5713,13 +5667,11 @@ http://www.highcharts.com
 http://www.hmpaal.nl/
 http://www.honeyd.org/
 http://www.hooeeywebprint.com.s3-website-us-east-1.amazonaws.com/download.html
-http://www.icaew.com/en/library/subject-gateways/business-management/company-administration/knowledge-guide-international-company-registration
 http://www.imagemagick.org/script/convert.php
 http://www.indexmundi.com
 http://www.inetsim.org/
 http://www.info-clipper.com/en/
 http://www.infosecurityeurope.com/
-http://www.innocentive.com
 http://www.insomniacsecurity.com/2018/01/11/externalc2.html
 http://www.inspire-geoportal.eu/
 http://www.instantatlas.com
@@ -5798,7 +5750,6 @@ http://www.opentechschool.org/
 http://www.opentopia.com/
 http://www.openvas.org/
 http://www.opinioncrawl.com
-http://www.osforensics.com/
 http://www.outwit.com
 http://www.owasp.org
 http://www.parseek.com
@@ -5856,7 +5807,6 @@ http://www.shipais.com/
 http://www.silobreaker.com
 http://www.similarsitesearch.com/
 http://www.siteadvisor.com/
-http://www.siteslike.com
 http://www.skydogcon.com/
 http://www.skypeipresolver.net/
 http://www.slidesearchengine.com/
@@ -5866,14 +5816,12 @@ http://www.social-engineer.org/framework/general-discussion/
 http://www.socilab.com/
 http://www.sololearn.com/Courses/
 http://www.sources.com
-http://www.sourceware.org/gdb/
 http://www.statista.com
 http://www.swiftcodesinfo.com/sort-code/index.php
 http://www.talkwalker.com
 http://www.tcpdump.org/
 http://www.tekdefense.com/automater/
 http://www.tensons.com/products/websiterippercopier
-http://www.theinmatelocator.com/
 http://www.thescipub.com
 http://www.the-webcam-network.com/
 http://www.tiki-toki.com
@@ -5891,7 +5839,6 @@ http://www.twittersentiment.appspot.com
 http://www.ucweb.com
 http://www.ukbirthadoptionregister.com/search.php
 http://www.uk-osint.net/favorites.html
-http://www.uniforminsignia.org/
 http://www.uvrx.com/
 http://www.uvrx.com/facebook.html
 http://www.uvrx.com/social.html
@@ -6072,11 +6019,9 @@ http://www.circlemud.org/jelson/software/tcpflow
 http://www.clamav.net
 http://www.cnnvd.org.cn
 http://www.crunchbase.com
-http://www.cuckoosandbox.org
 http://www.digitalbond.com/blog/2007/07/24/scada-honeynet-article-in-infragard-publication
 http://www.dwheeler.com/secure-programs
 http://www.earthcam.com
-http://www.email-validator.net
 http://www.etools.ch
 http://www.exploitalert.com
 http://www.facebook.com
@@ -6084,7 +6029,6 @@ http://www.few.vu.nl/argos
 http://www.followthatpage.com
 http://www.forbes.com/global2000
 http://www.fuzzing.org
-http://www.geocreepy.com
 http://www.geonames.org
 http://www.google.com/alerts
 http://www.guidestar.org
@@ -6207,7 +6151,6 @@ https://apkcombo.com/apk-downloader
 https://app.osintnova.com
 https://app.validin.com
 https://appdetonator.run
-https://appsecusa.org
 https://appsweep.guardsquare.com
 https://aquasecurity.github.io/tfsec
 https://archstrike.org
@@ -6238,7 +6181,6 @@ https://blog.didierstevens.com/programs/xorsearch
 https://blog.kchung.co/reverse-engineering-hid-iclass-master-keys
 https://blog.kchung.co/rfid-hacking-with-the-proxmark-3
 https://blog.majestic.com/development/majestic-million-csv-daily
-https://blog.risingstack.com/node-js-security-checklist
 https://blog.sociallinks.io
 https://blog.xpnsec.com/exploring-cobalt-strikes-externalc2-framework
 https://blogs.uni-paderborn.de/sse/tools/flowdroid
@@ -7824,7 +7766,6 @@ https://hackingthe.cloud
 https://hashcat.net/hashcat
 https://hashdd.com
 https://haveibeenransom.com
-https://help.comodo.com/topic-72-1-451-4768-.html
 https://heroic.com
 https://hexed.it
 https://hexinator.com
@@ -7942,7 +7883,6 @@ https://nachricht.co
 https://nagios.org
 https://nccgroup.github.io/Scout2
 https://networking.ringofsaturn.com
-https://nmap.org/ncrack
 https://nopaste.boris.sh
 https://nsacyber.github.io/unfetter
 https://objective-see.com/products/blockblock.html
@@ -8051,8 +7991,6 @@ https://safenote.co
 https://samy.pl/keysweeper
 https://samy.pl/poisontap
 https://scammerlist.now.sh
-https://scholar.google.com
-https://scholar.google.com/scholar?q=github.com%2Fashishb%2Fandroid-security-awesome
 https://scotthelme.co.uk
 https://search.carrot2.org
 https://search.disconnect.me
@@ -8155,7 +8093,6 @@ https://wazuh.com
 https://web-check.as93.net
 https://webscout.io
 https://whatsapp.checkleaked.cc
-https://whitton.io/articles/xss-on-facebook-via-png-content-types
 https://who.is
 https://whois-webform.markmonitor.com/whois
 https://wiki.sei.cmu.edu/confluence/display/android/Android+Secure+Coding+Standard
@@ -8165,7 +8102,6 @@ https://winscripting.blog/2017/05/12/first-entry-welcome-and-uac-bypass
 https://wireedit.com
 https://wpscan.org
 https://write.as
-https://www.0day.today
 https://www.abuse.ch
 https://www.agwa.name/projects/git-crypt
 https://www.ampliasecurity.com/research/windows-credentials-editor
@@ -8356,7 +8292,6 @@ https://www.tumblr.com
 https://www.tunnelsup.com/contents-of-a-physical-pen-testers-backpack
 https://www.ukphonebook.com
 https://www.unb.ca/cic/datasets/android-adware.html
-https://www.valgrind.org
 https://www.vanheusden.com/multitail
 https://www.vaultproject.io
 https://www.veil-framework.com
@@ -8397,9 +8332,6 @@ https://zmap.io
 https://zoom.earth
 http://textfiles.com
 http://textfiles.com/hacking/
-https://insecure.org
-http://www.catb.org/jargon/
-http://www.catb.org/esr/writings/
 https://theoldnet.com
 https://wiby.me
 https://wiby.me/surprise/
@@ -8648,7 +8580,6 @@ http://alias-i.com/lingpipe/
 http://alias-i.com/lingpipe/index.html
 http://allaboutscala.com/
 http://altermundus.com/pages/tkz/index.html
-http://amandroid.sireum.org/
 http://ambari.apache.org/
 http://amitavadas.com/SAIL/
 http://ampcamp.berkeley.edu
@@ -8802,8 +8733,6 @@ http://cassandra.apache.org/
 http://cazabetremy.fr/Teaching/ComplexNetworks.html
 http://cb.vu/unixtoolbox.xhtml
 http://cbor.io/
-http://ccodearchive.net/
-http://ccodearchive.net/list.html
 http://ceph.com/ceph-storage/file-system/
 http://cerbero-blog.com/?p=1311
 http://cerbero.io/profiler/
@@ -8845,7 +8774,6 @@ http://cloud.spring.io/spring-cloud-config/
 http://cloudi.org/
 http://cmosedu.com
 http://cnrail.geogv.org/enus/about
-http://cns.ceu.edu/
 http://code.google.com/archive/p/loganon/
 http://code972.com/blog/2014/07/74-the-definitive-guide-for-elasticsearch-on-windows-azure
 http://codeguide.co/
@@ -8917,7 +8845,6 @@ http://conda.pydata.org/docs/intro.html
 http://confreaks.tv/tags/40
 http://connectedpast.net/
 http://consequenceofsound.net/feed
-http://conservationcorridor.org/corridor-toolbox/programs-and-tools/zonation/
 http://console-cowboys.blogspot.com/2012/01/trendnet-cameras-i-always-feel-like.html
 http://coquette.maryrosecook.com/
 http://coreos.com/
@@ -9177,11 +9104,9 @@ http://eclipse.org/smarthome/
 http://ecomunsing.com/build-your-own-blockchain
 http://ed-von-schleck.github.io/shoco/
 http://edi.wang/
-http://education.rec.ri.cmu.edu/
 http://edwardlib.org/
 http://ees.elsevier.com/son/default.asp
 http://efele.net/maps/tz/world/
-http://eh.net/database/international-currencies-1890-1910/
 http://eigen.tuxfamily.org/
 http://elasticsearch-cheatsheet.jolicode.com/
 http://electron.atom.io/
@@ -9431,7 +9356,6 @@ http://graphml.graphdrawing.org/
 http://graphql.org/
 http://graphstream-project.org
 http://gree.github.io/lwf/
-http://greenlitgaming.com/
 http://gregable.com/2015/12/regular-expression-crossword-puzzle.html
 http://greynoise.io/
 http://gridsingularity.com
@@ -9682,7 +9606,6 @@ http://inspired-ui.com/
 http://inst.eecs.berkeley.edu/classes-eecs.html
 http://inst.eecs.berkeley.edu/~cs194-26/fa14/
 http://instabus.org
-http://int10h.org/oldschool-pc-fonts/
 http://integrity.github.io/
 http://introtodeeplearning.com/
 http://inuitcss.com/
@@ -9875,7 +9798,6 @@ http://mallet.cs.umass.edu/
 http://malshare.com/
 http://mangal.io/
 http://manifold.systems/images/graphql.mp4
-http://mapnik.org/
 http://mapproxy.org/
 http://mapserver.org/
 http://mapshaper.org/
@@ -10035,7 +9957,6 @@ http://oodt.apache.org/
 http://oozie.apache.org/
 http://open-bio.org/
 http://open-notify.org/Open-Notify-API/
-http://opencircuitdesign.com
 http://opencv.org/
 http://opendefinition.org/
 http://opendefinition.org/licenses/
@@ -10106,8 +10027,6 @@ http://pca.st/itunes/1434612191
 http://pca.st/javaair
 http://pca.st/w8FN
 http://pcp.io
-http://pcre.org/
-http://pcre.org/pcre.txt
 http://pedquant.com/
 http://pents90.github.io/eburp/
 http://people.math.gatech.edu/%7Ecain/notes/calculus.html
@@ -10306,7 +10225,6 @@ http://samza.apache.org/
 http://sane-project.org/
 http://sass-lang.com/styleguide
 http://savannah.nongnu.org/projects/lwip/
-http://sawfish.tuxfamily.org/
 http://scalaprof.blogspot.com
 http://schema.org/
 http://schteppe.github.io/p2.js/
@@ -10314,7 +10232,6 @@ http://scienceandpublic.com/
 http://scikit-image.org/
 http://scilua.org/
 http://sciruby.com/
-http://sciter.com/
 http://scitools.org.uk/cartopy/
 http://scripting.com/rss.xml
 http://sdr.osmocom.org/trac/wiki/rtl-sdr
@@ -10332,7 +10249,6 @@ http://senseidb.github.io/bobo/
 http://senseidb.github.io/sensei/
 http://sentinel-pds.s3-website.eu-central-1.amazonaws.com/
 http://seqmagick.readthedocs.io
-http://seriouspony.com/
 http://serre-lab.clps.brown.edu/person/david-reichert/
 http://serverless.com
 http://shapelib.maptools.org/
@@ -10703,8 +10619,6 @@ http://www.bfilipek.com/2017/01/cpp17features.html
 http://www.big-data-book.com/
 http://www.bing.com/mapspreview
 http://www.bioSyntax.org
-http://www.bioconductor.org/
-http://www.bioconductor.org/packages/release/bioc/html/OmicCircos.html
 http://www.biodalliance.org
 http://www.bioinformatics-brazil.org/r-peridot
 http://www.blacklistalert.org/
@@ -10740,8 +10654,6 @@ http://www.careerride.com/python-interview-questions.aspx
 http://www.careerride.com/ruby-on-rails-interview-questions.aspx
 http://www.carhackingvillage.com/
 http://www.case-podcast.org/
-http://www.catb.org/esr/faqs/hacker-howto.html
-http://www.catb.org/esr/structure-packing/
 http://www.cbyexample.com/
 http://www.cc.gatech.edu/~dovrolis/Courses/NetSci/
 http://www.cc2asn.com/
@@ -10784,12 +10696,10 @@ http://www.contextis.com/resources/blog/hacking-internet-connected-light-bulbs/
 http://www.cookbook-r.com/
 http://www.coppeliarobotics.com/
 http://www.coralbits.com/libonion/
-http://www.cosc.brocku.ca/~duentsch/papers/methprimer1.html
 http://www.covert.io/the-definitive-security-datascience-and-machinelearning-guide/
 http://www.cplusplus.com/
 http://www.cplusplus.com/reference/regex/
 http://www.cprover.org/cbmc/
-http://www.cquestions.com/2010/10/c-interview-questions-and-answers.html
 http://www.craigkerstiens.com/categories/postgres/
 http://www.crashub.org
 http://www.crypto-textbook.com/
@@ -10923,7 +10833,6 @@ http://www.elmweekly.nl/
 http://www.embulk.org
 http://www.emgu.com/wiki/index.php/Main_Page
 http://www.emilio.ferrara.name/
-http://www.enlightenment.org/
 http://www.epxlabs.com
 http://www.erlang-in-anger.com/
 http://www.eso.org/sci/software/cpl/
@@ -10966,7 +10875,6 @@ http://www.gastrointestinalatlas.com
 http://www.gatsby.ucl.ac.uk/~amnih/
 http://www.gaussianprocess.org/gpml/
 http://www.gdal.org/
-http://www.gdcvault.com/gdmag
 http://www.geany.org/
 http://www.gedanken.org.uk/software/cxref/
 http://www.geekinterview.com/Interview-Questions/Languages/C-Plus-Plus
@@ -11069,7 +10977,6 @@ http://www.historynet.com/feed
 http://www.hobbygamedev.com/
 http://www.home-designing.com/feed
 http://www.hopperapp.com/
-http://www.hping.org/
 http://www.html-tidy.org
 http://www.html5gamedevs.com/
 http://www.htmlwidgets.org/
@@ -11152,7 +11059,6 @@ http://www.joewing.net/projects/jwm/
 http://www.journalfieldrobotics.org/Home.html
 http://www.jpfairbanks.net/
 http://www.jsonrpc.org/specification
-http://www.juce.com/
 http://www.k-government.com/2016/06/28/100-herramientas-analisis-redes-sna-ars/
 http://www.kali.org/
 http://www.kalzumeus.com/
@@ -11224,7 +11130,6 @@ http://www.melissaclarkson.com/resources/R_guides/
 http://www.memsql.com/
 http://www.mergeconflict.fm/
 http://www.metasploit.com/
-http://www.methodsandtools.com/archive/zenprogrammer.php
 http://www.michaeleisen.org/blog/
 http://www.microconf.com/
 http://www.microconfeurope.com/
@@ -11335,7 +11240,6 @@ http://www.paulosyibelo.com/
 http://www.paulosyibelo.com/2017/05/twitter-xss-csp-bypass.html
 http://www.paulosyibelo.com/2018/06/the-big-bad-wolf-xss-and-maintaining.html
 http://www.pcmag.com/article2/0
-http://www.pcre.org/
 http://www.peachpit.com/articles/article.aspx?p=1856033
 http://www.pebblebay.com/raspberry-pi-embedded/
 http://www.petecorey.com/blog/2017/06/12/graphql-nosql-injection-through-json-types/
@@ -11380,7 +11284,6 @@ http://www.qgis.org/en/site/
 http://www.qlik.com/us/
 http://www.quantmod.com/
 http://www.querydsl.com
-http://www.quicklz.com/index.php
 http://www.r-bloggers.com/
 http://www.r-bloggers.com/?s=networks
 http://www.r-bloggers.com/?s=social+network+analysis
@@ -11408,7 +11311,6 @@ http://www.rexegg.com/
 http://www.rexegg.com/regex-best-trick.html
 http://www.rexegg.com/regex-humor.html
 http://www.rexegg.com/regex-quickstart.html
-http://www.ri.cmu.edu/projects/project_418.html
 http://www.rightchannelradios.com/
 http://www.rightchannelradios.com/tuning-cb-antenna-adjusting-swr
 http://www.robesafe.com/personal/pablo.alcantarilla/kaze.html
@@ -11428,7 +11330,6 @@ http://www.rohitab.com/apimonitor
 http://www.ros.org/
 http://www.rpgmakerweb.com/
 http://www.rsgislib.org/
-http://www.rstudio.org/
 http://www.rttr.org
 http://www.rubygeocoder.com/
 http://www.ruffus.org.uk
@@ -11452,7 +11353,6 @@ http://www.serverlessguy.com/
 http://www.serverlessops.io
 http://www.sessions-with-typography.com
 http://www.settheory.net/
-http://www.sfml-dev.org/
 http://www.shakthimaan.com/posts/2016/01/27/haskell-web-programming/news.html
 http://www.shoup.net/ntb/
 http://www.shutterbean.com/feed/
@@ -11478,7 +11378,6 @@ http://www.slimframework.com/
 http://www.smartmarmot.com/wiki/index.php?title=Orabbix
 http://www.smashingmagazine.com/category/uxdesign/
 http://www.smashingsecurity.com/
-http://www.socher.org/
 http://www.social-engineer.org/category/podcast/
 http://www.socialsciences.manchester.ac.uk/mitchell-centre/
 http://www.sociopatterns.org/
@@ -11611,7 +11510,6 @@ http://www.w3.org/TR/json-ld/
 http://www.w3.org/TR/sparql11-overview/
 http://www.w3.org/TR/webarch/
 http://www.wafr.org/
-http://www.wallaroolabs.com/community
 http://www.warmplace.ru/soft/sunvox/
 http://www.web-technology-experts-notes.in/2014/11/angularjs-interview-questions-and-answers-for-experienced.html
 http://www.web-technology-experts-notes.in/2015/01/backbone-js-interview-questions-and-answers.html
@@ -11686,7 +11584,6 @@ http://zombiehelp54.blogspot.jp/
 http://zombiehelp54.blogspot.jp/2017/02/sql-injection-in-update-query-bug.html
 http://zookeeper.apache.org/
 https://040code.github.io/2020/05/25/scaling-selfhosted-action-runners
-https://0day.today/
 https://0day.work/an-example-why-nat-is-not-security/
 https://0xacab.org/liberate/backupninja
 https://0xacab.org/schleuder/schleuder/tree/master
@@ -11836,7 +11733,6 @@ https://adactio.com/journal/11052
 https://adalogics.com/blog/symbolic-execution-with-klee
 https://adalogics.com/training-source-fuzz
 https://adamransom.github.io/posts/raspberry-pi-bare-metal-part-1.html
-https://adaptordie.io
 https://adarkroom.doublespeakgames.com/
 https://adbappcontrol.com/en/terms/
 https://addons.heroku.com/openredis
@@ -12032,7 +11928,6 @@ https://app.diagrams.net/
 https://app.donetick.com/
 https://app.formbricks.com
 https://app.heliumedu.com
-https://app.huly.io
 https://app.keila.io
 https://app.khoj.dev/
 https://app.lizardbyte.dev/Sunshine/
@@ -12173,7 +12068,6 @@ https://astrapi69.github.io/jgeohash/
 https://asuonline.asu.edu/online-degree-programs/graduate/master-science-business-analytics/
 https://at-ui.github.io/at-ui/#/en
 https://at.aotu.io
-https://at.line.me/en
 https://atlanhq.notion.site/atlanhq/Data-Analytics-Events-in-2022-7abf9f3daf8d42358234c6a00b43f1a6
 https://atlas.adeven.com
 https://atlas.ripe.net/
@@ -12199,7 +12093,6 @@ https://attack.mitre.org/
 https://attacker-codeninja.github.io/2021-08-28-Hacking-APIs-notes-from-bug-bounty-bootcamp/
 https://attackerkb.com/
 https://atymic.dev/blog/github-actions-laravel-ci-cd/
-https://aubio.org/
 https://augmentedcode.io/feed/
 https://augmentedcoding.dev/
 https://aureo.io
@@ -12216,7 +12109,6 @@ https://authenticjobs.com/?search_location=remote
 https://auto-animate.formkit.com/
 https://auto-differentiation.github.io/
 https://autodiff.github.io
-https://autokitteh.com/
 https://automatisch.io
 https://automattic.com/work-with-us/
 https://automeris.io/WebPlotDigitizer/
@@ -12244,7 +12136,6 @@ https://awesome-selfhosted.net/tags/web-servers.html
 https://awesome-web.theravenhub.com/browse.html
 https://awesomehub.js.org/list/selfhosted
 https://awesometechstack.com
-https://awesomewm.org/
 https://awkwardfamilyphotos.com/feed/
 https://aws.amazon.com/
 https://aws.amazon.com/appsync/
@@ -12302,7 +12193,6 @@ https://balau82.wordpress.com/2010/02/14/simplest-bare-metal-program-for-arm/
 https://balau82.wordpress.com/arm-emulation/
 https://balde.rgm.io/
 https://balena-io-modules.github.io/rendition/
-https://ballerina.io
 https://bananas.openttd.org/
 https://bansallab.github.io/asnr/
 https://barassistant.app/
@@ -12382,9 +12272,6 @@ https://binary.ninja/
 https://binaryify.github.io/vue-tetris/
 https://binti.com/current-openings/
 https://bioconda.github.io
-https://bioconductor.org/packages/3.3/bioc/html/RCy3.html
-https://bioconductor.org/packages/release/bioc/html/RCyjs.html
-https://bioconductor.org/packages/release/bioc/html/Rgraphviz.html
 https://biodatageeks.org/polars-bio/
 https://bioinf.shenwei.me/csvtk
 https://bioinf.shenwei.me/seqkit
@@ -12457,7 +12344,6 @@ https://blog.alicegoldfuss.com/how-to-get-into-sre/
 https://blog.apify.com/tuning-mongodb-performance/
 https://blog.apollographql.com/
 https://blog.attify.com/bypass-jailbreak-detection-frida-ios-applications/
-https://blog.avatao.com/How-I-could-steal-your-photos-from-Google/
 https://blog.b3k.us/2009/07/15/service-level-disagreements.html
 https://blog.benjojo.co.uk/post/why-is-ethernet-mtu-1500
 https://blog.bentkowski.info/
@@ -12543,9 +12429,6 @@ https://blog.ret2.io/2018/06/05/pwn2own-2018-exploit-development/
 https://blog.ripstech.com/2017/why-mail-is-dangerous-in-php/
 https://blog.ripstech.com/2018/moodle-remote-code-execution/
 https://blog.ripstech.com/tags/security/
-https://blog.risingstack.com/graphql-overview-getting-started-with-graphql-and-nodejs/
-https://blog.risingstack.com/node-js-interview-questions/
-https://blog.risingstack.com/node-js-security-checklist/
 https://blog.ropnop.com/configuring-burp-suite-with-android-nougat/
 https://blog.rstudio.org/2015/05/01/rstudio-v0-99-preview-graphviz-and-diagrammer/
 https://blog.scrt.ch/2018/08/24/remote-code-execution-on-a-facebook-server/
@@ -12678,7 +12561,6 @@ https://buildroot.org/
 https://builtin.com/jobs/remote
 https://builtwith.com/
 https://bulkpictools.com
-https://bumbag.style/
 https://bun.sh/
 https://buntinglabs.com/solutions/openstreetmap-extracts
 https://bupt-ai-cz.github.io/LLVIP/
@@ -12912,7 +12794,6 @@ https://cloud.google.com/blog/products/devops-sre/evaluating-where-your-team-lie
 https://cloud.google.com/blog/products/devops-sre/how-sre-teams-are-organized-and-how-to-get-started
 https://cloud.google.com/blog/products/devops-sre/how-to-start-and-assess-your-sre-journey
 https://cloud.google.com/blog/products/gcp/inside-cloud-spanner-and-the-cap-theorem
-https://cloud.google.com/blog/products/gcp/sre-vs-devops-competing-standards-or-close-friends
 https://cloud.google.com/blog/products/management-tools/identifying-and-tracking-toil-using-sre-principles
 https://cloud.google.com/blog/products/management-tools/meeting-reliability-challenges-with-sre-principles
 https://cloud.google.com/blog/products/management-tools/shrinking-the-time-to-mitigate-production-incidents
@@ -13506,7 +13387,6 @@ https://cydia.saurik.com/api/latest/3
 https://cydia.saurik.com/package/com.saurik.afc2d/
 https://cydia.saurik.com/package/openssh/
 https://cygwin.com/
-https://cygwin.com/licensing.html
 https://cynicaldeveloper.com/
 https://cynicaldeveloper.com/feed/podcast
 https://cytu.be
@@ -13559,7 +13439,6 @@ https://data-literacy.geckoboard.com/poster/
 https://data.europa.eu/en
 https://data.gmanews.tv/gno/rss/news/feed.xml
 https://data.gov
-https://data.gov.in/
 https://data.humdata.org/
 https://data.ibb.gov.tr/en/
 https://data.nasdaq.com/
@@ -13636,7 +13515,6 @@ https://dc-js.github.io/dc.js/
 https://dcevm.github.io
 https://dcmetrohero.net
 https://dcos.io/
-https://dd-wrt.com/
 https://ddnet.org/
 https://ddocs.new
 https://ddos-protection-best-practices.workshop.aws/
@@ -13670,7 +13548,6 @@ https://delta.io/
 https://deltaspike.apache.org
 https://deluge-torrent.org/
 https://demo-esmira.kl.ac.at/#admin
-https://demo.2fauth.app/
 https://demo.4gaboards.com
 https://demo.adminforth.dev
 https://demo.adventurelog.app/signup
@@ -13860,7 +13737,6 @@ https://developer.apple.com/documentation/spritekit
 https://developer.apple.com/fonts/
 https://developer.apple.com/library/archive/referencelibrary/GettingStarted/DevelopiOSAppsSwift/
 https://developer.apple.com/library/watchos/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/index.html
-https://developer.apple.com/news/rss/news.rss
 https://developer.apple.com/tutorials/swiftui
 https://developer.apple.com/xcode/
 https://developer.apple.com/xcode/download/
@@ -14045,7 +13921,6 @@ https://docs.cosmos.network/ibc
 https://docs.crossfeed.cyber.dhs.gov/
 https://docs.dagu.cloud/
 https://docs.datafold.com/data-diff/what-is-data-diff
-https://docs.datakitchen.io/observability/get-started/
 https://docs.debops.org/
 https://docs.djangoproject.com/en/2.2/ref/contrib/gis/
 https://docs.djangoproject.com/en/dev/ref/contrib/gis/
@@ -14292,7 +14167,6 @@ https://earthquake.usgs.gov/fdsnws/event/1/
 https://easy-wi.com
 https://easybuild.io/
 https://easyeda.com/
-https://easyindie.app
 https://easyretro.io
 https://easywebinar.com/
 https://ebay.github.io/skin/
@@ -14766,10 +14640,8 @@ https://ernte-teilen.org/karte/#/
 https://errbot.io/
 https://ervinbarta.com/2021/10/19/slo-alerting-for-mortals/
 https://esa.io/
-https://escape.tech/blog/8-most-common-graphql-vulnerabilities/
 https://escape.tech/blog/9-graphql-security-best-practices/
 https://esmira.kl.ac.at
-https://espreso.tv/rss
 https://esriaustralia.com.au/gis-directions-podcast
 https://estuary.dev
 https://etcd.io/
@@ -15223,7 +15095,6 @@ https://git.github.io/rev_news/rev_news/
 https://git.haproxy.org/?p=haproxy.git;a=tree
 https://git.ispconfig.org/ispconfig/ispconfig3
 https://git.jami.net/savoirfairelinux?sort=latest_activity_desc&filter=jami
-https://git.joeyh.name/index.cgi/git-annex.git/
 https://git.kernel.org/pub/scm/virt/kvm/kvm.git/
 https://git.linux-kernel.at/oliver/ivatar/
 https://git.live/
@@ -15253,7 +15124,6 @@ https://gitcommit.show/
 https://gitea.com
 https://gitea.com/xorm/xorm
 https://gitea.io/
-https://gitea.io/en-us/
 https://gitea.wildfiregames.com/0ad/0ad
 https://gitee.com
 https://gitential.com
@@ -23963,7 +23833,6 @@ https://github.com/gregs1104/pgtune
 https://github.com/gregs1104/pgtune/
 https://github.com/gregversteeg/corex_topic
 https://github.com/grempe/ex_rated
-https://github.com/grepTimeTeam/greptimedb/
 https://github.com/greyblake/nutype
 https://github.com/greyblake/whatlang-rs
 https://github.com/griddb/griddb_nosql
@@ -31341,7 +31210,6 @@ https://bellingcat.github.io/tiktok-timestamp/
 https://github.com/phucisstupid/cowsay.zsh
 https://github.com/nwg-piotr/nwg-displays
 https://github.com/oknowton/zsh-dwim
-http://clojurewerkz.org
 https://aws.amazon.com/pt/security/penetration-testing/
 https://getpantry.cloud/
 https://github.com/hacksider/Deep-Live-Cam
@@ -32229,7 +32097,6 @@ https://github.com/kdeldycke/dotfiles
 https://docs.google.com/spreadsheets/d/1rZuor1LssjoSD-C3_Ah8sgHovGvuJb9kiTidIFzAZw4/edit#gid=0
 https://github.com/jnv/awesomebandnames
 https://github.com/glostis/venv-wrapper
-https://compress-or-die.com/analyze
 https://exploitalert.com/
 http://robotframework.org/
 https://github.com/blark/aiodnsbrute
@@ -34254,7 +34121,6 @@ https://github.com/dzirbel/kotify
 https://github.com/CraigWilliams/BeautifyRuby
 https://facebook.com/cryptotimes.io
 https://github.com/betterfetch/zsh-plugin-rust
-http://pygame.org/wiki/about
 https://github.com/patorjk/d3-context-menu
 https://github.com/jmhale/okta-awscli
 https://github.com/mrsinguyen/awesome-drupal
@@ -35254,7 +35120,6 @@ https://github.com/EncodeGroup/BOF-RegSave
 https://delightful.club/
 https://github.com/djkakaroto/theme-zsh/
 https://github.com/mwielgoszewski/jython-burp-api
-https://dev.socrata.com/
 https://github.com/hiulit/Godot-3-2D-CRT-Shader
 https://github.com/devanshbatham/FavFreak
 https://github.com/DavidLambauer/awesome-magento2
@@ -35781,7 +35646,6 @@ http://awesome-scalability.com/
 https://buddy.works/docs/api/getting-started/overview
 https://github.com/notnek/zsh-theme
 https://gist.github.com/mackwage/08604751462126599d7e52f233490efe
-http://dangerousprototypes.com/docs/About
 https://github.com/apdevelop/linq2db-postgis-extensions
 https://github.com/garywill/BigSearch
 https://github.com/qbit
@@ -36052,7 +35916,6 @@ https://github.com/gamelab/kiwi.js
 https://github.com/30-seconds/30-seconds-of-interviews
 https://github.com/charlietag/tmux-split-statusbar
 https://github.com/jobovy/apogee
-https://api.astroway.info/docs/
 https://dorks.faisalahmed.me
 http://jsoup.org/
 https://github.com/drkhsh/zsh-banner
@@ -36791,7 +36654,6 @@ https://github.com/jnooree/zoxide-zsh-completion
 https://edgeconf.com
 https://github.com/chipsenkbeil/zsh-notes
 https://eyesonrussia.org/
-https://dawn.sagemindai.io
 https://docs.btcturk.com/
 https://geocodify.com/
 https://github.com/projectdiscovery/proxify
@@ -37568,7 +37430,6 @@ https://github.com/anasouardini/portal/
 http://incompetech.com/music/royalty-free/
 https://github.com/AlephNullSK/dnsgen
 https://butter0verflow.github.io/oscp/OSCP-WindowsPrivEsc-Part1/
-http://sarahaskew.net/
 https://drive.google.com/file/d/0B0l-Qo3D3sAoMEhkcFBFVzRiNEk/view
 https://github.com/jagracey/Awesome-Unicode
 https://github.com/Henryws/twilight-prompt
@@ -37697,7 +37558,6 @@ https://github.com/alexdesousa/oath
 https://github.com/finos-osr/OSLC-handbook
 https://github.com/geodynamics/burnman
 https://github.com/defparam/tiscripts
-https://datakitchen.io/
 https://github.com/johnathan79717/codeforces-parser
 https://atscaleconference.com/videos/performance-scale-2018-opening-remarks/
 https://docs.google.com/spreadsheets/d/1dVpGMH7Xkp9ZlO4K-5Khwh_bn0w7_lMfW-C6KmCMuYk/template/preview
@@ -37865,7 +37725,6 @@ https://github.com/bats3c/shad0w
 https://github.com/chainguard-dev/bincapz
 https://github.com/hashrocket/ws
 https://github.com/MariaLetta/mega-doodles-pack
-http://mir.aculo.us/dom-monster/
 https://github.com/ashsajal1/git-commit-shortcuts
 https://github.com/joknarf/redo
 http://clojure-conj.org/
@@ -38268,7 +38127,6 @@ https://github.com/daffainfo/match-replace-burp
 https://github.com/kamranahmedse/driver.js
 https://app.tuta.com/
 https://docs.dexpaprika.com
-https://en.likefont.com/
 https://github.com/jesec/zsh_theme_theta-async
 https://capev2.readthedocs.io/en/latest/usage/api.html
 https://github.com/bluehalo/node-fhir-server-core
@@ -38520,7 +38378,6 @@ https://github.com/Freed-Wu/zsh-colorize-functions
 https://github.com/kutyel/linq.ts
 https://github.com/IonDen/ion.rangeSlider
 https://github.com/appsecco/spaces-finder
-https://docs.google.com/spreadsheets/d/1_x3PXGOahhKT3-ePaWhb3hM1dVxjmBvsVlw6D6lilTQ/edit#gid=1116439221
 https://api.imgbb.com/
 https://github.com/PandaNoir/List-in-JS/
 https://github.com/Katrovsky/zsh-ollama-completion
@@ -38580,7 +38437,6 @@ https://github.com/Amar1729/yabai-zsh-completions
 https://github.com/microbecode/zk-languages
 http://marklodato.github.io/2013/10/31/autostart-tmux-on-ssh.html
 https://github.com/amir-arad/awesome-osc
-http://puredata.info/
 https://github.com/britecharts/britecharts
 https://github.com/jwoudenberg/fantasy-do
 https://github.com/mgaudet/CompilerJobs
@@ -38632,7 +38488,6 @@ https://github.com/dylanroman03/classyTouchName
 https://en.wikibooks.org/wiki/Haskell
 https://github.com/Gwion/Gwion
 https://en.wiktionary.org/wiki/Wiktionary:Main_Page
-https://abesto.net/an-intro-to-lens-with-no-theory/
 https://github.com/aaronpowell/db.js/
 https://citizensclimatelobby.org/
 https://github.com/kylepls/kylepls
@@ -39099,7 +38954,6 @@ https://fasterthanli.me/series/making-our-own-executable-packer
 https://github.com/abagames
 https://github.com/DenverCoder1/readme-typing-svg
 https://github.com/n00py/LAPSDumper
-http://cygwin.com/
 https://github.com/bellingcat/tiktok-hashtag-analysis
 https://cipher387.github.io/collection_of_cadastral_maps/
 https://automationpanda.com/
@@ -39235,7 +39089,6 @@ https://github.com/freeCodeCamp/freeCodeCamp
 https://github.com/ileriayo/ileriayo
 https://code.woboq.org
 https://github.com/derbyjs/derby
-http://api.adviceslip.com/
 http://github.com/mrtommyb/ktransit
 http://elbenshira.com/blog/understanding-transducers
 https://confluence.atlassian.com/enterprise/garbage-collection-gc-tuning-guide-461504616.html
@@ -39525,7 +39378,6 @@ https://github.com/anordal/shellharden
 https://github.com/moment/moment
 https://estimake.it
 http://caiorss.github.io/Functional-Programming/
-http://gbimg.org/
 https://github.com/Meroje/zsh-rbenv
 https://github.com/FlameOfIgnis/Pwdb-Public
 https://atom.io/packages/editorconfig
@@ -39555,7 +39407,6 @@ https://github.com/ivan-sincek/android-penetration-testing-cheat-sheet
 https://github.com/Pepitoh/VBad
 https://github.com/Ardour/ardour
 http://kivy.org/#home
-http://codeblocks.org/downloads
 https://data.overheid.nl/en/ondersteuning/data-publiceren/api
 https://github.com/hgaiser/gruvbox-zsh
 https://github.com/pixelpen-dev/pixelpen
@@ -39669,7 +39520,6 @@ https://github.com/fiqryq/port
 https://contrib.rocks/image?repo=swisskyrepo/PayloadsAllTheThings&max=36
 http://developer.ticketmaster.com/products-and-docs/apis/getting-started/
 https://chrome.google.com/webstore/detail/auto-scroll-search-scroll/ieceeinfkigfaeoomfimmecebngempef/
-https://github.com/AppDevIQ/datascreeniq-python
 https://github.com/kmyk/online-judge-tools
 https://github.com/projectdiscovery/shuffledns
 https://github.com/fundor333/bofh
@@ -39712,7 +39562,6 @@ https://core.vmware.com/vsphere-esxi-mandiant-malware-persistence
 https://github.com/hannob/fpmvuln
 https://github.com/hannorein/rebound
 https://github.com/DiljotSG/MCU-Countdown
-https://api-docs.luchtmeetnet.nl/
 https://github.com/osrf/gazebo
 https://github.com/GovTech-CSG/Autowasp
 https://github.com/herrbischoff/awesome-macos-command-line
@@ -41263,7 +41112,6 @@ https://discord.com
 https://github.com/feross/standard
 https://github.com/jasonchaffee/chaffee.zsh-theme
 https://github.com/agamm/awesome-developer-first
-https://bhagavadgita.io/api
 https://bl.ocks.org/zanarmstrong
 https://github.com/fort-nix/nix-bitcoin
 https://github.com/oecd-cyc/oecd-simple-charts
@@ -41386,7 +41234,6 @@ https://github.com/nicksp/dotfiles/
 https://github.com/JulianWels/portal2d
 https://buffer.com/transparency
 https://github.com/FrancescoCeruti/linux-show-player
-https://druzi.uk/
 http://azcwr.org/az-cyber-warfare-ranges
 https://github.com/kth-competitive-programming/kactl
 https://github.com/Alexays/Waybar
@@ -41695,7 +41542,6 @@ https://github.com/delorenj/nerd-font-check
 https://github.com/clojure/clojure
 https://github.com/foxleigh81/unwrap-zsh-plugin
 https://github.com/Arachni/arachni
-http://hayakubundle.com
 https://github.com/bminer/ws-wrapper
 https://github.com/LogRhythm-Labs
 https://engineering.atspotify.com/2021/01/20/introducing-xcmetrics-our-all-in-one-tool-for-tracking-xcode-build-metrics/
@@ -41872,7 +41718,6 @@ https://code.visualstudio.com/insiders
 https://github.com/no-chris/chord-mark
 https://github.com/duojs/duo
 http://jsdc.tw/
-http://dangerousprototypes.com/
 https://github.com/bend-n/godot-builds
 https://github.com/pbeshai/d3-interpolate-path
 https://github.com/momo-lab/zsh-smartinput
@@ -41922,7 +41767,6 @@ http://radio.garden/visit/moscow/MQfEnBji
 https://github.com/davatron5000/deCSS3/
 https://bl.ocks.org/sxywu
 https://github.com/b4dpxl/Burp-Timestamp-Editor
-http://gbimg.org
 https://github.com/NicolasT/papers
 https://engineering.salesforce.com/investing-in-big-data-apache-hbase-b9d98661a66b
 https://github.com/OG-Sadpanda/SharpExcelibur
@@ -41982,7 +41826,6 @@ https://github.com/pipecat-ai/pipecat
 https://github.com/camelus-hq/camelus
 https://github.com/haorendashu/cfrelay
 https://github.com/lacaulac/nostr-pubminer
-https://administraitor.video/edition/Area41/2018
 https://github.com/hishd/SkyWizard-SwiftUI
 https://github.com/flutter/samples
 https://developer.android.com/training/basics/firstapp
@@ -42344,7 +42187,6 @@ https://github.com/ombori/react-native-search-api
 https://github.com/allenai/OLMo-Eval
 https://github.com/ipv6rslimited/cloudseeder
 https://github.com/parameterlab/trap
-https://administraitor.video/edition/PyCon.DE/2018
 https://github.com/JailbreakBench/jailbreakbench
 https://github.com/2d-inc/HistoryOfEverything
 https://github.com/MachineGunnur/GOG-Games
@@ -42538,7 +42380,6 @@ https://github.com/exebetche/vlsub
 https://github.com/JideGuru/FlutterFoodybite
 https://github.com/dart-flitter/flutter_webview_plugin
 https://github.com/bmcmahen/panza
-https://administraitor.video/edition/OWASP+NL+Chapter+Meetings/2018-06-28
 https://github.com/karanpratapsingh/system-design
 http://media.pearsoncmg.com/ph/streaming/esm/tanenbaum5e_videonotes/tanenbaum_videoNotes.html
 https://github.com/jb55/nostr-js
@@ -42777,7 +42618,6 @@ https://eli.thegreenplace.net/2017/concurrent-servers-part-1-introduction
 https://github.com/adamwulf/loose-leaf
 https://github.com/google/ExoPlayer
 https://archive.org/details/GratefulDead
-https://codingislove.com/top-15-react-native-libraries
 https://flow.org
 https://aws.amazon.com/braket
 https://github.com/haorendashu/nowser
@@ -42796,7 +42636,6 @@ https://github.com/Anderson-Juhasc/nostrame
 http://highscalability.com/blog/2012/3/26/7-years-of-youtube-scalability-lessons-in-30-minutes.html
 https://github.com/joshuapinter/react-native-unified-contacts
 https://colabfit.org
-https://administraitor.video/edition/OWASP+NL+Chapter+Meetings/2018-09-27
 https://github.blog/2022-08-29-gits-database-internals-i-packed-object-store
 https://freeletics.engineering
 https://github.com/osmlab/name-suggestion-index
@@ -43174,7 +43013,6 @@ https://f.briatte.org
 https://github.com/okgrow/react-native-copilot
 https://github.com/daneden/Broadcast
 https://github.com/localsend/localsend
-http://15721.courses.cs.cmu.edu/spring2016/syllabus.html
 https://github.com/barrycarey/Plex-Data-Collector-For-InfluxDB
 https://github.com/fesnt/clean-code-javascript
 https://github.com/ibitcy/react-native-hole-view
@@ -43473,7 +43311,6 @@ https://github.com/joaomdmoura/crewai
 https://github.com/agis/git-style-guide
 https://github.com/ghondar/react-native-vlc-player
 https://arxiv.org/abs/2511.15759
-https://administraitor.video/edition/BSides+Scotland/2018
 http://movieworld.to
 https://github.com/barodeur/react-native-nfc-ios
 https://arxiv.org/abs/1703.07909
@@ -43628,7 +43465,6 @@ https://github.com/prscX/react-native-siri-wave-view
 https://github.com/javico2609
 https://forallx.openlogicproject.org
 https://github.com/facebookincubator/fbt
-http://blog.kjamistan.com/adversarial-learning-for-good-my-talk-at-34c3-on-deep-learning-blindspots
 http://buildnewgames.com/broad-phase-collision-detection
 http://learnpythonthehardway.org/book/ex44.html
 https://github.com/mogol
@@ -43669,7 +43505,6 @@ https://docs.google.com/document/d/18FiJbYn53fTtPmphfdCKT2TMWH-8Y2L-MLqDk-MFV4s/
 https://github.com/fatih-gursoy/Projector
 https://github.com/Microsoft/QuantumKatas
 https://github.com/mmalmi/nostr-notification-server
-https://digiex.net/threads/requiem-4-1-remove-itunes-drm-fairplay-from-music-video-and-books.11796
 https://blog.moove-it.com
 https://github.com/iSimar/React-Native-Starter-Pack
 https://freenetproject.org
@@ -44071,7 +43906,6 @@ https://attack.mitre.org/tactics/TA0004
 https://github.com/lckr/jupyterlab-variableInspector
 https://danielmiessler.com/study/vim
 https://github.com/enricoschumann/NMOF
-https://aclanthology.org/W12-2513
 https://github.com/djchie/react-native-star-rating
 https://github.com/cvs-health/uqlm
 http://khamidou.com/compilers/lisp.py
@@ -44082,7 +43916,6 @@ https://github.com/podverse/podverse-rn
 https://github.com/orgs/square
 https://github.com/Mattbusel/fin-primitives
 https://github.com/PallavAg/Apple-Intelligence-Chat
-https://blowater.deno.dev
 https://github.com/lilach/react-native-push-with-gcm
 https://docs.docker.com/get-started/overview
 https://arxiv.org/abs/1702.06280
@@ -44312,7 +44145,6 @@ https://discuss.pennylane.ai
 https://bakkenbaeck.com/jobs
 https://github.com/eddieowens/react-native-boundary
 https://cw.fel.cvut.cz/b251/courses/b4m35pap/lectures/start
-https://decal.ocf.berkeley.edu
 https://github.com/KingWu/gen_lang
 https://discord.com/channels/744385009028431943/891411727294562314
 https://apply.workable.com/mytutor
@@ -44608,7 +44440,6 @@ https://flukeout.github.io
 https://github.com/causefx/iDashboard-PHP
 https://github.com/benjreinhart/react-native-aws3
 https://en.wikipedia.org/wiki/Cross-site_scripting
-https://administraitor.video/edition/BSides+Lisbon/2018
 https://github.com/kirkness/react-native-fs-modal
 https://github.com/PaddlePaddle/VisualDL
 https://github.com/CovidWorld/ios
@@ -44732,7 +44563,6 @@ https://dev.to/dhaiwat10/become-a-better-writer-as-a-developer-46oc
 https://github.com/insiderdev/react-native-qrcode-app
 http://aosabook.org/en/500L/optical-character-recognition-ocr.html
 http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011
-http://cns.ceu.edu
 https://blog.evernote.com/tech
 https://code.facebook.com/posts/1468950976659943
 https://github.com/hiaw/rn_mobx_template
@@ -44770,7 +44600,6 @@ https://github.com/PrimalHQ/primal-caching-service
 https://github.com/CodyTseng/nostr-relay-nestjs
 https://en.wikipedia.org/wiki/Guns
 https://developers.google.com/tech-writing/one
-http://catb.org/esr/writings/taoup/html/ch01s06.html#id2877610
 https://github.com/jtrivedi/Mesh-Transform-Animation
 https://github.com/flyerhq/flutter_chat_ui
 https://github.com/MohGovIL/hamagen-react-native
@@ -44935,7 +44764,6 @@ https://github.com/imolorhe/altair
 https://github.com/matomo-org/matomo-mobile-2
 https://doi.org/10.5281/zenodo.7693349
 https://github.com/inaka/erlang_guidelines
-https://administraitor.video/edition/BSides+Warsaw/2018
 https://github.com/apple/sample-food-truck
 https://github.com/dejager/atmos
 https://github.com/Cameri/nostream
@@ -45003,7 +44831,6 @@ https://github.com/data-8/datascience
 https://cse.buffalo.edu/~rapaport/howtostudy.html
 https://github.com/logspace-ai/langflow
 https://flutter.ph
-https://administraitor.video/edition/SteelCon/2018
 https://github.com/llm-ui-kit/llm-ui
 https://github.com/Ali-Ayyad/react-native-boilerplate-chucknorris
 https://github.com/myint/rstcheck
@@ -45040,7 +44867,6 @@ https://arxiv.org/abs/2412.19437v1
 https://cloud.google.com/storage
 https://github.com/owncloud/ios-app
 https://github.com/leptonai/search_with_lepton
-https://administraitor.video/edition/BSides+Dubai/2018
 https://docs.google.com/spreadsheets/d/1tAiya71mDQgtwn_F9-mNQhuc7GdsQ5e2_BeG69Cb82A/edit#gid=0
 https://getbem.com
 https://github.com/KVignesh122/AssetNewsSentimentAnalyzer
@@ -45148,7 +44974,6 @@ https://github.com/manugraj/ganimede
 https://github.com/aMarCruz/react-native-text-size
 https://github.com/lotabout/Let-s-build-a-compiler
 https://github.com/polarmobile/coffeescript-style-guide
-http://elegantcode.com
 https://devhints.io/redux
 https://github.com/OffcierCia/DeFi-Developer-Road-Map
 https://github.com/facundomedica
@@ -45185,7 +45010,6 @@ https://github.com/hnvn
 https://getoutline.org
 https://github.com/andirkh/clean-code-javascript
 https://github.com/lxc/lxd
-https://administraitor.video/edition/Nullcon/9
 http://elm-lang.org/docs/style-guide
 https://github.com/Dimillian/GrailerApp
 https://cs.rin.ru
@@ -45320,7 +45144,6 @@ https://github.com/kdastan/react-native-modal-loader
 https://clusterdev.com/#careers
 https://github.com/leptonai
 https://github.com/eleev/tic-tac-toe
-https://administraitor.video/edition/Haxogreen/2018
 https://codeberg.org/mark22k/StaticGeminiServer
 https://github.com/jaweii
 https://airsonic.github.io
@@ -45396,7 +45219,6 @@ https://github.com/michiganrobotics/rob501
 https://cgi.cse.unsw.edu.au/~cs1511/25T2
 https://bernhardwenzel.com/articles/clojure-spellchecker
 https://codewords.recurse.com/issues/two/git-from-the-inside-out
-https://administraitor.video/edition/BSides+Belfast/2018
 https://github.com/Jebel-Quant/jquantstats
 https://cran.r-project.org/web/packages/tvm/index.html
 https://github.com/braverock/FactorAnalytics
@@ -45725,7 +45547,6 @@ https://careers.microsoft.com/students/us/en/usscholarshipprogram
 https://github.com/exponentjs/react-native-invertible-scroll-view
 https://github.com/0nn0/terminal-mac-cheatsheet
 https://gist.github.com/LeCoupa/985b82968d8285987dc3
-https://administraitor.video/edition/BSides+Manchester/2018
 https://github.com/airbnb/css
 https://github.com/plebbit
 http://example.com
@@ -46053,7 +45874,6 @@ https://blog.bolt.io/heres-why-juicero-s-press-is-so-expensive-6add74594e50
 https://github.com/philipcdavis/VariableType
 https://github.com/ihor/react-native-scalable-image
 https://github.com/microsoft/qlib
-https://administraitor.video/edition/BSides+Munich/2018
 https://github.com/Jonathan-Adly/AgentRun
 http://berkeley-cs61as.github.io/textbook.html
 https://github.com/henryr/cap-faq
@@ -46167,7 +45987,6 @@ https://github.com/pitr/gig
 https://github.com/olexale
 https://github.com/elisymlabs/elisym
 https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide
-https://fxmacrodata.com
 http://networkrepository.com
 https://ghc.anitab.org
 https://github.com/HatFeather/flutter_dough
@@ -46190,7 +46009,6 @@ https://github.com/ProteGO-Safe/ios
 https://github.com/alvarobartt/investpy
 https://github.com/fmd-project-team/FMD
 http://databasearchitects.blogspot.com/2021/06/what-every-programmer-should-know-about.html
-http://15462.courses.cs.cmu.edu/fall2015/exercises
 https://github.com/josefkenny/usercount
 https://github.com/PhilipsHue
 https://github.com/entronad
@@ -46324,7 +46142,6 @@ https://github.com/jagilley/fact-checker
 https://github.com/kpc-simone/cs480-f24
 https://github.com/papercups-io/papercups
 https://blog.gitbutler.com/how-git-core-devs-configure-git
-https://blog.rainforestqa.com/2014-06-27-zero-downtime-database-migrations
 https://github.com/g6ling/react-native-html-parser
 https://devblogs.microsoft.com/qsharp
 https://github.com/Abdenasser/neohtop
@@ -46422,7 +46239,6 @@ https://github.com/kyso-io/jupyterlab-extension
 https://github.com/Gnarus-G/mynd
 https://github.com/firmai/machine-learning-asset-management
 https://carvel.dev/vendir
-https://ceramic.network
 https://github.com/JosephDuffy/Overamped
 https://github.com/marketplace/actions/doctor-rst
 https://github.com/coracle-social/legacy-dms
@@ -46566,7 +46382,6 @@ https://github.com/Conner1115/LangChain.js-LLM-Template
 https://github.com/nhexirc/nhex
 https://courses.cs.washington.edu/courses/csep545/12wi
 https://github.com/agentofuser/ipfs-deploy
-https://administraitor.video/edition/BSides+Luxembourg/2018
 https://github.com/OpenBMB/BMTrain
 https://github.com/cytoscape/ipycytoscape
 https://codegeex.cn
@@ -46675,7 +46490,6 @@ https://cran.r-project.org/web/packages/RND/index.html
 https://discord.gg/P8SPPyF
 https://github.com/codl/forget
 https://cran.r-project.org/web/packages/OptionPricing/index.html
-https://administraitor.video/edition/BSides+Ljubljana/0x7E2
 https://github.com/poberwong/react-native-switch-pro
 https://github.com/i-protoss/wave
 https://github.com/0ceanslim/grain
@@ -46738,7 +46552,6 @@ http://fitgirl-repacks.site
 https://fearlesswallet.io
 https://github.com/jondot/ReactNativeKatas
 https://github.com/gitjeff05/kapitsa
-https://administraitor.video/edition/Securi-Tay/2018
 https://gist.github.com/tqbf/be58d2d39690c3b366ad
 https://github.com/jupyter/nbgrader
 https://github.com/google/flutter_flux
@@ -46772,7 +46585,6 @@ https://arxiv.org/abs/1707.07397
 https://apolloagriculture.com
 https://enlight.nyc
 https://gcore.com/careers
-https://github.com/exphert/TauriCS
 https://airbnb.design
 http://engineering.hackerearth.com
 https://github.com/cloudsealed/JIT-Optimization-Engine
@@ -46813,7 +46625,6 @@ http://react-native.eu
 https://github.com/kyaroru/RNParallax
 http://jasonpolites.github.io/tao-of-testing/ch3-1.1.html
 https://archive.org/details/internetarchivebooks
-https://administraitor.video/edition/Black+Alps/2018
 https://cloudacademy.com/course/aws-security-fundamentals/introduction-74
 https://arxiv.org/abs/1801.00634
 http://highscalability.com/flickr-architecture
@@ -47186,7 +46997,6 @@ https://github.com/financialnoob/misc
 https://build.microsoft.com/en-US/sessions/db3f4859-cd30-4445-a0cd-553c3304f8e2
 https://github.com/makew0rld/go-gemini
 https://github.com/fjcaetano/react-hook-hooker
-https://administraitor.video/edition/GreHack/2018
 https://github.com/kitasuke/SwiftUI-Flux
 https://github.com/fabienwarniez/Vie
 https://16bpp.net/tutorials/csharp-networking
@@ -47308,7 +47118,6 @@ https://github.com/FlineDev/Prayer
 https://github.com/declare-lab/instruct-eval
 https://blog.stephsmith.io/learning-to-write-with-confidence
 https://github.com/asavinov/intelligent-trading-bot
-https://administraitor.video/edition/Hack.lu/2019
 https://elasticvue.com
 https://github.com/johnongit/INOSTA-Nostr-Img-Service
 http://hardentheworld.org
@@ -47377,7 +47186,6 @@ https://github.com/apentle/react-native-theme
 https://arxiv.org/abs/2003.01665
 https://bytesized-hosting.com/pages/rclone-gdrive
 https://en.wikipedia.org/wiki/Graph_database
-https://administraitor.video/edition/Hardwear.io/2018
 https://github.com/mbarulli/nostr-logo
 https://github.com/peterfriese/SwiftUI-Concurrency-Essentials
 http://mocha-java.uccs.edu/ECE5550/index.html
@@ -47485,7 +47293,6 @@ https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html
 https://github.com/christopherabouabdo/react-native-photo-grid
 https://gist.github.com/jboner/2841832
 https://github.com/afollestad/material-dialogs
-https://3boxlabs.com
 https://c4model.com
 https://github.com/brentvatne/react-native-video
 https://agentdex.id
@@ -47499,7 +47306,6 @@ https://github.com/damoonrashidi/bitalarm
 https://arxiv.org/list/cs.AI/recent
 https://danicfilip.com/2020/red-flags-on-your-resume/?ck_subscriber_id=887770473
 https://github.com/exponentjs/react-native-util
-https://administraitor.video/edition/OWASP+BeNeLux+Day/2018
 https://github.com/buttercup/buttercup-mobile
 https://github.com/iparesh18/Learn-LangChain
 https://github.com/dluvian/voyage
@@ -47677,9 +47483,6 @@ http://clez.net/
 http://cnl.salk.edu/
 http://codeguide.co
 http://codekk.com/
-http://codex.wordpress.org/
-http://codex.wordpress.org/Editing_wp-config.php
-http://codex.wordpress.org/Function_Reference
 http://codon.com/i-have-no-idea-what-im-doing
 http://computer.howstuffworks.com/encryption4.htm
 http://computerstufftheydidntteachyou.com/
@@ -47688,10 +47491,8 @@ http://consumer-sos.com/Georgia/People_Search/sleuthing_for_people_online_step.h
 http://contest.korelogic.com/wordlists.html
 http://contextualads.yahoo.net/How_to_Start_a_Business.cfm?&vsid=305437771378448&hvsid=00001388676468704012705137849655&sttm=1388676468705&upk=1388676469.17847&kp=1&kbc=800307293&kt=243&ki=14373610&ktd=18939904&kbc2=&fdkt=243&fp=G%2FlRe64%2B7i5EeY9qABvjq6niyYbKOo3xCmno4p8JGQ082yg4Bc0Mlnb8O2hB5LjQbPhRa1Lg4LejxAmJwHvDdI9LP6FXbsKILtp%2F9zMExKwjffnE2npMo6SfKytErZeC&cme=GI94SeE%2FuUU6YdYwHMZU1rWhS22ImbPhMt4V9gEC0lFx32wTysAi%2F8Zn%2BHIrKeEx342IPKDAK1HpU58MzP9NV1acX07tjROFd%2FV4LnuYr2j4CfTAWc1yqL14WhOqqM10cU6MX2tgj2U%3D%7C%7CN7fu2vKt8%2Fs%3D%7C3QceY9HVrKIx4%2B0AddN%2FBN%2Fdad00NYGlvGUfGSF4VzMEL6hxWkLV%2BXQ0BwrtHB8mVafXbK4155kgzQ72N9VaX6ejwUalKt2bOGVU3vWhLUgxPyzgrv8Kxw%3D%3D%7CsRBSg3CPSiQ%3D%7C95hEolR26wI%3D%7C&cid=8CU2T3HV4&crid=115370245&oRurl=http%3A%2F%2Fcdn3.media.net%2Fmediamain.html%3F%26esi%3D1%26%26cid%3D8CU2T3HV4%26crid%3D115370245%26size%3D640x480%26cc%3DUS%26chnm%3DCountry_US%26nb%3D1%26vif%3D1%26requrl%3Dhttp%253A%252F%252Fwww.forbes.com%252Fsites%252Fchancebarnett%252F2013%252F05%252F08%252Ftop-10-crowdfunding-sites-for-fundraising%252F%26nb%3D1%26fvips%3D0%26ap%3D0%26pf%3D0&size=640x480&lpid=&tsid=197&ksu=113&chid=200001510&acid=&fvips=0&
 http://cool.infi.net
-http://coppermine-gallery.net/
 http://counterhack.net/Counter_Hack/Challenges.html
 http://courses.cs.washington.edu/courses/cse341/16sp
-http://covid.churcheshandbook.co.uk/
 http://cpcug.org:80/user/invest/
 http://crashedcreativity.pl/index.php/2021/01/30/meet-shaders-part-1-luna-the-shadow-dust-effect/
 http://cruel.hatenablog.com/entry/2017/03/21/102104
@@ -47706,7 +47507,6 @@ http://cwe.mitre.org/top25/
 http://cyborg.ztrela.com/
 http://cyrilmottier.com/
 http://d99net.net/
-http://dailytechvideo.com
 http://dalinaum.github.io/compiler/2021/02/04/yyerror.html
 http://daniel-codes.blogspot.com/
 http://danverbraganza.com/writings/keysort-schwartzian-transform-go
@@ -47722,7 +47522,6 @@ http://db.cs.berkeley.edu/
 http://demo2.woothemes.com/?name=upstart
 http://desstats.distributed.net/
 http://deutsch.ucsd.edu/psychology/pages.php?i=201
-http://dev.aubio.org/wiki/Build
 http://devblog.tribalwars.net/?p=142
 http://developer.baidu.com/
 http://developers.sun.com/sunstudio/downloads/express/index.jsp
@@ -47735,7 +47534,6 @@ http://didipkerabat.com/posts/1432264032306462173-tollbooth-http-rate-limiter-mi
 http://diferior.com/
 http://distinctplace.com/infrastructure/2013/10/14/internal-redirect-to-another-domain-with-proxy_pass-and-nginx/
 http://djangobook.com/
-http://dmap.co.uk/utmworld.htm
 http://docs.antsle.com/setup/
 http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.3.0/bk_Knox_Gateway_Admin_Guide/content/adding_new_service_knox_gateway.html
 http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.3.2/bk_Ranger_User_Guide/content/ch10.html
@@ -47918,7 +47716,6 @@ http://ianlunn.github.io/Hover/
 http://ictf.cs.ucsb.edu/
 http://ideas.ted.com/2014/07/28/how-to-turn-small-talk-into-smart-conversation/
 http://i.ebayimg.com/00/s/NjQ3WDY0Nw==/z/wtcAAOxypthRu6Ul/$(KGrHqR
-http://iedb.ir/
 http://ifeve.com/
 http://i.jandan.net/duan
 http://i.jandan.net/pic
@@ -48202,7 +47999,6 @@ https://0iq.me/gip/](https://0iq.me/gip/
 https://0x72.itch.io/pixeldudesmaker
 https://0xacb.com/normalization_table
 https://0xadada.pub
-https://0xax.gitbooks.io/linux-insides/content/
 https://0xdf.gitlab.io/2026/06/06/htb-facts.html
 https://0xrick.github.io/lists/stego/
 https://0xrick.github.io/lists/stego/#steganography
@@ -48306,11 +48102,6 @@ https://admin.google.com/amdgtechnologies.com/AdminHome
 https://admin.google.com/amdgtechnologies.com/AdminHome?fral=1
 https://admin.google.com/amdgtechnologies.com/AdminHome?hl=en
 https://admin.google.com/amdgtechnologies.com/AdminHome?wmc=1&sig=ALjLGbNY5BkniPwhDFvWETervRs_p7_4tA
-https://administraitor.video/edition/BSides+Leeds/2018
-https://administraitor.video/edition/Hack.lu/2018
-https://administraitor.video/edition/MISP+Summit/2018
-https://administraitor.video/edition/Pi+And+More/11
-https://administraitor.video/edition/TurkuSec/2018
 https://admin.webex.com/login
 https://adnanthekhan.com/posts/clinejection/
 https://adoptium.net/
@@ -48389,7 +48180,6 @@ https://anonfriendly.com
 https://anonymmail.net/
 https://anori.app/
 https://anothergraphic.org/
-http://sanskrit.samskrutam.com/en.MainPage.ashx
 https://ant.isi.edu/datasets
 https://ant.isi.edu/datasets/all.html
 https://antlii.work/
@@ -48891,10 +48681,6 @@ https://call.linkello.com/
 https://calyxinstitute.org/
 https://camerasummary.com/
 https://campaign.gtbank.com/ga/click/2-254600179-2476-11252-18596-36573-12494440de-2sbd572f3c
-https://campus.barracuda.com/product/cloudgenfirewall/doc/172623663/available-log-files-and-structure
-https://campus.barracuda.com/product/webapplicationfirewall/doc/168312817/log-formats
-https://campus.barracuda.com/product/webapplicationfirewall/doc/168312823/exporting-log-formats
-https://campus.barracuda.com/product/websecuritygateway/doc/168742383/syslog-and-the-barracuda-web-security-gateway/
 https://canadiancompanies.landoffree.com/
 https://canadianheadstones.ca/
 https://canarymail.io/
@@ -49056,8 +48842,6 @@ https://codersociety.com/
 https://codesignal.com
 https://codesubmit.io
 https://codewall.ai/blog/how-we-hacked-mckinseys-ai-platform
-https://codex.wordpress.org/Database_Description
-https://codex.wordpress.org/Database_Description#Table:_wp_commentmeta
 https://coelhorjc.wordpress.com/2015/04/30/people-got-oo-all-wrong-its-not-about-classes-or-objects-the-big-idea-is-messaging-from-allen-kay/
 https://coffeegist.com/security/my-oscp-experience/
 https://coggle.it/diagram/YqLzaiSABzXD4UnZ/t/smart-contract-auditor
@@ -49079,7 +48863,6 @@ https://colorpicker.fr/
 https://colors.eva.design/
 https://colorswall.com/
 https://colortones.aashuu.tech/
-https://combinedsearch.io/
 https://combyne.com
 https://comfy.guide/
 https://commoncog.com/tacit-knowledge-is-a-real-thing
@@ -49141,7 +48924,6 @@ https://content-security-policy.com/
 https://context7.com/
 https://contractfortheweb.org
 https://convertio.co/
-https://convertkit.com/careers
 https://convert-my-image.com/
 https://cook1cook.com/recipe/28897
 https://cookie-editor.com/
@@ -49151,7 +48933,6 @@ https://copyblogger.com/content-marketing-metrics/
 https://copyblogger.com/content-marketing-skills/
 https://copyblogger.com/engaging-content/
 https://copyblogger.com/how-to-create-cornerstone-content-that-google-loves/
-https://core-jmp.org/2026/04/hooking-windows-named-pipes/
 https://corescholar.libraries.wright.edu/cgi/viewcontent.cgi?article=1006&context=isap_2005
 https://corgi-engine.moremountains.com/
 https://corner.squareup.com
@@ -49471,7 +49252,6 @@ https://discord.com/channels/744385009028431943/891412022120579103
 https://discord.gg/5gMdeSK
 https://discord.gg/EuTzNbF
 https://discord.gg/FNEcNNq
-https://discord.me/servers
 https://discourse.ifin.network/t/cve-2026-20245-privilege-escalation-vulnerability-in-cisco-catalyst-sd-wan-controller-exploited-no-patch-or-workaround/547
 https://discourse.ifin.network/t/microsoft-disabling-repos-related-to-azure-functions-durable-task/549
 https://discourse.ifin.network/t/mini-shai-hulud-hits-red-hat-npm-packages/523
@@ -49737,7 +49517,6 @@ https://engage.mitre.org/matrix/
 https://engineering.ab180.co/stories/scenario-test
 https://engineering.classdojo.com/blog/2015/02/06/rolling-rate-limiter/
 https://engineering.microsoft.com
-https://engineering.purdue.edu/~bouman/ece637
 https://engineering.surveymonkey.com
 https://engmanagers.github.io
 https://en.hackndo.com/constrained-unconstrained-delegation/
@@ -50020,7 +49799,6 @@ https://gamebanana.com/
 https://gamebanana.com/tools/5638
 https://gamebanana.com/tools/6449
 https://gamedesignskills.com/game-development/video-game-math/?utm_source=organic&utm_medium=reddit
-https://gamedevbeginner.com/
 https://gameranx.com/features/id/348228/article/12-best-new-upcoming-jrpgs-of-2023/
 https://gameranx.com/features/id/481639/article/the-talos-principle-2-how-to-solve-the-eastern-wetlands-part-2/
 https://gameranx.com/features/id/482107/article/fortnite-where-to-find-ballers-season-og/
