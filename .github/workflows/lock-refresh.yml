@@ -1,0 +1,54 @@
+name: Lock Refresh
+
+on:
+  push:
+    branches:
+      - closeout/ci-and-corpus-safety
+    paths:
+      - '.github/workflows/lock-refresh.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Refresh Playwright dependency and lockfile
+        run: |
+          npm install \
+            --save-dev \
+            --save-exact \
+            --package-lock-only \
+            --ignore-scripts \
+            @playwright/test@1.62.0
+
+      - name: Reject high-severity dependency findings
+        run: npm audit --audit-level=high
+
+      - name: Show exact dependency state
+        run: |
+          node -e "const p=require('./package.json'); console.log(p.devDependencies)"
+          sha256sum package.json package-lock.json
+
+      - name: Upload refreshed dependency files
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-lock-refresh-${{ github.sha }}
+          path: |
+            package.json
+            package-lock.json
+          if-no-files-found: error
+          retention-days: 7
