@@ -7,6 +7,7 @@ on:
       - 'tools/corpus_health.py'
       - 'tests/test_corpus_health.py'
       - '.github/corpus-policy.json'
+      - '.github/corpus-policy.example.json'
       - '.github/workflows/corpus-quality.yml'
   push:
     branches: [main]
@@ -15,6 +16,7 @@ on:
       - 'tools/corpus_health.py'
       - 'tests/test_corpus_health.py'
       - '.github/corpus-policy.json'
+      - '.github/corpus-policy.example.json'
       - '.github/workflows/corpus-quality.yml'
   workflow_dispatch:
 
@@ -45,15 +47,21 @@ jobs:
       - name: Unit tests
         run: python -m unittest discover -s tests -p 'test_corpus_health.py' -v
 
-      - name: Generate deterministic corpus evidence
+      - name: Generate and enforce deterministic corpus evidence
         run: |
           python tools/corpus_health.py \
             --input urls.txt \
             --json corpus-health.json \
-            --markdown corpus-health.md
+            --markdown corpus-health.md \
+            --policy .github/corpus-policy.json \
+            --enforce
 
       - name: Publish job summary
-        run: cat corpus-health.md >> "$GITHUB_STEP_SUMMARY"
+        if: always()
+        run: |
+          if [[ -f corpus-health.md ]]; then
+            cat corpus-health.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Upload corpus evidence
         if: always()
