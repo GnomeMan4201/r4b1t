@@ -56,6 +56,9 @@ jobs:
             --policy .github/corpus-policy.json \
             --enforce
 
+      - name: Verify evidence outputs
+        run: test -s corpus-health.json && test -s corpus-health.md
+
       - name: Publish job summary
         if: always()
         run: |
@@ -71,5 +74,5 @@ jobs:
           path: |
             corpus-health.json
             corpus-health.md
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
