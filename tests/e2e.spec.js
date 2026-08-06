@@ -33,8 +33,8 @@ test('loads the core application shell without runtime errors', async ({ page })
   expect(response.status()).toBe(200);
   await expect(page).toHaveTitle('r4B1T_h0L3');
   await expect(page.locator('.wordmark')).toBeVisible();
-  await expect(page.locator('.btn-go')).toBeVisible();
-  await expect(page.locator('.btn-go')).toBeEnabled();
+  await expect(page.locator('#btnGo')).toBeVisible();
+  await expect(page.locator('#btnGo')).toBeEnabled();
   await expect(page.locator('#trailItems')).toBeAttached();
   await expect(page.locator('.counter')).toBeVisible();
   expect(pageErrors).toEqual([]);
@@ -42,7 +42,7 @@ test('loads the core application shell without runtime errors', async ({ page })
 
 test('a roll selects a corpus URL and enables navigation controls', async ({ page }) => {
   await page.goto('./', { waitUntil: 'domcontentloaded' });
-  await page.locator('.btn-go').click();
+  await page.locator('#btnGo').click();
 
   await expect(page.locator('.preview')).toHaveClass(/\bvisible\b/);
   await expect(page.locator('.preview-url')).toHaveText(/^https?:\/\//);
@@ -54,7 +54,7 @@ test('a roll selects a corpus URL and enables navigation controls', async ({ pag
 test('keyboard help opens and closes without navigation', async ({ page }) => {
   await page.goto('./', { waitUntil: 'domcontentloaded' });
 
-  await page.keyboard.press('?');
+  await page.keyboard.press('h');
   await expect(page.locator('.help-overlay')).toHaveClass(/\bopen\b/);
   await expect(page.locator('.help-modal')).toBeVisible();
 
