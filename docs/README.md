@@ -4,4 +4,4 @@
 - [Closeout quality gate](QUALITY_GATE.md)
 - [Closeout audit — 2026-08-05](CLOSEOUT_AUDIT_2026-08-05.md)
 
-The `Corpus Quality` workflow generates source-hash-bound JSON and Markdown artifacts. The example policy is a target template, not an enforced baseline; enforcement remains disabled until the measured corpus findings are reviewed and an attainable policy is frozen.
+The `Corpus Quality` workflow generates source-hash-bound JSON and Markdown artifacts and enforces `.github/corpus-policy.json` as the reviewed non-regression baseline. `.github/corpus-policy.example.json` is the stricter target state; it is not currently enforced because the measured corpus does not yet satisfy it.
