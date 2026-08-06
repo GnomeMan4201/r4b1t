@@ -1,9 +1,7 @@
 name: Lock Refresh
 
 on:
-  push:
-    branches:
-      - closeout/ci-and-corpus-safety
+  pull_request:
     paths:
       - '.github/workflows/lock-refresh.yml'
   workflow_dispatch:
