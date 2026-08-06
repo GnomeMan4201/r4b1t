@@ -51,6 +51,7 @@ The README states 53,869 verified live URLs, while document metadata describes 1
 - Credential-authority detection with evidence redaction.
 - Fail-closed validation for malformed policy thresholds.
 - Ten unit tests covering parsing, normalization, duplicate semantics, redaction, policy handling, and reproducibility.
+- Enforced non-regression policy with a separate aspirational target policy.
 - Desktop and mobile Chromium regression coverage through a bounded local static server.
 - External network and service-worker blocking during browser tests.
 - Exact Playwright dependency locking at 1.62.0.
@@ -60,7 +61,7 @@ The README states 53,869 verified live URLs, while document metadata describes 1
 
 ## First measured structural baseline
 
-The first successful corpus-quality run measured the current `urls.txt` as:
+The successful policy-enforced corpus-quality run measured the current `urls.txt` as:
 
 - source SHA-256: `5d7339b8cbfe7bd35bb8502ca753e5b4663bc2fc4ba3721b23b791dbace01c41`;
 - 50,109 valid URLs;
@@ -69,10 +70,10 @@ The first successful corpus-quality run measured the current `urls.txt` as:
 - 1,037 canonical-only duplicate entries;
 - 0 credential-bearing URLs;
 - 642 fragment-bearing URLs;
-- 12,397 unique hosts;
-- 9,878 singleton hosts;
+- 12,396 unique hosts;
+- 9,877 singleton hosts;
 - 61.5139% of URLs concentrated in the ten largest hosts;
-- host HHI of 0.331178556.
+- host HHI of 0.3311785576.
 
 These are structural measurements only. They do not prove current liveness, relevance, safety, or content integrity.
 
@@ -84,7 +85,7 @@ This branch does not mutate `urls.txt`, claim a corrected verified-live count, o
 
 The first change set is mergeable only when:
 
-1. corpus unit tests pass in CI;
+1. corpus unit tests and the non-regression policy pass in CI;
 2. desktop and mobile browser tests pass in CI;
 3. `npm audit --audit-level=high` passes;
 4. the current corpus evidence artifact is generated and reviewed;
