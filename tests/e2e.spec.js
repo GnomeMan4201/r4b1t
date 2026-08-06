@@ -19,6 +19,13 @@ async function blockExternalNetwork(page) {
   });
 }
 
+async function waitForApplicationReady(page) {
+  await page.waitForFunction(() => (
+    typeof window.roll === 'function'
+    && typeof window.toggleHelp === 'function'
+  ));
+}
+
 test.beforeEach(async ({ page }) => {
   await blockExternalNetwork(page);
 });
@@ -28,6 +35,7 @@ test('loads the core application shell without runtime errors', async ({ page })
   page.on('pageerror', (error) => pageErrors.push(error.message));
 
   const response = await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
 
   expect(response).not.toBeNull();
   expect(response.status()).toBe(200);
@@ -36,34 +44,37 @@ test('loads the core application shell without runtime errors', async ({ page })
   await expect(page.locator('#btnGo')).toBeVisible();
   await expect(page.locator('#btnGo')).toBeEnabled();
   await expect(page.locator('#trailItems')).toBeAttached();
-  await expect(page.locator('.counter')).toBeVisible();
+  await expect(page.locator('#counter')).toBeAttached();
   expect(pageErrors).toEqual([]);
 });
 
 test('a roll selects a corpus URL and enables navigation controls', async ({ page }) => {
   await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
   await page.locator('#btnGo').click();
 
-  await expect(page.locator('.preview')).toHaveClass(/\bvisible\b/);
-  await expect(page.locator('.preview-url')).toHaveText(/^https?:\/\//);
+  await expect(page.locator('#preview')).toBeVisible();
+  await expect(page.locator('#previewDomain')).not.toHaveText('—');
+  await expect(page.locator('#previewUrl')).toHaveText(/^https?:\/\//);
   await expect(page.locator('.mode-toggle')).toHaveClass(/\bactive\b/);
-  await expect(page.locator('.btn-visit')).toBeEnabled();
-  await expect(page.locator('.btn-skip')).toBeEnabled();
+  await expect(page.locator('#btnVisitMain')).toBeEnabled();
 });
 
 test('keyboard help opens and closes without navigation', async ({ page }) => {
   await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
 
-  await page.keyboard.press('h');
-  await expect(page.locator('.help-overlay')).toHaveClass(/\bopen\b/);
+  await page.keyboard.press('KeyH');
+  await expect(page.locator('#helpOverlay')).toHaveClass(/\bopen\b/);
   await expect(page.locator('.help-modal')).toBeVisible();
 
   await page.keyboard.press('Escape');
-  await expect(page.locator('.help-overlay')).not.toHaveClass(/\bopen\b/);
+  await expect(page.locator('#helpOverlay')).not.toHaveClass(/\bopen\b/);
 });
 
 test('the initial viewport does not overflow horizontally', async ({ page }) => {
   await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
 
   const dimensions = await page.evaluate(() => ({
     viewport: window.innerWidth,
