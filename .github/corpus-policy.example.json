@@ -1,0 +1,8 @@
+{
+  "min_valid_urls": 50000,
+  "max_invalid_urls": 0,
+  "max_exact_duplicates": 0,
+  "max_canonical_duplicates": 0,
+  "max_credential_urls": 0,
+  "max_top_10_host_share": 0.25
+}

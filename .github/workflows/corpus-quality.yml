@@ -1,0 +1,78 @@
+name: Corpus Quality
+
+on:
+  pull_request:
+    paths:
+      - 'urls.txt'
+      - 'tools/corpus_health.py'
+      - 'tests/test_corpus_health.py'
+      - '.github/corpus-policy.json'
+      - '.github/corpus-policy.example.json'
+      - '.github/workflows/corpus-quality.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'urls.txt'
+      - 'tools/corpus_health.py'
+      - 'tests/test_corpus_health.py'
+      - '.github/corpus-policy.json'
+      - '.github/corpus-policy.example.json'
+      - '.github/workflows/corpus-quality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: corpus-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  structural-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Syntax check
+        run: python -m compileall -q tools/corpus_health.py tests/test_corpus_health.py
+
+      - name: Unit tests
+        run: python -m unittest discover -s tests -p 'test_corpus_health.py' -v
+
+      - name: Generate and enforce deterministic corpus evidence
+        run: |
+          python tools/corpus_health.py \
+            --input urls.txt \
+            --json corpus-health.json \
+            --markdown corpus-health.md \
+            --policy .github/corpus-policy.json \
+            --enforce
+
+      - name: Verify evidence outputs
+        run: test -s corpus-health.json && test -s corpus-health.md
+
+      - name: Publish job summary
+        if: always()
+        run: |
+          if [[ -f corpus-health.md ]]; then
+            cat corpus-health.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload corpus evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: corpus-health-${{ github.sha }}
+          path: |
+            corpus-health.json
+            corpus-health.md
+          if-no-files-found: warn
+          retention-days: 30
