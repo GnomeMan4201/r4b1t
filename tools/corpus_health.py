@@ -330,7 +330,7 @@ Source SHA-256: `{metrics.source_sha256}`
 - Canonical-only duplicate entries: **{metrics.canonical_duplicate_count}**
 - Invalid URLs: **{metrics.invalid_url_count}**
 - URLs with embedded credentials: **{metrics.credential_url_count}**
-- HTTP / HTTPS: **{metrics.http_count} / **{metrics.https_count}**
+- HTTP / HTTPS: **{metrics.http_count} / {metrics.https_count}**
 - Non-HTTP(S) scheme entries: **{metrics.other_scheme_count}**
 - Unique hosts: **{metrics.unique_hosts}**
 - Singleton hosts: **{metrics.singleton_hosts}**
