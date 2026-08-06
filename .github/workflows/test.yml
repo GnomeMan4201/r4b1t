@@ -6,20 +6,35 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: playwright-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
+          package-manager-cache: false
 
-      - name: "Install Node dependencies (reproducible: requires package-lock.json)"
+      - name: Install locked Node dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
+      - name: Reject high-severity dependency findings
+        run: npm audit --audit-level=high
+
+      - name: Install Chromium and system dependencies
         run: npx playwright install --with-deps chromium
 
       - name: Stage site under /r4b1t/ path
@@ -33,7 +48,7 @@ jobs:
             --exclude='test-results' \
             ./ test-site/r4b1t/
 
-      - name: Run Playwright tests
+      - name: Run desktop and mobile browser tests
         env:
           BASE_URL: http://127.0.0.1:8080/r4b1t/
           CI: 'true'
@@ -41,12 +56,9 @@ jobs:
 
       - name: Upload Playwright report
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: playwright-report
+          name: playwright-report-${{ github.sha }}
           path: playwright-report/
+          if-no-files-found: warn
           retention-days: 14
-
-  # Push events only fire this workflow for main; validate PRs/manual dispatch here too.
-  # To run on a review branch without a PR: use `workflow_dispatch` from the Actions tab,
-  # or open a pull request against main — both trigger the job above.
