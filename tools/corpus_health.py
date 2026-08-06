@@ -290,6 +290,10 @@ def policy_failures(metrics: Metrics, policy: dict[str, object]) -> list[str]:
     return failures
 
 
+def _escape_markdown_code(value: str) -> str:
+    return value.replace("|", "\\|")
+
+
 def markdown_report(
     metrics: Metrics,
     findings: list[Finding],
@@ -297,7 +301,7 @@ def markdown_report(
     failures: list[str],
 ) -> str:
     rows = "\n".join(
-        f"| `{host.replace('|', r'\|')}` | {count} |"
+        f"| `{_escape_markdown_code(host)}` | {count} |"
         for host, count in host_counts.most_common(20)
     ) or "| _none_ | 0 |"
     failure_text = (
@@ -326,7 +330,7 @@ Source SHA-256: `{metrics.source_sha256}`
 - Canonical-only duplicate entries: **{metrics.canonical_duplicate_count}**
 - Invalid URLs: **{metrics.invalid_url_count}**
 - URLs with embedded credentials: **{metrics.credential_url_count}**
-- HTTP / HTTPS: **{metrics.http_count} / {metrics.https_count}**
+- HTTP / HTTPS: **{metrics.http_count} / **{metrics.https_count}**
 - Non-HTTP(S) scheme entries: **{metrics.other_scheme_count}**
 - Unique hosts: **{metrics.unique_hosts}**
 - Singleton hosts: **{metrics.singleton_hosts}**
