@@ -1,46 +1,107 @@
-name: Weekly Pool Sweep
+name: Pool Sweep Evidence
 
 on:
   schedule:
-    - cron: '0 3 * * 0'  # Every Sunday at 3am UTC
-  workflow_dispatch:       # Allow manual trigger
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'pool_sweep.py'
+      - 'urls.txt'
+      - 'requirements-pool-sweep.txt'
+      - '.github/workflows/pool-sweep.yml'
+      - 'docs/POOL_SWEEP_OPERATIONS.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pool-sweep-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   sweep:
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    timeout-minutes: 300
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-pool-sweep.txt
 
-      - name: Install dependencies
-        run: pip install requests tqdm
-
-      - name: Run pool sweep
+      - name: Install pinned direct dependencies
         run: |
-          python pool_sweep.py --workers 30 --timeout 8
-        timeout-minutes: 300
+          python -m pip install --disable-pip-version-check -r requirements-pool-sweep.txt
+          python -m pip check
 
-      - name: Replace urls.txt with swept output
+      - name: Prepare isolated sweep workspace
         run: |
-          if [ -f pool_alive.txt ] && [ -s pool_alive.txt ]; then
-            cp pool_alive.txt urls.txt
-            echo "Pool updated: $(wc -l < urls.txt) live URLs"
+          mkdir -p sweep-work
+          cp pool_sweep.py sweep-work/pool_sweep.py
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            head -n 200 urls.txt > sweep-work/urls.txt
           else
-            echo "Sweep output missing or empty — keeping existing urls.txt"
-            exit 1
+            cp urls.txt sweep-work/urls.txt
+          fi
+          test -s sweep-work/urls.txt
+          sha256sum sweep-work/urls.txt | tee sweep-work/input.sha256
+
+      - name: Run report-only sweep
+        working-directory: sweep-work
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            python pool_sweep.py --recheck --workers 10 --timeout 5
+          else
+            python pool_sweep.py --recheck --workers 30 --timeout 8
           fi
 
-      - name: Commit updated pool
+      - name: Verify evidence outputs
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add urls.txt
-          git diff --staged --quiet || git commit -m "pool: weekly sweep update $(date -u '+%Y-%m-%d')"
-          git push
+          test -s sweep-work/pool_sweep.db
+          test -f sweep-work/pool_alive.txt
+          test -f sweep-work/pool_dead.txt
+          test -s sweep-work/pool_report.md
+
+      - name: Write evidence manifest
+        run: |
+          {
+            echo "event=${{ github.event_name }}"
+            echo "commit=${{ github.sha }}"
+            echo "generated_at=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo "input_urls=$(wc -l < sweep-work/urls.txt)"
+            echo "observed_reachable=$(grep -c '^http' sweep-work/pool_alive.txt || true)"
+            echo "observed_non_reachable=$(wc -l < sweep-work/pool_dead.txt)"
+            echo
+            sha256sum \
+              sweep-work/urls.txt \
+              sweep-work/pool_alive.txt \
+              sweep-work/pool_dead.txt \
+              sweep-work/pool_report.md \
+              sweep-work/pool_sweep.db
+          } | tee sweep-work/sweep-manifest.txt
+
+      - name: Publish summary
+        run: cat sweep-work/pool_report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload review evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: pool-sweep-evidence-${{ github.sha }}
+          path: |
+            sweep-work/input.sha256
+            sweep-work/sweep-manifest.txt
+            sweep-work/pool_alive.txt
+            sweep-work/pool_dead.txt
+            sweep-work/pool_report.md
+            sweep-work/pool_sweep.db
+          if-no-files-found: error
+          retention-days: 30
