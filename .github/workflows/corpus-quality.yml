@@ -38,8 +38,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: pip
-          cache-dependency-path: requirements-pool-sweep.txt
 
       - name: Syntax check
         run: python -m compileall -q tools/corpus_health.py tests/test_corpus_health.py
