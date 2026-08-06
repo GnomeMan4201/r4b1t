@@ -11,12 +11,15 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import SplitResult, urlsplit, urlunsplit
+
+
+_CREDENTIAL_RE = re.compile(r"(?i)\b(https?://)([^/@\s]+)@")
 
 
 @dataclass(frozen=True)
@@ -50,21 +53,66 @@ class Metrics:
     host_hhi: float
 
 
-def canonicalize(parts: SplitResult) -> str:
-    """Return a conservative comparison form without changing path/query data."""
-    scheme = parts.scheme.lower()
-    host = (parts.hostname or "").lower()
+def normalize_hostname(hostname: str) -> str:
+    """Normalize case, a terminal root dot, and IDN spelling for comparison."""
+    normalized = hostname.rstrip(".").lower()
+    try:
+        return normalized.encode("idna").decode("ascii")
+    except UnicodeError:
+        return normalized
+
+
+def authority(parts: SplitResult, *, redact_credentials: bool) -> str:
+    """Build a normalized authority while preserving non-default ports."""
+    hostname = normalize_hostname(parts.hostname or "")
+    rendered_host = f"[{hostname}]" if ":" in hostname else hostname
     port = parts.port
+    scheme = parts.scheme.lower()
     if port is not None and not (
         (scheme == "http" and port == 80) or (scheme == "https" and port == 443)
     ):
-        host = f"{host}:{port}"
-    if parts.username is not None:
-        userinfo = parts.username
-        if parts.password is not None:
-            userinfo += f":{parts.password}"
-        host = f"{userinfo}@{host}"
-    return urlunsplit((scheme, host, parts.path or "/", parts.query, ""))
+        rendered_host = f"{rendered_host}:{port}"
+    if redact_credentials and (parts.username is not None or parts.password is not None):
+        rendered_host = f"[redacted]@{rendered_host}"
+    return rendered_host
+
+
+def redact_url(value: str, parts: SplitResult | None = None) -> str:
+    """Return a display-safe URL that never emits embedded user information."""
+    if parts is None:
+        try:
+            parts = urlsplit(value)
+            _ = parts.port
+        except ValueError:
+            return _CREDENTIAL_RE.sub(r"\1[redacted]@", value)
+    if parts.scheme and parts.hostname:
+        return urlunsplit(
+            (
+                parts.scheme.lower(),
+                authority(parts, redact_credentials=True),
+                parts.path,
+                parts.query,
+                parts.fragment,
+            )
+        )
+    return _CREDENTIAL_RE.sub(r"\1[redacted]@", value)
+
+
+def canonicalize(parts: SplitResult) -> str:
+    """Return a conservative comparison form without path/query rewriting.
+
+    User information and fragments are excluded. Credential-bearing entries are
+    reported separately and must not leak secrets into generated evidence.
+    """
+    return urlunsplit(
+        (
+            parts.scheme.lower(),
+            authority(parts, redact_credentials=False),
+            parts.path or "/",
+            parts.query,
+            "",
+        )
+    )
 
 
 def analyze(path: Path) -> tuple[Metrics, list[Finding], Counter[str]]:
@@ -75,6 +123,7 @@ def analyze(path: Path) -> tuple[Metrics, list[Finding], Counter[str]]:
     findings: list[Finding] = []
     exact_counts: Counter[str] = Counter()
     canonical_counts: Counter[str] = Counter()
+    canonical_variants: dict[str, set[str]] = defaultdict(set)
     host_counts: Counter[str] = Counter()
     valid_urls = 0
     credential_count = 0
@@ -90,26 +139,32 @@ def analyze(path: Path) -> tuple[Metrics, list[Finding], Counter[str]]:
             parts = urlsplit(value)
             _ = parts.port  # Force validation of malformed ports.
         except ValueError as exc:
-            findings.append(Finding(line_number, "invalid-url", value, str(exc)))
+            findings.append(
+                Finding(line_number, "invalid-url", redact_url(value), str(exc))
+            )
             continue
 
-        if parts.scheme not in {"http", "https"} or not parts.hostname:
+        scheme = parts.scheme.lower()
+        if scheme not in {"http", "https"} or not parts.hostname:
             findings.append(
                 Finding(
                     line_number,
                     "invalid-url",
-                    value,
+                    redact_url(value, parts),
                     "URL must use http/https and contain a hostname",
                 )
             )
-            schemes[parts.scheme or "missing"] += 1
+            schemes[scheme or "missing"] += 1
             continue
 
+        canonical = canonicalize(parts)
+        hostname = normalize_hostname(parts.hostname)
         valid_urls += 1
-        schemes[parts.scheme] += 1
+        schemes[scheme] += 1
         exact_counts[value] += 1
-        canonical_counts[canonicalize(parts)] += 1
-        host_counts[parts.hostname.lower()] += 1
+        canonical_counts[canonical] += 1
+        canonical_variants[canonical].add(value)
+        host_counts[hostname] += 1
 
         if parts.username is not None or parts.password is not None:
             credential_count += 1
@@ -117,7 +172,7 @@ def analyze(path: Path) -> tuple[Metrics, list[Finding], Counter[str]]:
                 Finding(
                     line_number,
                     "embedded-credentials",
-                    value,
+                    redact_url(value, parts),
                     "User information is embedded in the URL authority",
                 )
             )
@@ -127,24 +182,27 @@ def analyze(path: Path) -> tuple[Metrics, list[Finding], Counter[str]]:
     for value, count in sorted(exact_counts.items()):
         if count > 1:
             findings.append(
-                Finding(0, "exact-duplicate", value, f"appears {count} times")
+                Finding(
+                    0,
+                    "exact-duplicate",
+                    redact_url(value),
+                    f"appears {count} times",
+                )
             )
 
-    for value, count in sorted(canonical_counts.items()):
-        if count > 1 and exact_counts.get(value, 0) <= 1:
+    for canonical, variants in sorted(canonical_variants.items()):
+        if len(variants) > 1:
             findings.append(
                 Finding(
                     0,
                     "canonical-duplicate",
-                    value,
-                    f"has {count} equivalent corpus entries",
+                    canonical,
+                    f"{len(variants)} distinct exact entries normalize to this value",
                 )
             )
 
-    exact_duplicate_count = sum(count - 1 for count in exact_counts.values() if count > 1)
-    canonical_duplicate_count = sum(
-        count - 1 for count in canonical_counts.values() if count > 1
-    )
+    exact_duplicate_count = valid_urls - len(exact_counts)
+    canonical_duplicate_count = len(exact_counts) - len(canonical_counts)
     total_valid = sum(host_counts.values())
     top_10_share = (
         sum(count for _, count in host_counts.most_common(10)) / total_valid
@@ -167,7 +225,7 @@ def analyze(path: Path) -> tuple[Metrics, list[Finding], Counter[str]]:
         exact_duplicate_count=exact_duplicate_count,
         unique_canonical_urls=len(canonical_counts),
         canonical_duplicate_count=canonical_duplicate_count,
-        invalid_url_count=sum(1 for f in findings if f.kind == "invalid-url"),
+        invalid_url_count=sum(1 for finding in findings if finding.kind == "invalid-url"),
         credential_url_count=credential_count,
         fragment_url_count=fragment_count,
         http_count=schemes["http"],
@@ -183,43 +241,52 @@ def analyze(path: Path) -> tuple[Metrics, list[Finding], Counter[str]]:
     return metrics, sorted(findings, key=lambda f: (f.kind, f.line, f.value)), host_counts
 
 
-def policy_failures(metrics: Metrics, policy: dict[str, float | int]) -> list[str]:
-    checks = {
-        "min_valid_urls": (metrics.valid_urls, lambda actual, limit: actual >= limit, ">="),
-        "max_invalid_urls": (
-            metrics.invalid_url_count,
-            lambda actual, limit: actual <= limit,
-            "<=",
-        ),
-        "max_exact_duplicates": (
-            metrics.exact_duplicate_count,
-            lambda actual, limit: actual <= limit,
-            "<=",
-        ),
-        "max_canonical_duplicates": (
-            metrics.canonical_duplicate_count,
-            lambda actual, limit: actual <= limit,
-            "<=",
-        ),
-        "max_credential_urls": (
-            metrics.credential_url_count,
-            lambda actual, limit: actual <= limit,
-            "<=",
-        ),
-        "max_top_10_host_share": (
-            metrics.top_10_host_share,
-            lambda actual, limit: actual <= limit,
-            "<=",
-        ),
-    }
+_POLICY_CHECKS = {
+    "min_valid_urls": ("count", "minimum", "valid_urls"),
+    "max_invalid_urls": ("count", "maximum", "invalid_url_count"),
+    "max_exact_duplicates": ("count", "maximum", "exact_duplicate_count"),
+    "max_canonical_duplicates": ("count", "maximum", "canonical_duplicate_count"),
+    "max_credential_urls": ("count", "maximum", "credential_url_count"),
+    "max_top_10_host_share": ("ratio", "maximum", "top_10_host_share"),
+}
+
+
+def _validate_policy_limit(name: str, value: object) -> str | None:
+    kind, _, _ = _POLICY_CHECKS[name]
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return f"{name}: threshold must be a finite number"
+    numeric = float(value)
+    if not math.isfinite(numeric):
+        return f"{name}: threshold must be a finite number"
+    if kind == "count" and (not isinstance(value, int) or value < 0):
+        return f"{name}: threshold must be a non-negative integer"
+    if kind == "ratio" and not 0.0 <= numeric <= 1.0:
+        return f"{name}: threshold must be between 0 and 1"
+    return None
+
+
+def policy_failures(metrics: Metrics, policy: dict[str, object]) -> list[str]:
     failures: list[str] = []
-    for name, limit in policy.items():
-        if name not in checks:
+
+    for name in sorted(policy):
+        if name not in _POLICY_CHECKS:
             failures.append(f"unknown policy key: {name}")
+
+    for name, (_, direction, metric_name) in _POLICY_CHECKS.items():
+        if name not in policy:
             continue
-        actual, predicate, operator = checks[name]
-        if not predicate(actual, limit):
-            failures.append(f"{name}: {actual} must be {operator} {limit}")
+        limit = policy[name]
+        validation_error = _validate_policy_limit(name, limit)
+        if validation_error is not None:
+            failures.append(validation_error)
+            continue
+
+        actual = getattr(metrics, metric_name)
+        if direction == "minimum" and actual < limit:
+            failures.append(f"{name}: {actual} must be >= {limit}")
+        elif direction == "maximum" and actual > limit:
+            failures.append(f"{name}: {actual} must be <= {limit}")
+
     return failures
 
 
@@ -229,24 +296,25 @@ def markdown_report(
     host_counts: Counter[str],
     failures: list[str],
 ) -> str:
-    timestamp = datetime.now(timezone.utc).isoformat(timespec="seconds")
     rows = "\n".join(
-        f"| `{host}` | {count} |" for host, count in host_counts.most_common(20)
+        f"| `{host.replace('|', r'\|')}` | {count} |"
+        for host, count in host_counts.most_common(20)
     ) or "| _none_ | 0 |"
     failure_text = (
         "\n".join(f"- {failure}" for failure in failures)
         if failures
         else "- No configured policy failures."
     )
-    finding_counts = Counter(f.kind for f in findings)
+    finding_counts = Counter(finding.kind for finding in findings)
     finding_text = (
-        "\n".join(f"- **{kind}:** {count}" for kind, count in sorted(finding_counts.items()))
+        "\n".join(
+            f"- **{kind}:** {count}" for kind, count in sorted(finding_counts.items())
+        )
         if finding_counts
         else "- No structural findings."
     )
     return f"""# r4b1t Corpus Health Report
 
-Generated: `{timestamp}`
 Source SHA-256: `{metrics.source_sha256}`
 
 ## Structural metrics
@@ -255,10 +323,11 @@ Source SHA-256: `{metrics.source_sha256}`
 - Unique exact URLs: **{metrics.unique_exact_urls}**
 - Exact duplicate entries: **{metrics.exact_duplicate_count}**
 - Unique canonical URLs: **{metrics.unique_canonical_urls}**
-- Canonical duplicate entries: **{metrics.canonical_duplicate_count}**
+- Canonical-only duplicate entries: **{metrics.canonical_duplicate_count}**
 - Invalid URLs: **{metrics.invalid_url_count}**
 - URLs with embedded credentials: **{metrics.credential_url_count}**
 - HTTP / HTTPS: **{metrics.http_count} / {metrics.https_count}**
+- Non-HTTP(S) scheme entries: **{metrics.other_scheme_count}**
 - Unique hosts: **{metrics.unique_hosts}**
 - Singleton hosts: **{metrics.singleton_hosts}**
 - Top-10 host share: **{metrics.top_10_host_share:.4%}**
@@ -304,7 +373,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     metrics, findings, host_counts = analyze(args.input)
-    policy: dict[str, float | int] = {}
+    policy: dict[str, object] = {}
     if args.policy is not None:
         try:
             loaded = json.loads(args.policy.read_text(encoding="utf-8"))
@@ -325,6 +394,9 @@ def main(argv: list[str] | None = None) -> int:
         "findings": [asdict(finding) for finding in findings],
         "top_hosts": host_counts.most_common(100),
     }
+
+    for output_path in (args.json, args.markdown):
+        output_path.parent.mkdir(parents=True, exist_ok=True)
     args.json.write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
