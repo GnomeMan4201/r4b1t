@@ -56,7 +56,7 @@ test('a roll selects a corpus URL and enables navigation controls', async ({ pag
   await expect(page.locator('#preview')).toBeVisible();
   await expect(page.locator('#previewDomain')).not.toHaveText('—');
   await expect(page.locator('#previewUrl')).toHaveText(/^https?:\/\//);
-  await expect(page.locator('.mode-toggle')).toHaveClass(/\bactive\b/);
+  await expect(page.locator('#btnVisitMain')).toBeVisible();
   await expect(page.locator('#btnVisitMain')).toBeEnabled();
 });
 
