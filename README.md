@@ -27,33 +27,66 @@
 
 StumbleUpon for the security and OSINT community. Roll a random URL from a hand-curated pool of 53k+ verified live resources. Visit it, skip it, or SPROUT — generate four directional suggestions (deeper, sideways, opposite, weird) based on the page's semantic content.
 
-No accounts. No tracking. No algorithm. Just the pool and the roll.
+No accounts. No tracking. No recommendation profile. Just the pool and the roll.
+
+## Quick local preview
+
+The application itself is static HTML/CSS/JavaScript and has no build step.
+
+```bash
+git clone https://github.com/GnomeMan4201/r4b1t.git
+cd r4b1t
+python3 -m http.server 8080
+```
+
+Open:
+
+```text
+http://127.0.0.1:8080/
+```
+
+Some features rely on the deployed backend/proxy and therefore will not behave identically under a bare local static server. The local preview is still useful for UI, navigation, corpus, PWA-shell, and client-side regression work.
+
+## Run the browser tests
+
+The test harness uses pinned Playwright dependencies. Node.js is needed for testing only; it is not required to build the application.
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+CI stages the site under the same `/r4b1t/` path shape used by GitHub Pages and exercises both desktop and mobile browser projects. The workflow also rejects high-severity npm audit findings before E2E execution.
+
+---
 
 ## How the pool was built
 
 The URL corpus was assembled from:
-- Start.me OSINT and security pages (scraped via Playwright/CDP)
-- GitHub awesome-lists across 21 categories
-- Manual curation passes with a two-stage liveness gate (automated HTTP sweep + human relevance sign-off)
 
-Raw input: ~53,869 URLs. After deduplication, liveness sweep (HEAD requests, 10s timeout), and relevance filtering: **53,869 verified live URLs** across 14,488 unique domains. The sweep runs weekly via GitHub Actions and auto-commits the pruned pool.
+- Start.me OSINT and security pages collected via Playwright/CDP
+- GitHub awesome-lists across 21 categories
+- manual curation passes with a two-stage liveness gate (automated HTTP sweep + human relevance sign-off)
+
+Raw input and subsequent curation produced the current committed pool of **53,869 verified live URLs** across 14,488 unique domains. The pool-sweep workflow performs continuing liveness maintenance; because the web changes continuously, the exact live count is a property of a particular corpus revision rather than a permanent guarantee about every URL.
 
 ## Features
 
 - **RANDOM** — roll a verified live URL from the pool
-- **BRANCH** — SPROUT generates four directional suggestions using OG metadata + Wikipedia API keyword extraction (zero API cost)
+- **BRANCH** — SPROUT generates four directional suggestions using OG metadata + Wikipedia API keyword extraction
 - **FILTER** — lock rolls to a category (CODE, OSINT, BLOG, NEWS, RESEARCH, BOUNTY, VIDEO, SOCIAL, REF, ARCHIVE, PKG, COURSE, EVENT, HARDWARE, TOR)
-- **HISTORY** — full scrollable session history, clickable to revisit
-- **SHARE CARD** — download a PNG card of your current rabbit hole
-- **COPY TRAIL** — export session as markdown with clickable links and timestamps
-- **SUBMIT URL** — suggest additions via pre-filled GitHub issue
-- **PWA** — installable as a home screen app, offline shell cache
-- **Dark/light mode** — warm light palette toggle, persists across sessions
+- **HISTORY** — scrollable session history with revisit links
+- **SHARE CARD** — download a PNG card of the current rabbit hole
+- **COPY TRAIL** — export the session as Markdown with links and timestamps
+- **SUBMIT URL** — suggest additions through a pre-filled GitHub issue
+- **PWA** — installable home-screen app with an offline shell cache
+- **Dark/light mode** — persisted display preference
 
 ## Keyboard shortcuts
 
 | Key | Action |
-|-----|--------|
+|---|---|
 | Space | Roll new URL |
 | Enter | Visit current URL |
 | S | Skip |
@@ -64,7 +97,17 @@ Raw input: ~53,869 URLs. After deduplication, liveness sweep (HEAD requests, 10s
 
 ## Architecture
 
-Single-file vanilla JS/HTML/CSS — no framework, no build step. Cloudflare Worker backend handles OG metadata fetching (1hr edge cache), site proxy with RFC1918 blocking, rate limited at 60 req/min per IP, origin-locked.
+The browser application is intentionally framework-free: vanilla JavaScript, HTML, and CSS with no production build pipeline. A Cloudflare Worker backend handles metadata fetching and proxy-related functionality, including cache/rate/origin controls. Playwright exists as a development-only browser test harness.
+
+```text
+browser / GitHub Pages
+        ↓
+static r4b1t client
+        ↓
+curated URL corpus + session state
+        ↓
+optional Worker-backed metadata/proxy services
+```
 
 ## Pool management
 
@@ -72,6 +115,20 @@ Single-file vanilla JS/HTML/CSS — no framework, no build step. Cloudflare Work
 python pool_sweep.py --workers 30 --timeout 8
 sqlite3 pool_sweep.db "SELECT url FROM pool WHERE reachable=1" > pool_alive.txt
 ```
+
+Treat a sweep as time-bounded evidence: an endpoint reachable during one run can disappear or change later. Preserve the corpus revision and sweep output when using the pool in research.
+
+## Verification surfaces
+
+| Surface | Evidence |
+|---|---|
+| Browser behavior | Playwright E2E workflow across desktop/mobile projects |
+| Dependency gate | `npm audit --audit-level=high` in CI |
+| Corpus maintenance | scheduled/operational pool-sweep workflow |
+| Deployment | GitHub Pages deployment workflow |
+| Visual proof | five retained project screenshots above |
+
+A green browser workflow establishes the tested interaction paths for that revision. It does not prove that every third-party URL in the corpus is still reachable at viewing time.
 
 ## Submit a URL
 
@@ -83,18 +140,16 @@ Found something worth adding? Click **SUBMIT URL** in the tool or [open an issue
 
 Part of the BANANA_TREE ecosystem of independent security research tooling.
 
-
 ---
 
 ## Part of the BANANA_TREE Research Ecosystem
 
 | | |
-|--|--|
+|---|---|
 | **Research Hub** | [GnomeMan4201](https://github.com/GnomeMan4201/GnomeMan4201) |
-| **Corpus & Discovery** | [r4b1t](https://gnomeman4201.github.io/r4b1t) — 53,869 verified OSINT/security URLs |
-| **Investigation Management** | [inv-hub](https://github.com/GnomeMan4201/inv-hub) |
-| **Knowledge Base** | [PRAXIS](https://github.com/GnomeMan4201/PRAXIS) |
-| **Detection Engineering** | [SHENRON](https://github.com/GnomeMan4201/SHENRON) |
-| **Kernel Telemetry** | [bpf-watch](https://github.com/GnomeMan4201/bpf-watch) |
+| **Corpus & Discovery** | [r4b1t](https://gnomeman4201.github.io/r4b1t) — curated OSINT/security discovery |
+| **Detection Engineering** | [SHENRON](https://github.com/GnomeMan4201/shenron) |
+| **AI Safety Research** | [drift_orchestrator](https://github.com/GnomeMan4201/drift_orchestrator) |
+| **Analytical Method** | [reasoning-diff-lab](https://github.com/GnomeMan4201/reasoning-diff-lab) |
 
 *badBANANA Research Collective · [dev.to/gnomeman4201](https://dev.to/gnomeman4201)*
