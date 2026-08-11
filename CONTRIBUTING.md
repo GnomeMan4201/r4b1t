@@ -1,6 +1,6 @@
-# Contributing to r4B1T_h0L3
+# Contributing to r4b1t
 
-Low-ceremony. One maintainer. Contributions welcome if they fit the project's philosophy.
+Low-ceremony. One maintainer. Contributions are welcome when they fit the project's philosophy and preserve the evidence/maintenance boundaries documented in the repository.
 
 ---
 
@@ -8,79 +8,85 @@ Low-ceremony. One maintainer. Contributions welcome if they fit the project's ph
 
 The most valuable contribution is a URL worth adding to the pool.
 
-**Via the tool:** Click **SUBMIT URL** inside r4B1T_h0L3.  
-**Via GitHub:** [Open an issue](https://github.com/GnomeMan4201/r4b1t/issues/new?labels=url-submission) with the label `url-submission`.
+**Via the tool:** click **SUBMIT URL** inside r4b1t.  
+**Via GitHub:** [open an issue](https://github.com/GnomeMan4201/r4b1t/issues/new?labels=url-submission) with the label `url-submission`.
 
-### What gets added
+### What gets considered
 
 - OSINT tools, frameworks, and methodology resources
-- Security research blogs and writeups
-- Threat intelligence platforms and feeds
-- Digital forensics and network analysis tools
+- security research blogs and writeups
+- threat-intelligence platforms and feeds
+- digital-forensics and network-analysis tools
 - CTF platforms and training resources
-- Verified `.onion` addresses (include a brief description of content)
-- Weird, niche, or genuinely hard-to-find corners of the internet
+- verified `.onion` addresses with a useful description
+- weird, niche, or genuinely hard-to-find corners of the internet
 
-All submissions go through `pool_sweep.py` liveness gate before merging. Dead URLs don't make it in.
+Candidate additions are expected to pass the pool-maintenance liveness checks at review time and a human relevance pass before being accepted. Reachability is time-bounded evidence: a URL that was live during review can still disappear later.
 
-### What doesn't get added
+### What usually does not get added
 
-- Paywalled content or anything requiring login to access
-- Link farms, SEO aggregators, AI slop directories
-- Mainstream news, social media homepages, or anything already universally known
-- Anything illegal to access in most jurisdictions
+- content that cannot be meaningfully evaluated without an account or subscription
+- link farms, SEO aggregators, or low-value directory spam
+- generic homepages that add little discovery value
+- material that is unlawful to access in the jurisdictions relevant to the project
 
 ---
 
 ## Reporting a bug
 
-Open an issue. Include:
+Open an issue and include:
 
-- What you expected
-- What actually happened
-- Browser and OS
-- Console output if relevant (F12 → Console)
+- what you expected
+- what actually happened
+- browser and OS
+- console output when relevant
+- the page/repository revision if the behavior may have changed recently
+
+Do not include credentials, private browsing data, or third-party sensitive information in a public issue.
 
 ---
 
 ## Code contributions
 
-The tool lives in `index.html` — single-file vanilla JS/HTML/CSS, no framework, no build step. Keep it that way.
+The application lives primarily in `index.html`: vanilla JavaScript, HTML, and CSS with no production build step. Keep that property unless there is a concrete technical reason to change it.
 
-Supporting tooling lives in `tools/` (Python). Pool management is `pool_sweep.py`. Service worker is `sw.js`.
+Supporting tooling lives in `tools/` and `pool_sweep.py`; the service worker is `sw.js`.
 
 **Before opening a PR:**
 
-- Test in Chrome and Firefox
-- Test mobile layout (DevTools responsive mode minimum)
-- Don't introduce external JS dependencies
-- Don't add tracking, analytics, or outbound calls beyond the existing Cloudflare Worker endpoints
-- Patch protocol: grep first, targeted replace, verify output before committing
+- run the repository's Playwright browser tests
+- test the mobile layout
+- preserve the no-tracking/no-account model
+- do not introduce new production JavaScript dependencies without a demonstrated need
+- preserve the deployed `/r4b1t/` path behavior
+- make targeted changes and verify the affected output before committing
 
-Small, focused PRs only. One thing per PR. No framework migrations, no full rewrites.
+Prefer small, reviewable PRs over framework migrations or unrelated rewrites.
 
 ---
 
 ## Pool tooling
 
-The `tools/` directory contains the full pipeline:
+The `tools/` directory contains supporting corpus-maintenance utilities:
 
 | Script | Purpose |
 |--------|---------|
-| `extract_pool.py` | Extract URLs from index.html |
-| `liveness_check.py` | HEAD sweep with timeout |
-| `clean_pool.py` | Dedup and normalize |
+| `extract_pool.py` | Extract URLs from `index.html` |
+| `liveness_check.py` | Reachability sweep with timeouts |
+| `clean_pool.py` | Deduplicate and normalize |
 | `r4b1t_classifier.py` | Assign categories |
 | `r4b1t_tagger.py` | Tag metadata |
-| `r4b1t_pipeline.sh` | Full pipeline runner |
+| `r4b1t_pipeline.sh` | Pipeline runner |
 
-Pool sweep:
+Example pool sweep:
+
 ```bash
 python pool_sweep.py --workers 30 --timeout 8
 sqlite3 pool_sweep.db "SELECT url FROM pool WHERE reachable=1" > urls.txt
 ```
 
+Preserve the corpus revision and sweep output when using reachability results as research evidence.
+
 ---
 
-Built by [badBANANA Research Collective](https://github.com/GnomeMan4201) / GnomeMan4201.  
-Part of the BANANA_TREE ecosystem of independent security research tooling.
+GnomeMan4201 / badBANANA Research
