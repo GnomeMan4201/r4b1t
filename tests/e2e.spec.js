@@ -39,7 +39,7 @@ test('loads the core application shell without runtime errors', async ({ page })
 
   expect(response).not.toBeNull();
   expect(response.status()).toBe(200);
-  await expect(page).toHaveTitle('r4B1T_h0L3');
+  await expect(page).toHaveTitle('r4b1t');
   await expect(page.locator('.wordmark')).toBeVisible();
   await expect(page.locator('#btnGo')).toBeVisible();
   await expect(page.locator('#btnGo')).toBeEnabled();
@@ -80,5 +80,19 @@ test('the initial viewport does not overflow horizontally', async ({ page }) => 
     viewport: window.innerWidth,
     document: document.documentElement.scrollWidth,
   }));
+
   expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport + 1);
+});
+
+test('mobile viewport keeps primary controls usable', async ({ page }, testInfo) => {
+  if (testInfo.project.name !== 'mobile-chromium') test.skip();
+
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
+
+  await expect(page.locator('#btnGo')).toBeVisible();
+  await expect(page.locator('#btnGo')).toBeEnabled();
+  await page.locator('#btnGo').click();
+  await expect(page.locator('#preview')).toBeVisible();
+  await expect(page.locator('#btnVisitMain')).toBeVisible();
 });
