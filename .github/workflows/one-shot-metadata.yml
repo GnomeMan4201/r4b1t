@@ -1,0 +1,60 @@
+name: One-shot r4b1t metadata migration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/one-shot-metadata.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Patch exact observed metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = [
+              ('<title>r4B1T_h0L3</title>', '<title>r4b1t</title>'),
+              (
+                  '<meta name="description" content="Curated web discovery — 103k URLs across security, OSINT, development, and the weird internet.">',
+                  '<meta name="description" content="Curated web discovery across security, OSINT, research, development, and the weird internet.">',
+              ),
+          ]
+
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'expected exactly one occurrence, found {count}: {old}')
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Verify migration and remove one-shot workflow
+        run: |
+          grep -Fq '<title>r4b1t</title>' index.html
+          grep -Fq 'Curated web discovery across security, OSINT, research, development, and the weird internet.' index.html
+          ! grep -Fq '<title>r4B1T_h0L3</title>' index.html
+          ! grep -Fq 'Curated web discovery — 103k URLs across security, OSINT, development, and the weird internet.' index.html
+          rm .github/workflows/one-shot-metadata.yml
+
+      - name: Commit only the migration
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html .github/workflows/one-shot-metadata.yml
+          git diff --cached --check
+          git commit -m 'Normalize r4b1t app metadata'
+          git push origin HEAD:main
