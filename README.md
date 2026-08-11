@@ -1,4 +1,4 @@
-# R4B1T_H0L3
+# r4b1t
 
 [![r4b1t — Not search. Not a feed. A door.](docs/banner.png)](https://r4b1t.badbananaresearch.com)
 
@@ -10,7 +10,7 @@
 
 > Curated web discovery instrument — 50,109 structurally valid URLs across 12,396 unique hosts spanning security, OSINT, research, development, and the weird internet.
 
-**Not search. Not a feed...**
+**Not search. Not a feed. A door.**
 
 ---
 
@@ -145,19 +145,5 @@ Found something worth adding? Click **SUBMIT URL** in the tool or [open an issue
 ## Built by
 
 [badBANANA Research Collective](https://github.com/GnomeMan4201) / GnomeMan4201
-
-Part of the BANANA_TREE ecosystem of independent security research tooling.
-
----
-
-## Part of the BANANA_TREE Research Ecosystem
-
-| | |
-|---|---|
-| **Research Hub** | [GnomeMan4201](https://github.com/GnomeMan4201/GnomeMan4201) |
-| **Corpus & Discovery** | [r4b1t](https://gnomeman4201.github.io/r4b1t) — curated OSINT/security discovery |
-| **Detection Engineering** | [SHENRON](https://github.com/GnomeMan4201/shenron) |
-| **AI Safety Research** | [drift_orchestrator](https://github.com/GnomeMan4201/drift_orchestrator) |
-| **Analytical Method** | [reasoning-diff-lab](https://github.com/GnomeMan4201/reasoning-diff-lab) |
 
 *badBANANA Research Collective · [dev.to/gnomeman4201](https://dev.to/gnomeman4201)*
