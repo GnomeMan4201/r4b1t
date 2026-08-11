@@ -9,15 +9,19 @@ Classification is deliberately conservative:
 - confirmed reachable: final observed HTTP status < 400;
 - confirmed missing: final observed HTTP status is 404 or 410;
 - indeterminate: timeouts, connection failures, authentication/rate-limit
-  responses, server errors, and other non-success statuses.
+  responses, server errors, blocked targets, and other non-success statuses.
 
 A common HEAD-rejection response receives one bounded streaming GET fallback.
+Initial URLs and every redirect target must resolve only to globally routable
+addresses before a request is sent.
 """
 
 from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import ipaddress
+import socket
 import sqlite3
 import sys
 import threading
@@ -56,10 +60,12 @@ REPORT_OUT = BASE_DIR / "pool_report.md"
 DEFAULT_WORKERS = 50
 DEFAULT_TIMEOUT = 10
 DOMAIN_RATE_S = 0.5
-UA = "Mozilla/5.0 (compatible; r4b1t-sweep/2.0)"
+MAX_REDIRECTS = 10
+UA = "Mozilla/5.0 (compatible; r4b1t-sweep/2.1)"
 
 CONFIRMED_MISSING = {404, 410}
 HEAD_GET_FALLBACK = {400, 403, 405, 406, 501}
+REDIRECT_STATUSES = {301, 302, 303, 307, 308}
 
 
 # ── Input ─────────────────────────────────────────────────────────────────────
@@ -167,6 +173,69 @@ def classify_status(status_code: Optional[int]) -> Optional[int]:
     return None
 
 
+class TargetGuardError(RuntimeError):
+    """Raised when a URL is not safe for the hosted sweep to request."""
+
+
+class PublicTargetGuard:
+    """Reject non-HTTP(S) and non-global initial/redirect targets.
+
+    DNS results are cached per host for a sweep run. This is a defense-in-depth
+    guard for the hosted worker, not a claim of complete DNS-rebinding defense.
+    """
+
+    def __init__(self) -> None:
+        self._cache: dict[str, bool] = {}
+        self._lock = threading.Lock()
+
+    @staticmethod
+    def _literal_ip_is_global(host: str) -> Optional[bool]:
+        try:
+            return ipaddress.ip_address(host).is_global
+        except ValueError:
+            return None
+
+    def _hostname_is_global(self, host: str) -> bool:
+        literal = self._literal_ip_is_global(host)
+        if literal is not None:
+            return literal
+
+        lowered = host.lower().rstrip(".")
+        if lowered == "localhost" or lowered.endswith((".localhost", ".local")):
+            return False
+
+        with self._lock:
+            cached = self._cache.get(lowered)
+        if cached is not None:
+            return cached
+
+        try:
+            infos = socket.getaddrinfo(lowered, None, type=socket.SOCK_STREAM)
+        except socket.gaierror:
+            allowed = False
+        else:
+            addresses = {info[4][0] for info in infos if info and info[4]}
+            allowed = bool(addresses) and all(
+                ipaddress.ip_address(address).is_global for address in addresses
+            )
+
+        with self._lock:
+            self._cache[lowered] = allowed
+        return allowed
+
+    def ensure_allowed(self, url: str) -> None:
+        parsed = urllib.parse.urlsplit(url)
+        if parsed.scheme.lower() not in {"http", "https"}:
+            raise TargetGuardError(f"unsupported URL scheme: {parsed.scheme or '<none>'}")
+        if parsed.username is not None or parsed.password is not None:
+            raise TargetGuardError("credential-bearing URL rejected by sweep target guard")
+        host = parsed.hostname
+        if not host:
+            raise TargetGuardError("URL has no hostname")
+        if not self._hostname_is_global(host):
+            raise TargetGuardError(f"non-global or unresolved target blocked: {host}")
+
+
 class RateLimiter:
     def __init__(self, min_gap: float = DOMAIN_RATE_S):
         self._last: dict[str, float] = {}
@@ -196,7 +265,6 @@ def get_worker_session() -> requests.Session:
     session = getattr(_thread_state, "session", None)
     if session is None:
         session = requests.Session()
-        session.max_redirects = 10
         _thread_state.session = session
     return session
 
@@ -207,47 +275,80 @@ def _final_redirect(original: str, final: Optional[str]) -> Optional[str]:
     return None
 
 
+def _request_with_guarded_redirects(
+    session: requests.Session,
+    method: str,
+    url: str,
+    timeout: int,
+    headers: dict[str, str],
+    target_guard: PublicTargetGuard,
+) -> tuple[requests.Response, str]:
+    current = url
+    method_lower = method.lower()
+
+    for _ in range(MAX_REDIRECTS + 1):
+        target_guard.ensure_allowed(current)
+        domain = registered_domain(current)
+
+        request_fn = session.head if method_lower == "head" else session.get
+        kwargs = {
+            "timeout": timeout,
+            "allow_redirects": False,
+            "headers": headers,
+        }
+        if method_lower == "get":
+            kwargs["stream"] = True
+
+        response = request_fn(current, **kwargs)
+        location = response.headers.get("Location")
+        if response.status_code in REDIRECT_STATUSES and location:
+            next_url = urllib.parse.urljoin(current, location)
+            response.close()
+            current = next_url
+            continue
+
+        return response, current
+
+    raise requests.exceptions.TooManyRedirects(
+        f"more than {MAX_REDIRECTS} redirects for {url}"
+    )
+
+
 def check_url(
     url: str,
     session: requests.Session,
     rate_limiter: RateLimiter,
     timeout: int,
+    target_guard: Optional[PublicTargetGuard] = None,
 ) -> tuple[Optional[int], Optional[int], Optional[str]]:
     """Observe one URL without turning ambiguous failures into deletion evidence."""
+    guard = target_guard or PublicTargetGuard()
     domain = registered_domain(url)
-    rate_limiter.wait(domain)
     headers = {"User-Agent": UA}
 
     try:
-        head = session.head(
-            url,
-            timeout=timeout,
-            allow_redirects=True,
-            headers=headers,
+        rate_limiter.wait(domain)
+        head, final_url = _request_with_guarded_redirects(
+            session, "head", url, timeout, headers, guard
         )
         status = head.status_code
-        final_url = head.url
         head.close()
 
         # Some otherwise usable endpoints reject HEAD. One streaming GET is a
         # bounded fallback; the response body is never consumed.
         if status in HEAD_GET_FALLBACK:
-            rate_limiter.wait(domain)
+            rate_limiter.wait(registered_domain(final_url))
             get_headers = {"User-Agent": UA, "Range": "bytes=0-0"}
-            response = session.get(
-                url,
-                timeout=timeout,
-                allow_redirects=True,
-                headers=get_headers,
-                stream=True,
+            response, final_url = _request_with_guarded_redirects(
+                session, "get", final_url, timeout, get_headers, guard
             )
             status = response.status_code
-            final_url = response.url
             response.close()
 
         return status, classify_status(status), _final_redirect(url, final_url)
 
     except (
+        TargetGuardError,
         requests.exceptions.ConnectionError,
         requests.exceptions.Timeout,
         requests.exceptions.TooManyRedirects,
@@ -263,13 +364,16 @@ def sweep(
     timeout: int,
 ) -> None:
     rate_limiter = RateLimiter()
+    target_guard = PublicTargetGuard()
     db_lock = threading.Lock()
     counts = {"reachable": 0, "missing": 0, "indeterminate": 0}
 
     def worker(url: str) -> None:
         ts = int(time.time())
         session = get_worker_session()
-        status, reachable, redirect_url = check_url(url, session, rate_limiter, timeout)
+        status, reachable, redirect_url = check_url(
+            url, session, rate_limiter, timeout, target_guard
+        )
 
         with db_lock:
             db_update(conn, url, status, reachable, redirect_url, ts)
@@ -363,7 +467,7 @@ def write_outputs(conn: sqlite3.Connection, urls_ordered: list[str], duration: f
         f"total:         {total}\n"
         f"reachable:     {reachable_count}  (final status < 400)\n"
         f"missing:       {missing_count}  (404 / 410 only)\n"
-        f"indeterminate: {indeterminate_count}  (auth/rate/server/error/other)\n"
+        f"indeterminate: {indeterminate_count}  (auth/rate/server/error/blocked)\n"
         f"redirect:      {redirect_count}\n"
         f"unchecked:     {unchecked_count}\n"
     )
@@ -423,7 +527,8 @@ This is a time-bounded observation report, not deletion authority.
 - **reachable** means the final observed response status was below 400;
 - **missing** is limited to 404/410 after the bounded request strategy;
 - **indeterminate** includes authentication/rate-limit responses, server errors,
-  request failures, and other outcomes that are not safe evidence for removal.
+  request failures, blocked non-global targets, and other outcomes that are not
+  safe evidence for removal.
 
 A single sweep must not directly replace the production corpus.
 
