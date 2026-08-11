@@ -7,6 +7,7 @@ on:
   pull_request:
     paths:
       - 'pool_sweep.py'
+      - 'tests/test_pool_sweep.py'
       - 'urls.txt'
       - 'requirements-pool-sweep.txt'
       - '.github/workflows/pool-sweep.yml'
@@ -45,6 +46,9 @@ jobs:
           python -m pip install --disable-pip-version-check -r requirements-pool-sweep.txt
           python -m pip check
 
+      - name: Run offline sweep regression tests
+        run: python -m unittest discover -s tests -p 'test_pool_sweep.py' -v
+
       - name: Prepare isolated sweep workspace
         run: |
           mkdir -p sweep-work
@@ -71,7 +75,9 @@ jobs:
           test -s sweep-work/pool_sweep.db
           test -f sweep-work/pool_alive.txt
           test -f sweep-work/pool_dead.txt
+          test -f sweep-work/pool_indeterminate.txt
           test -s sweep-work/pool_report.md
+          grep -Fq 'This is a time-bounded observation report, not deletion authority.' sweep-work/pool_report.md
 
       - name: Write evidence manifest
         run: |
@@ -80,13 +86,15 @@ jobs:
             echo "commit=${{ github.sha }}"
             echo "generated_at=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
             echo "input_urls=$(wc -l < sweep-work/urls.txt)"
-            echo "observed_reachable=$(grep -c '^http' sweep-work/pool_alive.txt || true)"
-            echo "observed_non_reachable=$(wc -l < sweep-work/pool_dead.txt)"
+            echo "observed_reachable=$(wc -l < sweep-work/pool_alive.txt)"
+            echo "observed_missing=$(wc -l < sweep-work/pool_dead.txt)"
+            echo "observed_indeterminate=$(wc -l < sweep-work/pool_indeterminate.txt)"
             echo
             sha256sum \
               sweep-work/urls.txt \
               sweep-work/pool_alive.txt \
               sweep-work/pool_dead.txt \
+              sweep-work/pool_indeterminate.txt \
               sweep-work/pool_report.md \
               sweep-work/pool_sweep.db
           } | tee sweep-work/sweep-manifest.txt
@@ -103,6 +111,7 @@ jobs:
             sweep-work/sweep-manifest.txt
             sweep-work/pool_alive.txt
             sweep-work/pool_dead.txt
+            sweep-work/pool_indeterminate.txt
             sweep-work/pool_report.md
             sweep-work/pool_sweep.db
           if-no-files-found: error
