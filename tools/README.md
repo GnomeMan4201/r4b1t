@@ -1,4 +1,4 @@
-# r4b1t_h0l3 — Tools
+# r4b1t — Tools
 
 Pipeline scripts for URL extraction, cleaning, tagging, and BRANCH prompt injection.
 
@@ -37,13 +37,19 @@ python3 generate_branch_injection.py --tagged tagged_final.json --output branch_
 
 | Script | Purpose |
 |---|---|
-| `extract_pool.py` | Extract all URLs from index.html |
-| `clean_pool.py` | Remove assets, private IPs, duplicates, noise |
-| `r4b1t_tagger.py` | Tag URLs by category via URL tokens, headers, meta content |
-| `generate_branch_injection.py` | Generate weighted JS sampler for BRANCH prompt |
+| `extract_pool.py` | Extract URLs from `index.html` |
+| `clean_pool.py` | Remove assets, private IPs, duplicates, and noise |
+| `r4b1t_tagger.py` | Tag URLs by category via URL tokens, headers, and metadata |
+| `generate_branch_injection.py` | Generate the weighted JS sampler used by BRANCH |
 
 ## Requirements
 
+These maintenance tools use additional Python packages that are not part of the browser application's runtime:
+
 ```bash
-pip install aiohttp beautifulsoup4
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install aiohttp beautifulsoup4
 ```
+
+The application itself remains static HTML/CSS/JavaScript with no production Python dependency.
