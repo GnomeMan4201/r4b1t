@@ -3,7 +3,7 @@
 [![r4b1t — Not search. Not a feed. A door.](docs/banner.png)](https://r4b1t.badbananaresearch.com)
 
 <p align="center">
-  <a href="https://r4b1t.badbananaresearch.com"><strong>Explore the flagship project site</strong></a>
+  <a href="https://r4b1t.badbananaresearch.com"><strong>Explore project site</strong></a>
   ·
   <a href="https://gnomeman4201.github.io/r4b1t/"><strong>Launch the original application</strong></a>
 </p>
