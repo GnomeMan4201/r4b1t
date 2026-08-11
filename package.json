@@ -2,7 +2,7 @@
   "name": "r4b1t",
   "version": "1.1.0",
   "private": true,
-  "description": "r4B1T_h0L3 — Playwright browser test harness (no build step for the app itself).",
+  "description": "r4b1t Playwright browser test harness (no build step for the app itself).",
   "scripts": {
     "test": "playwright test",
     "test:e2e": "playwright test"
