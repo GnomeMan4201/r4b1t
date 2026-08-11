@@ -10,7 +10,7 @@
 
 > Curated web discovery instrument — 50,109 structurally valid URLs across 12,396 unique hosts spanning security, OSINT, research, development, and the weird internet.
 
-**Not search. Not a feed. A door.**
+**Not search. Not a feed...**
 
 ---
 
