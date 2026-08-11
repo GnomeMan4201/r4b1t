@@ -1,7 +1,7 @@
 {
-  "name": "r4B1T_h0L3",
-  "short_name": "r4B1T",
-  "description": "Curated web discovery — 53k URLs across security, OSINT, and the weird internet",
+  "name": "r4b1t",
+  "short_name": "r4b1t",
+  "description": "Curated web discovery across security, OSINT, research, development, and the weird internet",
   "start_url": "/r4b1t/",
   "scope": "/r4b1t/",
   "display": "standalone",
