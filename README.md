@@ -1,8 +1,16 @@
 # R4B1T_H0L3
 
-> Curated web discovery engine — 53,869 verified live URLs across security, OSINT, research, and the weird internet.
+[![r4b1t — Not search. Not a feed. A door.](docs/banner.png)](https://r4b1t-repo.abroooosh.chatgpt.site)
 
-**[→ Launch the tool](https://gnomeman4201.github.io/r4b1t/)**
+<p align="center">
+  <a href="https://r4b1t-repo.abroooosh.chatgpt.site"><strong>Explore the flagship project site</strong></a>
+  ·
+  <a href="https://gnomeman4201.github.io/r4b1t/"><strong>Launch the original application</strong></a>
+</p>
+
+> Curated web discovery instrument — 50,109 structurally valid URLs across 12,396 unique hosts spanning security, OSINT, research, development, and the weird internet.
+
+**Not search. Not a feed. A door.**
 
 ---
 
@@ -25,7 +33,7 @@
 
 ## What it is
 
-StumbleUpon for the security and OSINT community. Roll a random URL from a hand-curated pool of 53k+ verified live resources. Visit it, skip it, or SPROUT — generate four directional suggestions (deeper, sideways, opposite, weird) based on the page's semantic content.
+A deliberate random-discovery instrument for the security and OSINT community. Roll a URL from a hand-curated pool, visit it, skip it, or SPROUT — generate four directional suggestions (deeper, sideways, opposite, weird) based on the page's semantic content.
 
 No accounts. No tracking. No recommendation profile. Just the pool and the roll.
 
@@ -69,7 +77,7 @@ The URL corpus was assembled from:
 - GitHub awesome-lists across 21 categories
 - manual curation passes with a two-stage liveness gate (automated HTTP sweep + human relevance sign-off)
 
-Raw input and subsequent curation produced the current committed pool of **53,869 verified live URLs** across 14,488 unique domains. The pool-sweep workflow performs continuing liveness maintenance; because the web changes continuously, the exact live count is a property of a particular corpus revision rather than a permanent guarantee about every URL.
+The current evidence-bound corpus baseline contains **50,109 structurally valid URLs across 12,396 unique hosts** (SHA-256: `5d7339b8cbfe7bd35bb8502ca753e5b4663bc2fc4ba3721b23b791dbace01c41`). This is a reproducible structural count for the audited corpus revision, not proof that every third-party endpoint is live at viewing time. The pool-sweep workflow performs continuing liveness maintenance.
 
 ## Features
 
