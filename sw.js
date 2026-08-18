@@ -1,5 +1,17 @@
-const CACHE = 'r4b1t-v1';
-const PRECACHE = ['/r4b1t/', '/r4b1t/index.html'];
+const CACHE = 'r4b1t-v2-dual-shell';
+const PRECACHE = [
+  '/r4b1t/',
+  '/r4b1t/index.html',
+  '/r4b1t/anime.min.js',
+  '/r4b1t/anime-core.min.js',
+  '/r4b1t/dual-shell.js',
+  '/r4b1t/dual-shell.css',
+  '/r4b1t/rabbit-aperture.svg',
+  '/r4b1t/banana-note.svg',
+  '/r4b1t/favicon.ico',
+  '/r4b1t/favicon.svg',
+  '/r4b1t/manifest.json'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
@@ -14,9 +26,9 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Network first for urls.txt and Worker API calls, cache first for shell
+  // Network first for the corpus and Worker API calls; cache first for shell assets.
   if (e.request.url.includes('urls.txt') || e.request.url.includes('workers.dev')) {
-    return; // Let these go to network always
+    return;
   }
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request))
