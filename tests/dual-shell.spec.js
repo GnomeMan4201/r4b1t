@@ -14,7 +14,7 @@ async function blockExternalNetwork(page) {
 
 async function waitReady(page) {
   await page.waitForFunction(() => typeof window.roll === 'function');
-  await page.waitForSelector('#r4mShellHost');
+  await page.waitForSelector('#r4mShellHost', { state: 'attached' });
 }
 
 test.beforeEach(async ({ page }) => {
