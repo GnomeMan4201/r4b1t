@@ -6,7 +6,7 @@ const baseURL = process.env.BASE_URL || 'http://127.0.0.1:8080/r4b1t/';
 
 module.exports = defineConfig({
   testDir: './tests',
-  testMatch: ['e2e.spec.js', 'dual-shell.spec.js', 'hole-surface.spec.js'],
+  testMatch: ['e2e.spec.js', 'dual-shell.spec.js', 'hero-copy.spec.js'],
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,

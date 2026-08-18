@@ -19,7 +19,7 @@ Curated random discovery across security, OSINT, research, development, and the 
 </td>
 <td align="center" width="50%">
 <strong>MOBILE / FIELD SHELL</strong><br>
-<sub>Thumb-first hole surface · compact route cards · sticky navigation</sub><br><br>
+<sub>Thumb-first aperture · compact route cards · sticky navigation</sub><br><br>
 <a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH MOBILE ↗</strong></a>
 </td>
 </tr>
@@ -54,11 +54,11 @@ The split is presentation-only. Mobile does not run a second discovery engine or
 
 ### Mobile shell
 
-The mobile interface is recomposed for phone use rather than shrinking the desktop layout. Its top surface is now an operational **hole/readout** instead of a slogan panel. It shows corpus readiness, current mode, scope, and privacy/ranking state around a depth graphic, then hands control directly to ROLL.
+The mobile interface is recomposed for phone use rather than shrinking the desktop layout. Its top surface keeps the rabbit aperture artwork, with the hero copy reduced to **NO PROFILE / NO TRACKING / NO RANKING** before handing control directly to ROLL.
 
 The mobile shell provides:
 
-- hole/readout state surface with `CORPUS READY` and route-ready state
+- rabbit aperture hero with privacy/ranking copy
 - compact ROLL control
 - route cards with hostname, metadata, category, and full URL
 - one-thumb **FILTER**, **BRANCH**, **HISTORY**, and **INSPECT** navigation
@@ -195,7 +195,7 @@ Current regression coverage includes:
 - mobile route hostname fidelity
 - terrain-filter selection and reset
 - mobile branch controls
-- hole/readout replacement and absence of the old campaign slogan
+- mobile hero copy and rabbit aperture preservation
 - sheet interaction behavior
 - horizontal-overflow protection
 - desktop shell preservation
@@ -226,11 +226,9 @@ The application is intentionally framework-free. The browser client is vanilla J
 
 The mobile layer mirrors authoritative state from the existing engine rather than duplicating discovery logic. This keeps route selection, filters, branching, history, and trail behavior consistent across interfaces.
 
-The mobile hole/readout is also presentation-only. It reads existing route, mode, scope, and counter state and does not create a second source of truth.
-
 ## PWA and deployment
 
-The service worker precaches the static application shell, including the dual-shell and hole-surface assets. Corpus and Worker-backed requests remain network-oriented rather than being treated as permanently valid cached evidence.
+The service worker precaches the static application shell, including the dual-shell assets and rabbit aperture artwork. Corpus and Worker-backed requests remain network-oriented rather than being treated as permanently valid cached evidence.
 
 GitHub Pages serves the live application from the repository deployment path. The same deployed code chooses the appropriate interface from viewport width; there is no separate mobile site or user-agent fork.
 
@@ -254,7 +252,7 @@ Treat each sweep as time-bounded evidence. A route reachable during one run may 
 | Responsive shell switch | viewport-switch regression coverage |
 | Filter fidelity | mobile select/reset regression coverage |
 | Route fidelity | selected URL hostname mirrored into mobile shell |
-| Mobile identity | hole/readout surface with old slogan excluded by regression test |
+| Mobile identity | rabbit aperture hero with privacy-first copy regression test |
 | Dependency gate | `npm audit --audit-level=high` in CI |
 | Corpus maintenance | pool-sweep workflow and preserved evidence revisions |
 | Deployment | GitHub Pages |

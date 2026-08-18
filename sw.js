@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v3-hole-surface';
+const CACHE = 'r4b1t-v4-rabbit-hero';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
@@ -6,8 +6,7 @@ const PRECACHE = [
   '/r4b1t/anime-core.min.js',
   '/r4b1t/dual-shell.js',
   '/r4b1t/dual-shell.css',
-  '/r4b1t/hole-surface.js',
-  '/r4b1t/hole-surface.css',
+  '/r4b1t/rabbit-aperture.svg',
   '/r4b1t/banana-note.svg',
   '/r4b1t/favicon.ico',
   '/r4b1t/favicon.svg',
