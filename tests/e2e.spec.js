@@ -24,7 +24,7 @@ async function waitForApplicationReady(page) {
     typeof window.roll === 'function'
     && typeof window.toggleHelp === 'function'
   ));
-  await page.waitForSelector('#r4mShellHost');
+  await page.waitForSelector('#r4mShellHost', { state: 'attached' });
 }
 
 async function rollFromVisibleShell(page, testInfo) {
