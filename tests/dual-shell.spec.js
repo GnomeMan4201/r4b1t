@@ -42,6 +42,27 @@ test('mobile selects the dedicated shell and rolls through the shared engine', a
   await expect(page.locator('#r4mDomain')).not.toHaveText('—');
   await expect(page.locator('#r4mUrl')).toHaveText(/^https?:\/\//);
   await expect(page.locator('#previewDomain')).not.toHaveText('—');
+
+  const route = await page.locator('#r4mUrl').textContent();
+  const expectedHost = new URL(route.trim()).hostname.replace(/^www\./, '').toUpperCase();
+  await expect(page.locator('#r4mDomain')).toHaveText(expectedHost);
+});
+
+test('mobile terrain filter can select and return to all signals', async ({ page }, testInfo) => {
+  if (testInfo.project.name !== 'mobile-chromium') test.skip();
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitReady(page);
+
+  await page.locator('[data-mobile-action="filter"]').first().click();
+  await expect(page.locator('#r4mFilterSheet')).toHaveClass(/\bopen\b/);
+  await page.locator('#r4mFilterOptions .r4m-filter-proxy', { hasText: 'CODE' }).click();
+  await expect(page.locator('#r4mFilterLabel')).toHaveText('CODE');
+  await expect(page.locator('#r4mRollScope')).toHaveText('CODE ROUTES');
+
+  await page.locator('[data-mobile-action="filter"]').first().click();
+  await page.locator('#r4mFilterOptions .r4m-filter-proxy', { hasText: 'ALL SIGNALS' }).click();
+  await expect(page.locator('#r4mFilterLabel')).toHaveText('ALL SIGNALS');
+  await expect(page.locator('#r4mRollScope')).toHaveText('FULL CORPUS');
 });
 
 test('mobile navigation opens filter and inspect sheets without horizontal overflow', async ({ page }, testInfo) => {
