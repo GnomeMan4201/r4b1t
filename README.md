@@ -1,6 +1,6 @@
 # r4b1t
 
-[![r4b1t — Not search. Not a feed. A door.](docs/banner.png)](https://r4b1t.badbananaresearch.com)
+Curated random discovery across security, OSINT, research, development, and the weird internet.
 
 <p align="center">
   <a href="https://r4b1t.badbananaresearch.com"><strong>Project site</strong></a>
@@ -19,21 +19,15 @@
 </td>
 <td align="center" width="50%">
 <strong>MOBILE / FIELD SHELL</strong><br>
-<sub>Thumb-first aperture · compact route cards · sticky navigation</sub><br><br>
+<sub>Thumb-first hole surface · compact route cards · sticky navigation</sub><br><br>
 <a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH MOBILE ↗</strong></a>
 </td>
 </tr>
 </table>
 
-> Both launch controls open the same GitHub Pages deployment. r4b1t selects the interface from the viewport: **desktop above 900 px**, **mobile at 900 px and below**. Resizing across the breakpoint switches shells without reloading and both interfaces use the same corpus, session state, and discovery engine.
+Both launch controls open the same GitHub Pages deployment. r4b1t selects the interface from the viewport: **desktop above 900 px**, **mobile at 900 px and below**. Resizing across the breakpoint switches shells without reloading. Both interfaces use the same corpus, session state, and discovery engine.
 
-> Curated web discovery instrument for security, OSINT, research, development, and the weird internet.
-
-**Not search. Not a feed. A door.**
-
-r4b1t deliberately removes ranking, profiles, engagement loops, and recommendation history from discovery. You roll the corpus, inspect what appears, follow it, reject it, or branch away from it.
-
-The live application now uses **two purpose-built interfaces over one shared discovery engine**: the original desktop workstation and a dedicated mobile shell for smaller screens.
+r4b1t is a random-discovery instrument. Roll the corpus, inspect what appears, follow it, reject it, or branch away from it. There is no ranking model, recommendation profile, or engagement feed deciding what appears next.
 
 ---
 
@@ -48,7 +42,7 @@ same application / same corpus / same session state
           │                   │
       > 900 px             ≤ 900 px
       desktop              mobile
-      workstation          thumb-first shell
+      workstation          field shell
           │                   │
           └─────────┬─────────┘
                     │
@@ -60,16 +54,19 @@ The split is presentation-only. Mobile does not run a second discovery engine or
 
 ### Mobile shell
 
-The mobile interface is recomposed for phone use rather than shrinking the desktop layout. It provides:
+The mobile interface is recomposed for phone use rather than shrinking the desktop layout. Its top surface is now an operational **hole/readout** instead of a slogan panel. It shows corpus readiness, current mode, scope, and privacy/ranking state around a depth graphic, then hands control directly to ROLL.
 
-- a compact aperture and ROLL control
+The mobile shell provides:
+
+- hole/readout state surface with `CORPUS READY` and route-ready state
+- compact ROLL control
 - route cards with hostname, metadata, category, and full URL
 - one-thumb **FILTER**, **BRANCH**, **HISTORY**, and **INSPECT** navigation
 - mobile terrain-filter sheets with active-state mirroring
 - branch direction sheets backed by the existing SPROUT engine
 - horizontally scrollable trail history
 - viewport switching without a page reload
-- safe-area-aware sticky navigation and no horizontal overflow
+- safe-area-aware sticky navigation and horizontal-overflow protection
 
 Desktop keeps the original r4b1t workstation experience.
 
@@ -94,9 +91,9 @@ The retained screenshots document the desktop lineage. The live application auto
 
 ---
 
-## What it is
+## What it does
 
-A deliberate random-discovery instrument. Roll a URL from the curated pool, visit it, skip it, or **SPROUT** four directional suggestions:
+Roll a URL from the curated pool, visit it, skip it, or **SPROUT** four directional suggestions:
 
 - **deeper** — drill further into the current niche
 - **sideways** — move into adjacent territory
@@ -105,11 +102,9 @@ A deliberate random-discovery instrument. Roll a URL from the curated pool, visi
 
 Branch generation uses available page metadata and lightweight semantic signals to find related candidates inside the existing corpus.
 
-No account. No profile. No behavioral recommendation model.
-
 ## Corpus
 
-The live application currently identifies the pool as roughly **103k curated URLs**. That number reflects the evolving working corpus and should not be confused with the last frozen evidence baseline.
+The live application currently identifies the working pool as roughly **103k curated URLs**. That number reflects the evolving corpus and should not be confused with the last frozen evidence baseline.
 
 The current evidence-bound baseline remains **50,109 structurally valid URLs across 12,396 unique hosts** with SHA-256:
 
@@ -200,6 +195,7 @@ Current regression coverage includes:
 - mobile route hostname fidelity
 - terrain-filter selection and reset
 - mobile branch controls
+- hole/readout replacement and absence of the old campaign slogan
 - sheet interaction behavior
 - horizontal-overflow protection
 - desktop shell preservation
@@ -230,9 +226,11 @@ The application is intentionally framework-free. The browser client is vanilla J
 
 The mobile layer mirrors authoritative state from the existing engine rather than duplicating discovery logic. This keeps route selection, filters, branching, history, and trail behavior consistent across interfaces.
 
+The mobile hole/readout is also presentation-only. It reads existing route, mode, scope, and counter state and does not create a second source of truth.
+
 ## PWA and deployment
 
-The service worker precaches the static application shell, including the dual-shell assets. Corpus and Worker-backed requests remain network-oriented rather than being treated as permanently valid cached evidence.
+The service worker precaches the static application shell, including the dual-shell and hole-surface assets. Corpus and Worker-backed requests remain network-oriented rather than being treated as permanently valid cached evidence.
 
 GitHub Pages serves the live application from the repository deployment path. The same deployed code chooses the appropriate interface from viewport width; there is no separate mobile site or user-agent fork.
 
@@ -256,6 +254,7 @@ Treat each sweep as time-bounded evidence. A route reachable during one run may 
 | Responsive shell switch | viewport-switch regression coverage |
 | Filter fidelity | mobile select/reset regression coverage |
 | Route fidelity | selected URL hostname mirrored into mobile shell |
+| Mobile identity | hole/readout surface with old slogan excluded by regression test |
 | Dependency gate | `npm audit --audit-level=high` in CI |
 | Corpus maintenance | pool-sweep workflow and preserved evidence revisions |
 | Deployment | GitHub Pages |
