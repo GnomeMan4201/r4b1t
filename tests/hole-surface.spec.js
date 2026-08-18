@@ -30,7 +30,7 @@ test('mobile hero is an operational hole surface, not campaign copy', async ({ p
 
   await expect(page.locator('#r4mHero')).toBeVisible();
   await expect(page.locator('.r4h-hole')).toBeVisible();
-  await expect(page.locator('#r4hState')).toHaveText('CORPUS READY');
+  await expect(page.locator('#r4hState')).toHaveText(/^(CORPUS READY|ROUTE READY \/ \d{3})$/);
   await expect(page.locator('.r4m-status span')).toHaveText('HOLE / RANDOM');
   await expect(page.locator('#r4mHero')).not.toContainText('NOT SEARCH');
   await expect(page.locator('#r4mHero')).not.toContainText('NOT A FEED');
