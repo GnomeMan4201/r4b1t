@@ -31,5 +31,5 @@ test('mobile keeps the rabbit aperture and uses privacy-first copy', async ({ pa
   await expect(page.locator('#r4mHero h1')).toContainText('NO RANKING.');
   await expect(page.locator('#r4mHero h1')).not.toContainText('NOT SEARCH');
   await expect(page.locator('#r4mHero h1')).not.toContainText('A DOOR');
-  await expect(page.locator('.r4m-enter')).toHaveText('ENTER DOOR ↗');
+  await expect(page.locator('.r4m-enter')).toHaveText('FOLLOW ROUTE ↗');
 });
