@@ -3,14 +3,56 @@
 [![r4b1t — Not search. Not a feed. A door.](docs/banner.png)](https://r4b1t.badbananaresearch.com)
 
 <p align="center">
-  <a href="https://r4b1t.badbananaresearch.com"><strong>Explore the project</strong></a>
+  <a href="https://r4b1t.badbananaresearch.com"><strong>Project site</strong></a>
   ·
-  <a href="https://gnomeman4201.github.io/r4b1t/"><strong>Launch the original application</strong></a>
+  <a href="https://gnomeman4201.github.io/r4b1t/"><strong>Launch r4b1t</strong></a>
 </p>
 
-> Curated web discovery instrument — 50,109 structurally valid URLs across 12,396 unique hosts spanning security, OSINT, research, development, and the weird internet.
+> Curated web discovery instrument for security, OSINT, research, development, and the weird internet.
 
 **Not search. Not a feed. A door.**
+
+r4b1t deliberately removes ranking, profiles, engagement loops, and recommendation history from discovery. You roll the corpus, inspect what appears, follow it, reject it, or branch away from it.
+
+The live application now uses **two purpose-built interfaces over one shared discovery engine**: the original desktop workstation and a dedicated mobile shell for smaller screens.
+
+---
+
+## Interface model
+
+```text
+same application / same corpus / same session state
+                    │
+          viewport-based shell
+                    │
+          ┌─────────┴─────────┐
+          │                   │
+      > 900 px             ≤ 900 px
+      desktop              mobile
+      workstation          thumb-first shell
+          │                   │
+          └─────────┬─────────┘
+                    │
+      roll / visit / sprout / filter
+      history / trail / share / inspect
+```
+
+The split is presentation-only. Mobile does not run a second discovery engine or maintain a parallel corpus. Both interfaces delegate to the same browser state and core application logic.
+
+### Mobile shell
+
+The mobile interface is recomposed for phone use rather than shrinking the desktop layout. It provides:
+
+- a compact aperture and ROLL control
+- route cards with hostname, metadata, category, and full URL
+- one-thumb **FILTER**, **BRANCH**, **HISTORY**, and **INSPECT** navigation
+- mobile terrain-filter sheets with active-state mirroring
+- branch direction sheets backed by the existing SPROUT engine
+- horizontally scrollable trail history
+- viewport switching without a page reload
+- safe-area-aware sticky navigation and no horizontal overflow
+
+Desktop keeps the original r4b1t workstation experience.
 
 ---
 
@@ -23,23 +65,87 @@
 </tr>
 <tr>
 <td><img src="docs/demo3.png" alt="Screenshot proxy overlay" width="100%"/></td>
-<td><img src="docs/demo4.png" alt="Category filter + SVG tree" width="100%"/></td>
+<td><img src="docs/demo4.png" alt="Category filter and SVG tree" width="100%"/></td>
 </tr>
 </table>
 
 <img src="docs/demo5.png" alt="BRANCH mode with SPROUT directions" width="100%"/>
 
+The retained screenshots document the desktop lineage. The live application automatically exposes the dedicated mobile shell at widths of 900 px and below.
+
 ---
 
 ## What it is
 
-A deliberate random-discovery instrument for the security and OSINT community. Roll a URL from a hand-curated pool, visit it, skip it, or SPROUT — generate four directional suggestions (deeper, sideways, opposite, weird) based on the page's semantic content.
+A deliberate random-discovery instrument. Roll a URL from the curated pool, visit it, skip it, or **SPROUT** four directional suggestions:
 
-No accounts. No tracking. No recommendation profile. Just the pool and the roll.
+- **deeper** — drill further into the current niche
+- **sideways** — move into adjacent territory
+- **opposite** — surface a contrasting direction
+- **weird** — take an intentionally unexpected tangent
+
+Branch generation uses available page metadata and lightweight semantic signals to find related candidates inside the existing corpus.
+
+No account. No profile. No behavioral recommendation model.
+
+## Corpus
+
+The live application currently identifies the pool as roughly **103k curated URLs**. That number reflects the evolving working corpus and should not be confused with the last frozen evidence baseline.
+
+The current evidence-bound baseline remains **50,109 structurally valid URLs across 12,396 unique hosts** with SHA-256:
+
+```text
+5d7339b8cbfe7bd35bb8502ca753e5b4663bc2fc4ba3721b23b791dbace01c41
+```
+
+That baseline is a reproducible structural count for the audited corpus revision. It is not a claim that every third-party endpoint remains reachable indefinitely. The pool-sweep workflow exists to produce newer time-bounded liveness evidence without rewriting old evidence.
+
+The corpus was assembled from sources including:
+
+- Start.me OSINT and security pages collected via Playwright/CDP
+- GitHub awesome-lists across 21 categories
+- manual curation passes
+- two-stage liveness work combining automated HTTP sweeps with human relevance review
+
+---
+
+## Features
+
+| Surface | Behavior |
+|---|---|
+| **RANDOM** | Roll a URL from the current eligible corpus |
+| **BRANCH / SPROUT** | Generate four directional candidates from the current route |
+| **FILTER** | Restrict rolls by category |
+| **HISTORY** | Revisit routes seen during the session |
+| **TRAIL** | Preserve the visited path through the rabbit hole |
+| **INSPECT** | Review current route details on mobile without leaving the shell |
+| **SHARE CARD** | Generate a PNG card for the current route |
+| **COPY TRAIL** | Export the session as Markdown with links and timestamps |
+| **SUBMIT URL** | Open a pre-filled GitHub issue for corpus suggestions |
+| **PWA** | Installable shell with cached static assets |
+| **Dark / light mode** | Persist the selected display preference |
+
+Current filter categories include CODE, BLOG, NEWS, RESEARCH, PAPER, OSINT, BOUNTY, VIDEO, SOCIAL, REF, ARCHIVE, PKG, COURSE, EVENT, HARDWARE, and TOR.
+
+## Keyboard shortcuts
+
+Desktop retains keyboard-first operation:
+
+| Key | Action |
+|---|---|
+| `Space` | Roll new URL |
+| `Enter` | Visit current URL |
+| `S` | Skip |
+| `P` | Sprout branches |
+| `C` | Download share card |
+| `?` or `H` | Toggle help |
+| `Esc` | Close overlay |
+
+---
 
 ## Quick local preview
 
-The application itself is static HTML/CSS/JavaScript and has no build step.
+The production client is static HTML/CSS/JavaScript and has no application build step.
 
 ```bash
 git clone https://github.com/GnomeMan4201/r4b1t.git
@@ -53,11 +159,11 @@ Open:
 http://127.0.0.1:8080/
 ```
 
-Some features rely on the deployed backend/proxy and therefore will not behave identically under a bare local static server. The local preview is still useful for UI, navigation, corpus, PWA-shell, and client-side regression work.
+Some metadata and preview behavior relies on deployed backend services, so a bare local static server is not identical to production. It is still suitable for interface, corpus, PWA-shell, navigation, and client-side regression work.
 
-## Run the browser tests
+## Browser tests
 
-The test harness uses pinned Playwright dependencies. Node.js is needed for testing only; it is not required to build the application.
+Node.js is required for the test harness only.
 
 ```bash
 npm ci
@@ -65,57 +171,53 @@ npx playwright install chromium
 npm test
 ```
 
-CI stages the site under the same `/r4b1t/` path shape used by GitHub Pages and exercises both desktop and mobile browser projects. The workflow also rejects high-severity npm audit findings before E2E execution.
+Playwright exercises dedicated desktop and mobile Chromium projects. CI stages the site under the same `/r4b1t/` path shape used by GitHub Pages and verifies the interaction paths for both shells.
+
+Current regression coverage includes:
+
+- correct desktop/mobile shell selection
+- live viewport switching without reload
+- ROLL propagation through the shared engine
+- mobile route hostname fidelity
+- terrain-filter selection and reset
+- mobile branch controls
+- sheet interaction behavior
+- horizontal-overflow protection
+- desktop shell preservation
+
+The workflow also rejects high-severity npm dependency findings before browser execution.
 
 ---
 
-## How the pool was built
-
-The URL corpus was assembled from:
-
-- Start.me OSINT and security pages collected via Playwright/CDP
-- GitHub awesome-lists across 21 categories
-- manual curation passes with a two-stage liveness gate (automated HTTP sweep + human relevance sign-off)
-
-The current evidence-bound corpus baseline contains **50,109 structurally valid URLs across 12,396 unique hosts** (SHA-256: `5d7339b8cbfe7bd35bb8502ca753e5b4663bc2fc4ba3721b23b791dbace01c41`). This is a reproducible structural count for the audited corpus revision, not proof that every third-party endpoint is live at viewing time. The pool-sweep workflow performs continuing liveness maintenance.
-
-## Features
-
-- **RANDOM** — roll a verified live URL from the pool
-- **BRANCH** — SPROUT generates four directional suggestions using OG metadata + Wikipedia API keyword extraction
-- **FILTER** — lock rolls to a category (CODE, OSINT, BLOG, NEWS, RESEARCH, BOUNTY, VIDEO, SOCIAL, REF, ARCHIVE, PKG, COURSE, EVENT, HARDWARE, TOR)
-- **HISTORY** — scrollable session history with revisit links
-- **SHARE CARD** — download a PNG card of the current rabbit hole
-- **COPY TRAIL** — export the session as Markdown with links and timestamps
-- **SUBMIT URL** — suggest additions through a pre-filled GitHub issue
-- **PWA** — installable home-screen app with an offline shell cache
-- **Dark/light mode** — persisted display preference
-
-## Keyboard shortcuts
-
-| Key | Action |
-|---|---|
-| Space | Roll new URL |
-| Enter | Visit current URL |
-| S | Skip |
-| P | Sprout branches |
-| C | Download share card |
-| ? or H | Toggle help |
-| ESC | Close overlay |
-
 ## Architecture
 
-The browser application is intentionally framework-free: vanilla JavaScript, HTML, and CSS with no production build pipeline. A Cloudflare Worker backend handles metadata fetching and proxy-related functionality, including cache/rate/origin controls. Playwright exists as a development-only browser test harness.
+The application is intentionally framework-free. The browser client is vanilla JavaScript, HTML, and CSS. A Cloudflare Worker provides metadata/proxy-related services, while Playwright is development-only infrastructure.
 
 ```text
-browser / GitHub Pages
-        ↓
-static r4b1t client
-        ↓
-curated URL corpus + session state
-        ↓
-optional Worker-backed metadata/proxy services
+                     r4b1t
+                       │
+                shared browser engine
+                       │
+        ┌──────────────┴──────────────┐
+        │                             │
+ desktop shell                  mobile shell
+        │                             │
+        └──────────────┬──────────────┘
+                       │
+              corpus + session state
+                       │
+        optional Worker-backed services
 ```
+
+The mobile layer mirrors authoritative state from the existing engine rather than duplicating discovery logic. This keeps route selection, filters, branching, history, and trail behavior consistent across interfaces.
+
+## PWA and deployment
+
+The service worker precaches the static application shell, including the dual-shell assets. Corpus and Worker-backed requests remain network-oriented rather than being treated as permanently valid cached evidence.
+
+GitHub Pages serves the live application from the repository deployment path. The same deployed code chooses the appropriate interface from viewport width; there is no separate mobile site or user-agent fork.
+
+---
 
 ## Pool management
 
@@ -124,23 +226,27 @@ python pool_sweep.py --workers 30 --timeout 8
 sqlite3 pool_sweep.db "SELECT url FROM pool WHERE reachable=1" > pool_alive.txt
 ```
 
-Treat a sweep as time-bounded evidence: an endpoint reachable during one run can disappear or change later. Preserve the corpus revision and sweep output when using the pool in research.
+Treat each sweep as time-bounded evidence. A route reachable during one run may disappear, redirect, or change later. Preserve the corpus revision and sweep output when using the pool in research.
 
 ## Verification surfaces
 
 | Surface | Evidence |
 |---|---|
-| Browser behavior | Playwright E2E workflow across desktop/mobile projects |
+| Desktop behavior | Playwright desktop Chromium project |
+| Mobile behavior | Playwright mobile Chromium project |
+| Responsive shell switch | viewport-switch regression coverage |
+| Filter fidelity | mobile select/reset regression coverage |
+| Route fidelity | selected URL hostname mirrored into mobile shell |
 | Dependency gate | `npm audit --audit-level=high` in CI |
-| Corpus maintenance | scheduled/operational pool-sweep workflow |
-| Deployment | GitHub Pages deployment workflow |
-| Visual proof | five retained project screenshots above |
+| Corpus maintenance | pool-sweep workflow and preserved evidence revisions |
+| Deployment | GitHub Pages |
+| Visual lineage | retained project screenshots |
 
-A green browser workflow establishes the tested interaction paths for that revision. It does not prove that every third-party URL in the corpus is still reachable at viewing time.
+A green browser workflow establishes the tested interaction paths for that revision. It does not prove that every third-party URL in the corpus is reachable at viewing time.
 
 ## Submit a URL
 
-Found something worth adding? Click **SUBMIT URL** in the tool or [open an issue](https://github.com/GnomeMan4201/r4b1t/issues/new?labels=url-submission).
+Found something worth adding? Use **SUBMIT URL** inside r4b1t or open a repository issue with the `url-submission` label.
 
 ## Built by
 
