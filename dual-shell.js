@@ -3,7 +3,6 @@
 
   var MOBILE_QUERY = '(max-width: 900px)';
   var mq = window.matchMedia(MOBILE_QUERY);
-  var mobileRoot = null;
   var syncObserver = null;
   var filterObserver = null;
   var branchObserver = null;
@@ -48,6 +47,24 @@
     return value && value !== '—' ? value : '';
   }
 
+  function hostnameFor(url, fallback) {
+    try { return new URL(url).hostname.replace(/^www\./, ''); }
+    catch (_) { return fallback || ''; }
+  }
+
+  function sourceFilterIsActive(button) {
+    if (!button) return false;
+    if (button.classList.contains('active') || button.getAttribute('aria-pressed') === 'true') return true;
+    var color = String(button.style.color || '').replace(/\s+/g, '').toLowerCase();
+    var border = String(button.style.borderColor || '').replace(/\s+/g, '').toLowerCase();
+    return color === '#cc1111' || color === 'rgb(204,17,17)' || border === '#cc1111' || border === 'rgb(204,17,17)';
+  }
+
+  function branchModeActive() {
+    var branch = byId('btnModeBranch');
+    return Boolean(branch && branch.classList.contains('active'));
+  }
+
   function shellMarkup() {
     return [
       '<main class="r4m-shell" aria-label="r4b1t mobile interface">',
@@ -62,13 +79,13 @@
         '<div class="r4m-status"><span>APERTURE / RANDOM</span><b id="r4mModeLabel">UNBOUNDED</b></div>',
         '<section class="r4m-hero" id="r4mHero">',
           '<img src="rabbit-aperture.svg" alt="" aria-hidden="true">',
-          '<small>APERTURE EMPTY / READY</small>',
+          '<small id="r4mApertureState">APERTURE EMPTY / READY</small>',
           '<h1>NOT SEARCH.<br>NOT A FEED.<br><span>A DOOR.</span></h1>',
           '<p>Curated routes. No profile. No tracking.</p>',
           '<em>R4B1T / APERTURE</em>',
         '</section>',
         '<button class="r4m-roll" id="r4mRoll" type="button">',
-          '<span><small>R / RANDOM</small><strong>ROLL</strong><em>FULL CORPUS</em></span><b>↓</b>',
+          '<span><small>R / RANDOM</small><strong>ROLL</strong><em id="r4mRollScope">FULL CORPUS</em></span><b>↓</b>',
         '</button>',
         '<section class="r4m-route" id="r4mRoute" hidden>',
           '<div class="r4m-route-top"><span>ROUTE / <b id="r4mRouteNo">001</b></span><strong id="r4mTag">ROUTE</strong></div>',
@@ -123,13 +140,11 @@
     host.id = 'r4mShellHost';
     host.innerHTML = shellMarkup();
     document.body.appendChild(host);
-    mobileRoot = host;
 
     host.addEventListener('click', function (event) {
       var target = event.target.closest('[data-mobile-action]');
       if (!target) return;
-      var action = target.getAttribute('data-mobile-action');
-      handleAction(action);
+      handleAction(target.getAttribute('data-mobile-action'));
     });
 
     var backdrop = byId('r4mBackdrop');
@@ -144,16 +159,16 @@
     if (action === 'next') return call('roll');
     if (action === 'visit') return call('visit');
     if (action === 'sprout') {
-      call('setMode', 'branch');
-      call('sprout');
+      if (branchModeActive()) call('sprout');
+      else call('setMode', 'branch');
       openSheet('r4mBranchSheet');
-      window.setTimeout(syncBranch, 120);
+      window.setTimeout(syncBranch, 180);
       return;
     }
     if (action === 'branch') {
-      call('setMode', 'branch');
+      if (!branchModeActive()) call('setMode', 'branch');
       openSheet('r4mBranchSheet');
-      syncBranch();
+      window.setTimeout(syncBranch, 60);
       return;
     }
     if (action === 'share' || action === 'cut') return call('shareCard');
@@ -194,27 +209,28 @@
     var sourceTitle = byId('ogTitle');
     var sourceDesc = byId('ogDesc');
     var tagBadge = byId('tagBadge');
-    var torBadge = byId('darkBadge');
     var counter = byId('counter');
 
     if (!route) return;
     var active = Boolean(domain && url);
     route.hidden = !active;
     document.documentElement.classList.toggle('r4m-has-route', active);
+    var apertureState = byId('r4mApertureState');
+    if (apertureState) apertureState.textContent = active ? 'APERTURE OPEN / ROUTE READY' : 'APERTURE EMPTY / READY';
     if (!active) return;
 
+    var displayDomain = hostnameFor(url, domain);
     var proto = /^https:/i.test(url) ? 'https://' : (/^http:/i.test(url) ? 'http://' : 'route://');
     var desc = (sourceDesc && sourceDesc.textContent.trim()) || (sourceTitle && sourceTitle.textContent.trim()) || 'A route selected from the corpus.';
-    var torVisible = torBadge && torBadge.style.display !== 'none' && torBadge.textContent.trim();
     var tagVisible = tagBadge && tagBadge.style.display !== 'none' && tagBadge.textContent.trim();
-    var tag = torVisible || tagVisible || 'ROUTE';
+    var tag = tagVisible || (/\.onion(?:\/|$)/i.test(url) ? 'TOR' : 'ROUTE');
 
     byId('r4mProtocol').textContent = proto;
-    byId('r4mDomain').textContent = domain.toUpperCase();
+    byId('r4mDomain').textContent = displayDomain.toUpperCase();
     byId('r4mUrl').textContent = url;
     byId('r4mDescription').textContent = desc;
     byId('r4mTag').textContent = tag;
-    byId('r4mInspectDomain').textContent = domain;
+    byId('r4mInspectDomain').textContent = displayDomain;
     byId('r4mInspectUrl').textContent = url;
     byId('r4mInspectDesc').textContent = desc;
     if (counter) {
@@ -230,34 +246,35 @@
     var dest = byId('r4mFilterOptions');
     if (!dest) return;
     var buttons = source ? Array.from(source.querySelectorAll('button')) : [];
+    var activeSource = buttons.find(sourceFilterIsActive) || null;
     dest.innerHTML = '';
+
+    var label = byId('r4mFilterLabel');
+    var scope = byId('r4mRollScope');
+    if (label) label.textContent = activeSource ? activeSource.textContent.trim().toUpperCase() : 'ALL SIGNALS';
+    if (scope) scope.textContent = activeSource ? activeSource.textContent.trim().toUpperCase() + ' ROUTES' : 'FULL CORPUS';
 
     var all = document.createElement('button');
     all.type = 'button';
-    var activeSource = buttons.find(function (b) { return b.classList.contains('active') || b.getAttribute('aria-pressed') === 'true'; });
-    all.className = 'r4m-filter-proxy' + (!activeSource || /^all\b/i.test(activeSource.textContent.trim()) ? ' active' : '');
+    all.className = 'r4m-filter-proxy' + (!activeSource ? ' active' : '');
     all.textContent = 'ALL SIGNALS';
     all.addEventListener('click', function () {
       var sourceButtons = source ? Array.from(source.querySelectorAll('button')) : [];
-      var allSource = sourceButtons.find(function (b) { return /all/i.test(b.textContent); });
-      if (allSource) allSource.click();
-      byId('r4mFilterLabel').textContent = 'ALL SIGNALS';
+      var currentActive = sourceButtons.find(sourceFilterIsActive);
+      if (currentActive) currentActive.click();
       closeSheets();
-      syncFilter();
+      window.setTimeout(syncFilter, 20);
     });
     dest.appendChild(all);
 
     buttons.forEach(function (button, index) {
-      if (/^all\b/i.test(button.textContent.trim())) return;
       var proxy = document.createElement('button');
       proxy.type = 'button';
-      proxy.className = 'r4m-filter-proxy';
+      proxy.className = 'r4m-filter-proxy' + (sourceFilterIsActive(button) ? ' active' : '');
       proxy.textContent = button.textContent.trim();
-      if (button.classList.contains('active') || button.getAttribute('aria-pressed') === 'true') proxy.classList.add('active');
       proxy.addEventListener('click', function () {
         var current = source ? Array.from(source.querySelectorAll('button'))[index] : null;
         if (current) current.click();
-        byId('r4mFilterLabel').textContent = proxy.textContent.toUpperCase();
         closeSheets();
         window.setTimeout(syncFilter, 20);
       });
@@ -276,7 +293,7 @@
     var source = byId('branchGrid');
     var dest = byId('r4mBranchOptions');
     if (!dest) return;
-    var items = source ? Array.from(source.children) : [];
+    var items = source ? Array.from(source.querySelectorAll('.branch-item')) : [];
     dest.innerHTML = '';
 
     if (!currentUrl()) {
@@ -294,7 +311,8 @@
       proxy.className = 'r4m-branch-proxy';
       proxy.innerHTML = '<span>' + String(index + 1).padStart(2, '0') + '</span><p>' + escapeHtml(item.textContent.trim()) + '</p>';
       proxy.addEventListener('click', function () {
-        var current = source ? source.children[index] : null;
+        var currentItems = source ? source.querySelectorAll('.branch-item') : [];
+        var current = currentItems[index];
         if (current) current.click();
         closeSheets();
       });
