@@ -205,7 +205,9 @@
 
     var proto = /^https:/i.test(url) ? 'https://' : (/^http:/i.test(url) ? 'http://' : 'route://');
     var desc = (sourceDesc && sourceDesc.textContent.trim()) || (sourceTitle && sourceTitle.textContent.trim()) || 'A route selected from the corpus.';
-    var tag = (torBadge && torBadge.textContent.trim()) || (tagBadge && tagBadge.textContent.trim()) || 'ROUTE';
+    var torVisible = torBadge && torBadge.style.display !== 'none' && torBadge.textContent.trim();
+    var tagVisible = tagBadge && tagBadge.style.display !== 'none' && tagBadge.textContent.trim();
+    var tag = torVisible || tagVisible || 'ROUTE';
 
     byId('r4mProtocol').textContent = proto;
     byId('r4mDomain').textContent = domain.toUpperCase();
@@ -232,7 +234,8 @@
 
     var all = document.createElement('button');
     all.type = 'button';
-    all.className = 'r4m-filter-proxy active';
+    var activeSource = buttons.find(function (b) { return b.classList.contains('active') || b.getAttribute('aria-pressed') === 'true'; });
+    all.className = 'r4m-filter-proxy' + (!activeSource || /^all\b/i.test(activeSource.textContent.trim()) ? ' active' : '');
     all.textContent = 'ALL SIGNALS';
     all.addEventListener('click', function () {
       var sourceButtons = source ? Array.from(source.querySelectorAll('button')) : [];
