@@ -5,8 +5,27 @@
 <p align="center">
   <a href="https://r4b1t.badbananaresearch.com"><strong>Project site</strong></a>
   ·
-  <a href="https://gnomeman4201.github.io/r4b1t/"><strong>Launch r4b1t</strong></a>
+  <a href="https://gnomeman4201.github.io/r4b1t/"><strong>Auto launch</strong></a>
 </p>
+
+## Quick launch
+
+<table>
+<tr>
+<td align="center" width="50%">
+<strong>DESKTOP / WORKSTATION</strong><br>
+<sub>Full exploratory interface · keyboard-first controls · branch tree</sub><br><br>
+<a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH DESKTOP ↗</strong></a>
+</td>
+<td align="center" width="50%">
+<strong>MOBILE / FIELD SHELL</strong><br>
+<sub>Thumb-first aperture · compact route cards · sticky navigation</sub><br><br>
+<a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH MOBILE ↗</strong></a>
+</td>
+</tr>
+</table>
+
+> Both launch controls open the same GitHub Pages deployment. r4b1t selects the interface from the viewport: **desktop above 900 px**, **mobile at 900 px and below**. Resizing across the breakpoint switches shells without reloading and both interfaces use the same corpus, session state, and discovery engine.
 
 > Curated web discovery instrument for security, OSINT, research, development, and the weird internet.
 
