@@ -12,11 +12,13 @@
   }
 
   function hasRoute() {
-    var value = text('previewUrl', '');
-    return Boolean(value && value !== '—');
+    var route = byId('r4mRoute');
+    return Boolean(route && !route.hidden);
   }
 
   function routeNumber() {
+    var displayed = text('r4mRouteNo', '');
+    if (/^\d+$/.test(displayed)) return String(displayed).padStart(3, '0');
     var counter = text('counter', '');
     var match = counter.match(/\d+/);
     return match ? String(match[0]).padStart(3, '0') : '---';
@@ -66,7 +68,7 @@
     var enter = document.querySelector('.r4m-enter');
     if (enter) enter.textContent = 'FOLLOW ROUTE ↗';
 
-    var watched = ['previewUrl', 'previewDomain', 'counter', 'r4mModeLabel', 'r4mRollScope'];
+    var watched = ['r4mRoute', 'r4mRouteNo', 'previewUrl', 'previewDomain', 'counter', 'r4mModeLabel', 'r4mRollScope'];
     observer = new MutationObserver(function () { window.requestAnimationFrame(sync); });
     watched.forEach(function (id) {
       var node = byId(id);
