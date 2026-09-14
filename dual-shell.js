@@ -80,7 +80,7 @@
         '<section class="r4m-hero" id="r4mHero">',
           '<img src="rabbit-aperture.svg" alt="" aria-hidden="true">',
           '<small id="r4mApertureState">APERTURE EMPTY / READY</small>',
-          '<h1>NOT SEARCH.<br>NOT A FEED.<br><span>A DOOR.</span></h1>',
+          '<h1>NOT SEARCH.<br>NOT A FEED.<br><span>DOWN THE<br>RABBIT HOLE.</span></h1>',
           '<p>Curated routes. No profile. No tracking.</p>',
           '<em>R4B1T / APERTURE</em>',
         '</section>',
