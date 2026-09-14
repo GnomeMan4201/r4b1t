@@ -199,6 +199,7 @@
         '<button class="btn-share-trail" type="button" data-trail-action="import">IMPORT JSON</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="replay">REPLAY NEXT</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="fork">FORK HERE</button>' +
+        '<button class="btn-share-trail" type="button" data-trail-action="blind">BLIND DESCENT</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="reset">NEW TRAIL</button>' +
       '</div>' +
       '<button class="btn-share-trail" type="button" data-trail-action="close">CLOSE [ESC]</button>' +
@@ -212,6 +213,7 @@
       if (action === 'import') return document.getElementById('trailLedgerFile').click();
       if (action === 'replay') return replayStep().catch(showError);
       if (action === 'fork') return forkTrail().catch(showError);
+      if (action === 'blind') { closePanel(); return window.openBlindDescent(); }
       if (action === 'reset') return resetTrail();
     });
     overlay.addEventListener('click', function (event) { if (event.target === overlay) closePanel(); });
