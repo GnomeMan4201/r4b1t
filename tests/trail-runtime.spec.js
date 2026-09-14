@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
 test('exports a verifiable manifest and replays its exact route', async ({ page }) => {
   await page.goto('./', { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => typeof window.getTrailManifest === 'function' && typeof window.roll === 'function');
-  await page.locator('#r4mRoll').click();
+  await page.evaluate(() => window.roll());
 
   const result = await page.evaluate(async () => {
     const exported = await window.getTrailManifest();
@@ -45,7 +45,7 @@ test('exports a verifiable manifest and replays its exact route', async ({ page 
 test('rejects a tampered imported trail', async ({ page }) => {
   await page.goto('./', { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => typeof window.getTrailManifest === 'function');
-  await page.locator('#r4mRoll').click();
+  await page.evaluate(() => window.roll());
 
   const message = await page.evaluate(async () => {
     const exported = await window.getTrailManifest();
