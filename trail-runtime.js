@@ -119,6 +119,7 @@
     link.click();
     setTimeout(function () { URL.revokeObjectURL(link.href); }, 0);
     state.imported = result;
+    if (window.rememberTopologySnapshot) await window.rememberTopologySnapshot(result);
     renderPanel();
     return result;
   }
@@ -126,6 +127,7 @@
   async function importTrail(input) {
     var verified = await api.verify(input);
     state.imported = verified;
+    if (window.rememberTopologySnapshot) await window.rememberTopologySnapshot(verified);
     state.replayIndex = 0;
     renderPanel('VERIFIED / READY TO REPLAY');
     return verified;
@@ -166,7 +168,9 @@
     state.replayIndex = 0;
     persist();
     renderPanel('FORKED / STEP ' + String(forkAt).padStart(3, '0'));
-    return currentEnvelope();
+    var child = await currentEnvelope();
+    if (window.rememberTopologySnapshot) await window.rememberTopologySnapshot(child);
+    return child;
   }
 
   function resetTrail() {
@@ -200,6 +204,7 @@
         '<button class="btn-share-trail" type="button" data-trail-action="replay">REPLAY NEXT</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="fork">FORK HERE</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="blind">BLIND DESCENT</button>' +
+        '<button class="btn-share-trail" type="button" data-trail-action="topology">MAP TRAILS</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="reset">NEW TRAIL</button>' +
       '</div>' +
       '<button class="btn-share-trail" type="button" data-trail-action="close">CLOSE [ESC]</button>' +
@@ -214,6 +219,9 @@
       if (action === 'replay') return replayStep().catch(showError);
       if (action === 'fork') return forkTrail().catch(showError);
       if (action === 'blind') { closePanel(); return window.openBlindDescent(); }
+      if (action === 'topology') {
+        return currentEnvelope().then(function (snapshot) { closePanel(); return window.openTrailTopology(snapshot); }).catch(showError);
+      }
       if (action === 'reset') return resetTrail();
     });
     overlay.addEventListener('click', function (event) { if (event.target === overlay) closePanel(); });

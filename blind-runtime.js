@@ -149,6 +149,7 @@
     link.href = URL.createObjectURL(blob);
     link.click();
     setTimeout(function () { URL.revokeObjectURL(link.href); }, 0);
+    if (window.rememberTopologySnapshot) await window.rememberTopologySnapshot(result);
     render('SNAPSHOT EXPORTED / PRIVATE SECRETS WITHHELD');
     return result;
   }
@@ -204,7 +205,7 @@
     overlay.innerHTML = '<div class="blind-grid">' +
       '<header class="blind-head"><div><div class="blind-kicker">APERTURE / BLIND</div><h2 class="blind-title" id="blindDescentTitle">BLIND DESCENT</h2></div><div class="blind-depth" id="blindDepth">000<small>DEPTH / COMMITTED</small></div></header>' +
       '<div><article class="blind-card" id="blindCard"><div class="blind-state" id="blindStatus">READY / NOTHING SELECTED</div><div class="blind-message" id="blindMessage">DESCEND WITHOUT <span>LOOKING.</span></div><div class="blind-proof" id="blindProof">Selection happens before reveal. Reveal cannot reroll, replace, filter, or reject.</div></article><div class="blind-chain" id="blindChain" aria-label="Committed blind steps"></div></div>' +
-      '<footer><div class="blind-actions"><button type="button" data-blind-action="descend">DESCEND BLIND</button><button type="button" data-blind-action="reveal">REVEAL ROUTE</button><button type="button" data-blind-action="return">RETURN</button></div><div class="blind-subactions"><button type="button" data-blind-action="export">EXPORT PUBLIC SNAPSHOT</button><button type="button" data-blind-action="reset">NEW GENESIS</button><button type="button" data-blind-action="close">CLOSE</button></div></footer>' +
+      '<footer><div class="blind-actions"><button type="button" data-blind-action="descend">DESCEND BLIND</button><button type="button" data-blind-action="reveal">REVEAL ROUTE</button><button type="button" data-blind-action="return">RETURN</button></div><div class="blind-subactions"><button type="button" data-blind-action="export">EXPORT PUBLIC SNAPSHOT</button><button type="button" data-blind-action="topology">MAP TRAILS</button><button type="button" data-blind-action="reset">NEW GENESIS</button><button type="button" data-blind-action="close">CLOSE</button></div></footer>' +
     '</div>';
     overlay.addEventListener('click', function (event) {
       var button = event.target.closest('[data-blind-action]');
@@ -214,6 +215,7 @@
       if (action === 'reveal') reveal().catch(showError);
       if (action === 'return') returnTowardSurface().catch(showError);
       if (action === 'export') exportSnapshot().catch(showError);
+      if (action === 'topology') currentEnvelope().then(function (snapshot) { close(); return window.openTrailTopology(snapshot); }).catch(showError);
       if (action === 'reset') reset().catch(showError);
       if (action === 'close') close();
     });
