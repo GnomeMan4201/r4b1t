@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v8-trail-topology';
+const CACHE = 'r4b1t-v9-visible-wear';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
@@ -12,6 +12,8 @@ const PRECACHE = [
   '/r4b1t/blind-runtime.js',
   '/r4b1t/trail-topology.js',
   '/r4b1t/topology-runtime.js',
+  '/r4b1t/trail-wear.js',
+  '/r4b1t/trail-wear.css',
   '/r4b1t/rabbit-aperture.svg',
   '/r4b1t/banana-note.svg',
   '/r4b1t/favicon.ico',

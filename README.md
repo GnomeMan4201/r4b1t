@@ -134,6 +134,7 @@ The corpus was assembled from sources including:
 | **TRAIL** | Preserve the visited path through the rabbit hole |
 | **BLIND DESCENT** | Commit routes before revealing them, with verifiable v0.2 snapshots |
 | **TRAIL TOPOLOGY** | Map verified local snapshots, forks, concealed stops, and unresolved parent declarations |
+| **VISIBLE WEAR** | Encode depth, creases, folds, redaction, inheritance, and divergence directly into trail paper |
 | **INSPECT** | Review current route details on mobile without leaving the shell |
 | **SHARE CARD** | Generate a PNG card for the current route |
 | **COPY TRAIL** | Export the session as Markdown with links and timestamps |
@@ -217,6 +218,7 @@ Current regression coverage includes:
 - concealed-step leak prevention and reveal verification
 - Blind Descent layout on mobile
 - local topology mapping, tamper rejection, and mobile containment
+- persistent wear mapping plus distinct descend, return, and organic ink-reveal treatments
 
 The workflow also rejects high-severity npm dependency findings before browser execution.
 

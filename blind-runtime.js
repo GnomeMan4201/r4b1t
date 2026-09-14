@@ -98,7 +98,7 @@
     state.currentDepth += 1;
     state.revealedUrl = null;
     save();
-    render('CONCEALED / COMMITMENT PRESENT');
+    render('CONCEALED / COMMITMENT PRESENT', { motion: 'descend' });
     return api.envelope(state.manifest);
   }
 
@@ -124,7 +124,7 @@
     delete state.secrets[String(selected)];
     save();
     if (typeof window.selectUrl === 'function') window.selectUrl(secret.url);
-    render('REVEALED / COMMITMENT VERIFIED');
+    render('REVEALED / COMMITMENT VERIFIED', { revealIndex: selected, motion: 'reveal' });
     return secret.url;
   }
 
@@ -132,7 +132,7 @@
     await ready();
     state.currentDepth = Math.max(0, state.currentDepth - 1);
     save();
-    render('RETURNING / COMMITMENTS UNCHANGED');
+    render('RETURNING / COMMITMENTS UNCHANGED', { motion: 'return' });
     return state.currentDepth;
   }
 
@@ -184,8 +184,7 @@
       '.blind-message{position:relative;font-family:"Bebas Neue",sans-serif;font-size:clamp(42px,10vw,86px);line-height:.9;max-width:620px}' +
       '.blind-message span{color:#ff3333}' +
       '.blind-proof{position:relative;font-size:9px;line-height:1.7;color:#9a8f7a;margin-top:24px;overflow-wrap:anywhere}' +
-      '.blind-card.revealed .blind-message{animation:blindInk .72s steps(9,end)}' +
-      '@keyframes blindInk{0%{clip-path:inset(0 100% 0 0);filter:blur(12px)}65%{filter:blur(3px)}100%{clip-path:inset(0);filter:blur(0)}}' +
+      '.blind-wear{margin-top:16px}' +
       '.blind-chain{display:flex;gap:7px;flex-wrap:wrap;min-height:18px}' +
       '.blind-link{width:16px;height:16px;border:1px solid #60342e;transform:rotate(45deg)}' +
       '.blind-link.revealed{background:#cc1111}.blind-link.concealed{background:#24100e}' +
@@ -204,7 +203,7 @@
     overlay.setAttribute('aria-labelledby', 'blindDescentTitle');
     overlay.innerHTML = '<div class="blind-grid">' +
       '<header class="blind-head"><div><div class="blind-kicker">APERTURE / BLIND</div><h2 class="blind-title" id="blindDescentTitle">BLIND DESCENT</h2></div><div class="blind-depth" id="blindDepth">000<small>DEPTH / COMMITTED</small></div></header>' +
-      '<div><article class="blind-card" id="blindCard"><div class="blind-state" id="blindStatus">READY / NOTHING SELECTED</div><div class="blind-message" id="blindMessage">DESCEND WITHOUT <span>LOOKING.</span></div><div class="blind-proof" id="blindProof">Selection happens before reveal. Reveal cannot reroll, replace, filter, or reject.</div></article><div class="blind-chain" id="blindChain" aria-label="Committed blind steps"></div></div>' +
+      '<div><article class="blind-card" id="blindCard"><div class="blind-state" id="blindStatus">READY / NOTHING SELECTED</div><div class="blind-message" id="blindMessage">DESCEND WITHOUT <span>LOOKING.</span></div><div class="blind-proof" id="blindProof">Selection happens before reveal. Reveal cannot reroll, replace, filter, or reject.</div></article><div class="blind-wear" id="blindWear" aria-label="Persistent trail wear"></div></div>' +
       '<footer><div class="blind-actions"><button type="button" data-blind-action="descend">DESCEND BLIND</button><button type="button" data-blind-action="reveal">REVEAL ROUTE</button><button type="button" data-blind-action="return">RETURN</button></div><div class="blind-subactions"><button type="button" data-blind-action="export">EXPORT PUBLIC SNAPSHOT</button><button type="button" data-blind-action="topology">MAP TRAILS</button><button type="button" data-blind-action="reset">NEW GENESIS</button><button type="button" data-blind-action="close">CLOSE</button></div></footer>' +
     '</div>';
     overlay.addEventListener('click', function (event) {
@@ -222,7 +221,7 @@
     document.body.appendChild(overlay);
   }
 
-  function render(status) {
+  function render(status, transition) {
     ensureOverlay();
     if (!state.manifest) return;
     var wear = api.deriveWear(state.manifest);
@@ -233,7 +232,13 @@
     document.getElementById('blindStatus').textContent = status || 'READY / COMMIT LOCALLY';
     card.style.transform = 'rotate(' + Math.min(wear.committed_count * 0.13, 1.3) + 'deg)';
     card.style.borderRadius = '0 0 ' + wear.fold_size + 'px 0';
+    transition = transition || {};
+    card.classList.remove('ink-reveal-card', 'motion-descend-card', 'motion-return-card');
+    void card.offsetWidth;
     card.classList.toggle('revealed', Boolean(state.revealedUrl));
+    if (transition.motion === 'reveal') card.classList.add('ink-reveal-card');
+    if (transition.motion === 'descend') card.classList.add('motion-descend-card');
+    if (transition.motion === 'return') card.classList.add('motion-return-card');
     if (state.revealedUrl) {
       var domain = new URL(state.revealedUrl).hostname.replace(/^www\./, '');
       message.textContent = domain;
@@ -245,14 +250,15 @@
       message.innerHTML = 'DESCEND WITHOUT <span>LOOKING.</span>';
       proof.textContent = 'Selection happens before reveal. Reveal cannot reroll, replace, filter, or reject.';
     }
-    var chain = document.getElementById('blindChain');
-    chain.innerHTML = '';
-    state.manifest.steps.forEach(function (step) {
-      var marker = document.createElement('span');
-      marker.className = 'blind-link ' + step.state;
-      marker.title = 'STEP ' + String(step.index).padStart(3, '0') + ' / ' + step.state.toUpperCase();
-      chain.appendChild(marker);
-    });
+    if (window.R4b1tWear) {
+      window.R4b1tWear.render(document.getElementById('blindWear'), state.manifest, {
+        depth: state.currentDepth,
+        crease_count: wear.creases,
+        fold_size: wear.fold_size,
+        motion: transition.motion === 'reveal' ? null : transition.motion,
+        revealIndex: transition.revealIndex
+      });
+    }
   }
 
   function showError(error) {
