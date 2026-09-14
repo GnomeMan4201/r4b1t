@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">r4b1t trail wear visual state reference</title>
+<desc id="desc">A parent and forked child paper trail showing revealed, concealed, inherited, divergent, creased, and ink-reveal states.</desc>
+<defs>
+  <linearGradient id="paper" x1="0" x2="1"><stop stop-color="#c7baa4"/><stop offset=".35" stop-color="#eee5d2"/><stop offset=".72" stop-color="#d5c8b2"/><stop offset="1" stop-color="#b5a68d"/></linearGradient>
+  <pattern id="redact" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(28)"><rect width="18" height="18" fill="#260708"/><rect width="7" height="18" fill="#4c0d10"/></pattern>
+  <filter id="rough" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".018 .08" numOctaves="3" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="13"/></filter>
+  <filter id="shadow"><feDropShadow dx="7" dy="9" stdDeviation="5" flood-color="#000" flood-opacity=".8"/></filter>
+</defs>
+<rect width="1200" height="760" fill="#090807"/>
+<path d="M0 4H1200" stroke="#cc1111" stroke-width="8"/>
+<text x="58" y="72" fill="#ff3333" font-family="monospace" font-size="16" letter-spacing="5">LOCAL ATLAS / VISUAL STATE REFERENCE</text>
+<text x="58" y="128" fill="#eee5d2" font-family="Impact, sans-serif" font-size="64" letter-spacing="4">TRAIL WEAR</text>
+<text x="58" y="161" fill="#9a8f7a" font-family="monospace" font-size="14">DEPTH → FOLDS  /  CREASE COUNT → DARKNESS  /  FOLD SIZE → WIDTH  /  STATE → PAPER OR REDACTION</text>
+
+<text x="58" y="214" fill="#ff3333" font-family="monospace" font-size="14" letter-spacing="3">PARENT / 76A1C09BEE21</text>
+<text x="850" y="214" fill="#9a8f7a" font-family="monospace" font-size="12">DEPTH 003 / CREASES 006 / FOLD 16 / REDACTED 01</text>
+<g filter="url(#shadow)">
+  <path d="M58 236 L1090 240 L1118 252 L1108 372 L74 368 L58 352Z" fill="url(#paper)" stroke="#7f6f5b" stroke-width="2"/>
+  <path d="M390 238 L730 239 L730 369 L390 369Z" fill="url(#redact)"/>
+  <path d="M390 239V369M730 240V370" stroke="#2a190d" stroke-width="8" opacity=".65"/>
+  <path d="M387 238V369M394 238V369M726 240V370M735 240V370" stroke="#fff5" stroke-width="2"/>
+  <path d="M226 238 C219 271 232 321 223 367" stroke="#392718" stroke-width="7" opacity=".65" fill="none"/>
+  <path d="M229 238 C222 275 235 319 226 367" stroke="#fff" stroke-width="2" opacity=".35" fill="none"/>
+  <path d="M900 241 C894 279 907 327 897 371" stroke="#392718" stroke-width="10" opacity=".72" fill="none"/>
+  <path d="M904 241 C898 281 911 326 901 371" stroke="#fff" stroke-width="3" opacity=".3" fill="none"/>
+</g>
+<text x="84" y="271" fill="#6f5e49" font-family="monospace" font-size="12">000 / REVEALED</text>
+<text x="84" y="319" fill="#17120f" font-family="monospace" font-weight="bold" font-size="24">example.org</text>
+<text x="418" y="271" fill="#e8deca" font-family="monospace" font-size="12">001 / CONCEALED</text>
+<g filter="url(#rough)" fill="#020101"><rect x="420" y="295" width="210" height="14"/><rect x="420" y="320" width="262" height="14"/><rect x="420" y="345" width="165" height="10"/></g>
+<text x="760" y="271" fill="#6f5e49" font-family="monospace" font-size="12">002 / REVEALED</text>
+<text x="760" y="319" fill="#17120f" font-family="monospace" font-weight="bold" font-size="24">archive.example</text>
+
+<path d="M730 370 C730 420 773 423 773 468" fill="none" stroke="#cc1111" stroke-width="7"/>
+<path d="M718 397 L730 379 L742 397Z" fill="#ff3333"/>
+<text x="752" y="417" fill="#ff3333" font-family="monospace" font-size="13" letter-spacing="3">FORK / 001</text>
+
+<text x="96" y="486" fill="#ff3333" font-family="monospace" font-size="14" letter-spacing="3">CHILD / 911CE073D5AA</text>
+<text x="850" y="486" fill="#9a8f7a" font-family="monospace" font-size="12">INHERITED 002 / DIVERGENT 002</text>
+<g filter="url(#shadow)">
+  <path d="M96 508 L1085 513 L1119 530 L1104 675 L110 667 L96 648Z" fill="url(#paper)" stroke="#7f6f5b" stroke-width="2"/>
+  <path d="M96 508H720" stroke="#eee5d2" stroke-width="10"/>
+  <path d="M408 510 L720 511 L720 669 L408 669Z" fill="url(#redact)"/>
+  <path d="M720 511 L1102 516 L1117 532 L1104 675 L720 669Z" fill="#f1dec1"/>
+  <path d="M720 511 L1102 516" stroke="#cc1111" stroke-width="10"/>
+  <path d="M250 509 C243 548 258 617 247 668" stroke="#392718" stroke-width="8" opacity=".7" fill="none"/>
+  <path d="M254 509 C247 549 262 617 251 668" stroke="#fff" stroke-width="2" opacity=".36" fill="none"/>
+  <path d="M715 510V670" stroke="#cc1111" stroke-width="9"/>
+  <path d="M867 513 C856 555 879 620 866 672" stroke="#392718" stroke-width="12" opacity=".76" fill="none"/>
+  <path d="M872 513 C861 555 884 620 871 672" stroke="#fff" stroke-width="3" opacity=".3" fill="none"/>
+</g>
+<text x="120" y="548" fill="#6f5e49" font-family="monospace" font-size="12">000 / INHERITED</text>
+<text x="120" y="603" fill="#17120f" font-family="monospace" font-weight="bold" font-size="22">example.org</text>
+<text x="432" y="548" fill="#e8deca" font-family="monospace" font-size="12">001 / INHERITED + CONCEALED</text>
+<g filter="url(#rough)" fill="#020101"><rect x="435" y="574" width="190" height="14"/><rect x="435" y="600" width="238" height="14"/><rect x="435" y="626" width="145" height="10"/></g>
+<text x="752" y="548" fill="#9a171b" font-family="monospace" font-size="12">002 / DIVERGENT + INK REVEAL</text>
+<path d="M790 585 C812 550 858 559 875 582 C905 555 954 580 944 615 C970 637 920 664 880 643 C848 675 788 644 807 614 C779 608 774 596 790 585Z" fill="#8e1519" opacity=".72" filter="url(#rough)"/>
+<text x="752" y="631" fill="#17120f" font-family="monospace" font-weight="bold" font-size="22">divergent.example</text>
+
+<text x="58" y="725" fill="#9a8f7a" font-family="monospace" font-size="12">STATIC WEAR REMAINS LEGIBLE WITHOUT MOTION. DESCEND EXTENDS. RETURN WITHDRAWS. REVEAL BLOOMS.</text>
+<path d="M0 756H1200" stroke="#cc1111" stroke-width="8"/>
+</svg>

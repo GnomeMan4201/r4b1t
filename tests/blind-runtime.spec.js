@@ -81,3 +81,41 @@ test('blind interface remains within the mobile viewport', async ({ page }, test
   const overflow = await page.evaluate(() => document.getElementById('blindDescentOverlay').scrollWidth > window.innerWidth);
   expect(overflow).toBe(false);
 });
+
+test('wear is persistent and descend, return, and reveal remain visually distinct', async ({ page }) => {
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => typeof window.blindDescend === 'function' && typeof window.R4b1tWear === 'object');
+  const result = await page.evaluate(async () => {
+    await window.openBlindDescent();
+    await window.blindDescend();
+    await window.blindDescend();
+    await window.blindDescend();
+    const afterDescend = {
+      motion: document.querySelector('#blindWear .trail-wear').className,
+      depth: document.querySelector('#blindWear .trail-wear').dataset.depth,
+      creases: document.querySelectorAll('#blindWear .wear-crease').length,
+      concealed: document.querySelectorAll('#blindWear .wear-step.concealed').length,
+    };
+    await window.blindReturn();
+    const afterReturn = document.querySelector('#blindWear .trail-wear').className;
+    await window.blindReveal(2);
+    return {
+      afterDescend,
+      afterReturn,
+      revealWear: document.querySelector('#blindWear .trail-wear').className,
+      inkSegment: document.querySelectorAll('#blindWear .wear-step.ink-reveal').length,
+      inkCard: document.getElementById('blindCard').classList.contains('ink-reveal-card'),
+      revealed: document.querySelectorAll('#blindWear .wear-step.revealed').length,
+    };
+  });
+  expect(result.afterDescend.motion).toContain('motion-descend');
+  expect(result.afterDescend.depth).toBe('3');
+  expect(result.afterDescend.creases).toBe(3);
+  expect(result.afterDescend.concealed).toBe(3);
+  expect(result.afterReturn).toContain('motion-return');
+  expect(result.revealWear).not.toContain('motion-descend');
+  expect(result.revealWear).not.toContain('motion-return');
+  expect(result.inkSegment).toBe(1);
+  expect(result.inkCard).toBe(true);
+  expect(result.revealed).toBe(1);
+});
