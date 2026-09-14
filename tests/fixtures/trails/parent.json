@@ -1,0 +1,29 @@
+{
+  "trail_id": "sha256:f3157a79164b07f2f3fa40902981e06e0f5417a4565a8efa279984706fe2596c",
+  "manifest": {
+    "format": "r4b1t-trail/v0.1",
+    "created_at": "2026-09-14T21:00:00.000Z",
+    "corpus_revision": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sampler": {
+      "algorithm": "uniform-with-repeat-guard-v1",
+      "prng": "mulberry32-v1",
+      "seed": "rabbit-seed"
+    },
+    "terrain": "RESEARCH",
+    "routes": [
+      {
+        "index": 1,
+        "route_id": "sha256:c0cce1c68a7ffbdff9121db547d51e6e41d2a4b03c87791811006bf626d708b5",
+        "url": "https://example.org/one",
+        "action": "ROLL"
+      },
+      {
+        "index": 2,
+        "route_id": "sha256:7daa2d2c7212aca506bca240911fa952f320040103d3462fd3831b07e53d5c59",
+        "url": "https://example.net/two",
+        "action": "BRANCH"
+      }
+    ],
+    "parent": null
+  }
+}

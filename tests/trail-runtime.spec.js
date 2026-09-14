@@ -60,3 +60,30 @@ test('rejects a tampered imported trail', async ({ page }) => {
 
   expect(message).toMatch(/Route ID mismatch/);
 });
+
+test('forks a replayed trail with verifiable parent lineage', async ({ page }) => {
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => typeof window.getTrailManifest === 'function' && typeof window.roll === 'function');
+  await page.evaluate(() => window.roll());
+
+  const result = await page.evaluate(async () => {
+    const parent = await window.getTrailManifest();
+    await window.importTrailManifest(parent);
+    await window.replayTrailManifest(0);
+    const child = await window.forkTrailManifest();
+    const lineage = await window.R4b1tTrail.verifyLineage(child, parent);
+    return {
+      parentId: parent.trail_id,
+      declaredParentId: child.manifest.parent.trail_id,
+      forkAt: lineage.fork_at,
+      inheritedRoute: child.manifest.routes[0].url,
+      parentRoute: parent.manifest.routes[0].url,
+      status: document.getElementById('trailLedgerStatus').textContent,
+    };
+  });
+
+  expect(result.declaredParentId).toBe(result.parentId);
+  expect(result.forkAt).toBe(1);
+  expect(result.inheritedRoute).toBe(result.parentRoute);
+  expect(result.status).toBe('FORKED / STEP 001');
+});

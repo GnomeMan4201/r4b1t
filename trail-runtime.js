@@ -148,6 +148,27 @@
     return urls[selected];
   }
 
+  async function forkTrail(index) {
+    if (!state.imported) throw new Error('Import or export a trail first');
+    var parent = await api.verify(state.imported);
+    var forkAt = typeof index === 'number' ? index : state.replayIndex;
+    if (!Number.isSafeInteger(forkAt) || forkAt < 0 || forkAt > parent.manifest.routes.length) {
+      throw new Error('Fork position is invalid');
+    }
+    state.seed = randomSeed();
+    state.createdAt = new Date().toISOString();
+    state.sampler = api.createSampler(state.seed);
+    state.routes = parent.manifest.routes.slice(0, forkAt).map(function (route) {
+      return { url: route.url, action: route.action };
+    });
+    state.parent = { trail_id: parent.trail_id, fork_at: forkAt };
+    state.imported = null;
+    state.replayIndex = 0;
+    persist();
+    renderPanel('FORKED / STEP ' + String(forkAt).padStart(3, '0'));
+    return currentEnvelope();
+  }
+
   function resetTrail() {
     state.seed = randomSeed();
     state.createdAt = new Date().toISOString();
@@ -177,6 +198,7 @@
         '<button class="btn-share-trail" type="button" data-trail-action="export">EXPORT JSON</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="import">IMPORT JSON</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="replay">REPLAY NEXT</button>' +
+        '<button class="btn-share-trail" type="button" data-trail-action="fork">FORK HERE</button>' +
         '<button class="btn-share-trail" type="button" data-trail-action="reset">NEW TRAIL</button>' +
       '</div>' +
       '<button class="btn-share-trail" type="button" data-trail-action="close">CLOSE [ESC]</button>' +
@@ -189,6 +211,7 @@
       if (action === 'export') return exportTrail().catch(showError);
       if (action === 'import') return document.getElementById('trailLedgerFile').click();
       if (action === 'replay') return replayStep().catch(showError);
+      if (action === 'fork') return forkTrail().catch(showError);
       if (action === 'reset') return resetTrail();
     });
     overlay.addEventListener('click', function (event) { if (event.target === overlay) closePanel(); });
@@ -208,7 +231,9 @@
     meta.innerHTML = '<dt>TRAIL ID</dt><dd style="color:#e8e0d0;margin:0 0 6px">' + trailId + '</dd>' +
       '<dt>CORPUS REVISION</dt><dd style="color:#e8e0d0;margin:0 0 6px">' + (state.corpusRevision || 'CALCULATING') + '</dd>' +
       '<dt>SEED</dt><dd style="color:#e8e0d0;margin:0 0 6px">' + state.seed + '</dd>' +
-      '<dt>RECORDED ROUTES</dt><dd style="color:#e8e0d0;margin:0">' + state.routes.length + '</dd>';
+      '<dt>RECORDED ROUTES</dt><dd style="color:#e8e0d0;margin:0 0 6px">' + state.routes.length + '</dd>' +
+      '<dt>PARENT / FORK</dt><dd style="color:#e8e0d0;margin:0">' +
+        (state.parent ? state.parent.trail_id + ' / ' + String(state.parent.fork_at).padStart(3, '0') : 'ORIGIN') + '</dd>';
     if (status) document.getElementById('trailLedgerStatus').textContent = status;
   }
 
@@ -233,6 +258,7 @@
   window.exportTrailManifest = exportTrail;
   window.importTrailManifest = importTrail;
   window.replayTrailManifest = replayStep;
+  window.forkTrailManifest = forkTrail;
   window.getTrailManifest = currentEnvelope;
   window.resetReproducibleTrail = resetTrail;
 
