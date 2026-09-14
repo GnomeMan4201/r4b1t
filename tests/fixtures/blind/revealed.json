@@ -1,0 +1,30 @@
+{
+  "trail_id": "sha256:f6ba66bd58f40217aa27d996d4f504011ab3695b4af8808d7aa0b53d83fc4f5c",
+  "manifest": {
+    "format": "r4b1t-trail/v0.2",
+    "genesis": {
+      "domain": "r4b1t-genesis/v0.2",
+      "format": "r4b1t-trail/v0.2",
+      "created_at": "2026-09-14T23:00:00.000Z",
+      "corpus_revision": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "terrain": "RESEARCH",
+      "sampler_algorithm": "uniform-csprng-rejection-v1",
+      "trail_salt": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "parent": null
+    },
+    "genesis_id": "sha256:c51357e1bec0d896b8bb4347d93d40c3c64c2dbcfafea5b3c2d52f94d03cd927",
+    "steps": [
+      {
+        "index": 0,
+        "state": "revealed",
+        "commitment": "sha256:21ed04191937fe78895dd6852ac6ad217dc1b069ef282a667345b0d452c9ff0b",
+        "route": {
+          "route_id": "sha256:07e07b8d6a9a20a44a2cbfa7fb3c76ccb7c1c9b88c124af0848ef611471766c1",
+          "url": "https://example.org/hidden"
+        },
+        "nonce": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE"
+      }
+    ],
+    "migration": null
+  }
+}

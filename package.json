@@ -4,9 +4,10 @@
   "private": true,
   "description": "r4b1t Playwright browser test harness (no build step for the app itself).",
   "scripts": {
-    "test": "node --test tests/trail-manifest.test.js && playwright test",
-    "test:unit": "node --test tests/trail-manifest.test.js",
-    "test:e2e": "playwright test"
+    "test": "node --test tests/trail-manifest.test.js tests/blind-manifest.test.js && playwright test",
+    "test:unit": "node --test tests/trail-manifest.test.js tests/blind-manifest.test.js",
+    "test:e2e": "playwright test",
+    "trail:verify": "node tools/verify-trail.js"
   },
   "devDependencies": {
     "@playwright/test": "1.62.0"

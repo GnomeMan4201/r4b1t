@@ -104,6 +104,10 @@
         action: String((source && source.action) || 'ROLL').toUpperCase()
       });
     }
+    var parent = normalizeParent(options.parent);
+    if (parent && parent.fork_at > routes.length) {
+      throw new TypeError('Fork position exceeds child route prefix');
+    }
     return {
       format: FORMAT,
       created_at: new Date(options.created_at || Date.now()).toISOString(),
@@ -115,7 +119,7 @@
       },
       terrain: String(options.terrain || 'ALL').toUpperCase(),
       routes: routes,
-      parent: normalizeParent(options.parent)
+      parent: parent
     };
   }
 
@@ -141,7 +145,10 @@
     }
     if (typeof manifest.terrain !== 'string' || !manifest.terrain) throw new TypeError('Terrain is invalid');
     if (!Array.isArray(manifest.routes)) throw new TypeError('Routes must be an array');
-    normalizeParent(manifest.parent);
+    var parent = normalizeParent(manifest.parent);
+    if (parent && parent.fork_at > manifest.routes.length) {
+      throw new TypeError('Fork position exceeds child route prefix');
+    }
   }
 
   async function verify(input) {
@@ -167,6 +174,24 @@
     return verified.manifest.routes.map(function (route) { return route.url; });
   }
 
+  async function verifyLineage(childInput, parentInput) {
+    var child = await verify(childInput);
+    var parent = await verify(parentInput);
+    var declaration = child.manifest.parent;
+    if (!declaration) throw new TypeError('Child trail does not declare a parent');
+    if (declaration.trail_id !== parent.trail_id) throw new Error('Parent trail ID mismatch');
+    if (declaration.fork_at > parent.manifest.routes.length ||
+        declaration.fork_at > child.manifest.routes.length) {
+      throw new Error('Fork position exceeds the available route prefix');
+    }
+    for (var index = 0; index < declaration.fork_at; index += 1) {
+      if (canonicalJson(child.manifest.routes[index]) !== canonicalJson(parent.manifest.routes[index])) {
+        throw new Error('Fork prefix mismatch at step ' + (index + 1));
+      }
+    }
+    return { child: child, parent: parent, fork_at: declaration.fork_at };
+  }
+
   return {
     FORMAT: FORMAT,
     canonicalJson: canonicalJson,
@@ -176,6 +201,7 @@
     createManifest: createManifest,
     envelope: envelope,
     verify: verify,
+    verifyLineage: verifyLineage,
     replay: replay
   };
 });

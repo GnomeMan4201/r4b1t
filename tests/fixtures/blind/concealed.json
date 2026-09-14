@@ -1,0 +1,25 @@
+{
+  "trail_id": "sha256:d3acbe0ee784626e6ebceff5ed5012b2e08899b43b6a220e4f5e281b609dfad0",
+  "manifest": {
+    "format": "r4b1t-trail/v0.2",
+    "genesis": {
+      "domain": "r4b1t-genesis/v0.2",
+      "format": "r4b1t-trail/v0.2",
+      "created_at": "2026-09-14T23:00:00.000Z",
+      "corpus_revision": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "terrain": "RESEARCH",
+      "sampler_algorithm": "uniform-csprng-rejection-v1",
+      "trail_salt": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "parent": null
+    },
+    "genesis_id": "sha256:c51357e1bec0d896b8bb4347d93d40c3c64c2dbcfafea5b3c2d52f94d03cd927",
+    "steps": [
+      {
+        "index": 0,
+        "state": "concealed",
+        "commitment": "sha256:21ed04191937fe78895dd6852ac6ad217dc1b069ef282a667345b0d452c9ff0b"
+      }
+    ],
+    "migration": null
+  }
+}

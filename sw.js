@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v6-reproducible-trails';
+const CACHE = 'r4b1t-v7-blind-descent';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
@@ -8,6 +8,8 @@ const PRECACHE = [
   '/r4b1t/dual-shell.css',
   '/r4b1t/trail-manifest.js',
   '/r4b1t/trail-runtime.js',
+  '/r4b1t/blind-manifest.js',
+  '/r4b1t/blind-runtime.js',
   '/r4b1t/rabbit-aperture.svg',
   '/r4b1t/banana-note.svg',
   '/r4b1t/favicon.ico',
