@@ -166,8 +166,12 @@
       action.className = 'wear-step-action';
       action.textContent = stop.inherited ? 'INHERITED' : stop.action;
       segment.appendChild(action);
-      if (stop.url && typeof options.onOpen === 'function') {
-        segment.addEventListener('click', function () { options.onOpen(stop.url, stop); });
+      if (stop.url) {
+        segment.dataset.url = stop.url;
+        segment.setAttribute('aria-label', 'REVEALED STEP ' + String(index).padStart(3, '0') + ' / ' + stop.label);
+        if (typeof options.onOpen === 'function') {
+          segment.addEventListener('click', function () { options.onOpen(stop.url, stop); });
+        }
       }
       if (options.revealIndex === index) {
         var bloom = document.createElement('span');
