@@ -3,6 +3,7 @@
 
 const fs = require('node:fs/promises');
 const trail = require('../trail-manifest.js');
+const blind = require('../blind-manifest.js');
 
 async function readJson(path) {
   if (path === '-') return JSON.parse(await fs.readFile(0, 'utf8'));
@@ -14,7 +15,25 @@ async function main() {
   if (!childPath) {
     throw new Error('Usage: npm run trail:verify -- <trail.json> [parent.json]');
   }
-  const child = await trail.verify(await readJson(childPath));
+  const input = await readJson(childPath);
+  if (input && input.manifest && input.manifest.format === blind.FORMAT) {
+    const child = await blind.verify(input);
+    if (parentPath) {
+      const result = await blind.verifyLineage(child, await readJson(parentPath));
+      console.log('LINEAGE VERIFIED / V0.2');
+      console.log('child:  ' + result.child.trail_id);
+      console.log('parent: ' + result.parent.trail_id);
+      console.log('fork:   ' + result.fork_at);
+      return;
+    }
+    console.log('TRAIL VERIFIED / V0.2');
+    console.log('trail:     ' + child.trail_id);
+    console.log('genesis:   ' + child.manifest.genesis_id);
+    console.log('committed: ' + child.manifest.steps.length);
+    child.statuses.forEach((entry) => console.log('step ' + entry.index + ':    ' + entry.status));
+    return;
+  }
+  const child = await trail.verify(input);
   if (parentPath) {
     const result = await trail.verifyLineage(child, await readJson(parentPath));
     console.log('LINEAGE VERIFIED');

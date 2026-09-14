@@ -132,6 +132,7 @@ The corpus was assembled from sources including:
 | **FILTER** | Restrict rolls by category |
 | **HISTORY** | Revisit routes seen during the session |
 | **TRAIL** | Preserve the visited path through the rabbit hole |
+| **BLIND DESCENT** | Commit routes before revealing them, with verifiable v0.2 snapshots |
 | **INSPECT** | Review current route details on mobile without leaving the shell |
 | **SHARE CARD** | Generate a PNG card for the current route |
 | **COPY TRAIL** | Export the session as Markdown with links and timestamps |
@@ -175,6 +176,19 @@ http://127.0.0.1:8080/
 
 Some metadata and preview behavior relies on deployed backend services, so a bare local static server is not identical to production. It is still suitable for interface, corpus, PWA-shell, navigation, and client-side regression work.
 
+## Verifiable trails
+
+The trail ledger exports content-addressed JSON without an account or server record. Version 0.1 records fully revealed routes and fork lineage. Version 0.2 adds Blind Descent: concealed public steps contain only an index, state, and cryptographic commitment. Reveal material remains local until the user chooses to disclose it.
+
+Verify a trail or an exact parent/child pair locally:
+
+```bash
+npm run trail:verify -- trail.json
+npm run trail:verify -- child.json parent.json
+```
+
+A verified reveal proves that the disclosed route matches its commitment. It does not prove authorship or wall-clock ordering. See [ADR 0002](docs/adr/0002-content-addressed-trails.md) and [ADR 0003](docs/adr/0003-blind-descent-commit-reveal.md) for the complete trust boundary.
+
 ## Browser tests
 
 Node.js is required for the test harness only.
@@ -199,6 +213,8 @@ Current regression coverage includes:
 - sheet interaction behavior
 - horizontal-overflow protection
 - desktop shell preservation
+- concealed-step leak prevention and reveal verification
+- Blind Descent layout on mobile
 
 The workflow also rejects high-severity npm dependency findings before browser execution.
 
