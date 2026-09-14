@@ -11,6 +11,7 @@ class FakeResponse:
     def __init__(self, status_code, url):
         self.status_code = status_code
         self.url = url
+        self.headers = {}
         self.closed = False
 
     def close(self):
