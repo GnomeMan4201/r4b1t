@@ -105,6 +105,7 @@
           '<div class="r4m-section-title"><span>TRAIL</span><b id="r4mTrailCount">00</b></div>',
           '<div class="r4m-trail-scroll" id="r4mTrailItems"><span class="r4m-empty">NO ROUTES YET</span></div>',
           '<button type="button" class="r4m-ledger" data-mobile-action="history">OPEN FULL LEDGER ↗</button>',
+          '<button type="button" class="r4m-ledger" data-mobile-action="trail-file">TRAIL FILE / REPLAY ↗</button>',
           '<img class="r4m-banana" src="banana-note.svg" alt="badBANANA note">',
         '</section>',
         '<nav class="r4m-nav" aria-label="Mobile controls">',
@@ -173,6 +174,7 @@
     }
     if (action === 'share' || action === 'cut') return call('shareCard');
     if (action === 'history') return call('toggleHistory');
+    if (action === 'trail-file') return call('openTrailLedger');
     if (action === 'inspect') {
       syncInspect();
       return openSheet('r4mInspectSheet');

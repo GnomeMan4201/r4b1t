@@ -13,6 +13,8 @@
 </style>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/r4b1t/sw.js").catch(()=>{})}</script>
   <script src="anime.min.js"></script>
+  <script src="trail-manifest.js"></script>
+  <script src="trail-runtime.js" defer></script>
 </head>
 <body>
 
@@ -99,7 +101,7 @@
 <div class="trail-bar">
   <span class="trail-label" id="trailLabel" style="display:none">trail //</span>
   <div id="trailItems"></div>
-  <button class="btn-share-trail" onclick="submitUrl()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">submit url</button><button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">history</button><button class="btn-share-trail" onclick="shareCard()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">share card</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button>
+  <button class="btn-share-trail" onclick="submitUrl()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">submit url</button><button class="btn-share-trail" onclick="toggleHistory()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">history</button><button class="btn-share-trail" onclick="shareCard()" style="margin-right:4px;color:#9a8f7a;border-color:#4a4238">share card</button><button class="btn-share-trail" id="shareTrailBtn" onclick="shareTrail()">copy trail</button><button class="btn-share-trail" onclick="openTrailLedger()">trail file</button>
 </div>
 
 <!-- ── Iframe overlay ───────────────────────────────────────────────────────── -->
