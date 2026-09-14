@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v5-follow-rabbit';
+const CACHE = 'r4b1t-v6-reproducible-trails';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
@@ -6,6 +6,8 @@ const PRECACHE = [
   '/r4b1t/anime-core.min.js',
   '/r4b1t/dual-shell.js',
   '/r4b1t/dual-shell.css',
+  '/r4b1t/trail-manifest.js',
+  '/r4b1t/trail-runtime.js',
   '/r4b1t/rabbit-aperture.svg',
   '/r4b1t/banana-note.svg',
   '/r4b1t/favicon.ico',
