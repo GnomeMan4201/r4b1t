@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v4-rabbit-hero';
+const CACHE = 'r4b1t-v5-follow-rabbit';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',

@@ -98,7 +98,7 @@
             '<button type="button" data-mobile-action="share">SHARE</button>',
             '<button type="button" data-mobile-action="cut">CUT CARD</button>',
           '</div>',
-          '<button class="r4m-enter" type="button" data-mobile-action="visit">ENTER DOOR ↗</button>',
+          '<button class="r4m-enter" type="button" data-mobile-action="visit">FOLLOW THE RABBIT ↗</button>',
           '<button class="r4m-next" type="button" data-mobile-action="next">REJECT / NEXT</button>',
         '</section>',
         '<section class="r4m-trail">',
