@@ -72,7 +72,7 @@
         label: step.state === 'revealed' ? host(step.route.url) : 'concealed',
         url: step.state === 'revealed' ? step.route.url : null,
         action: step.state === 'revealed' ? 'REVEAL' : 'COMMIT',
-        inherited: Boolean(parent && position <= parent.fork_at),
+        inherited: false,
         commitment: step.commitment
       };
     });
@@ -95,7 +95,15 @@
       return leftTime.localeCompare(rightTime) || left.trail_id.localeCompare(right.trail_id);
     });
     var known = Object.create(null);
-    snapshots.forEach(function (snapshot) { known[snapshot.trail_id] = true; });
+    snapshots.forEach(function (snapshot) { known[snapshot.trail_id] = snapshot; });
+    for (var childIndex = 0; childIndex < snapshots.length; childIndex += 1) {
+      var child = snapshots[childIndex];
+      var declaration = parentOf(child);
+      var parent = declaration && known[declaration.trail_id];
+      if (!parent) continue;
+      if (child.manifest.format === trail.FORMAT) await trail.verifyLineage(child, parent);
+      else await blind.verifyLineage(child, parent);
+    }
     return {
       snapshots: snapshots.map(function (snapshot) {
         var parent = parentOf(snapshot);

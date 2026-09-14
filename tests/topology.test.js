@@ -79,3 +79,51 @@ test('topology rejects a tampered snapshot instead of mapping it', async () => {
   snapshot.manifest.routes[0].url = 'https://attacker.invalid/';
   await assert.rejects(() => topology.build([snapshot]), /Route ID mismatch/);
 });
+
+test('topology rejects individually valid snapshots with false lineage', async () => {
+  const parent = await v01({
+    created_at: '2026-09-14T20:00:00.000Z',
+    seed: 'parent',
+    routes: [{ url: 'https://example.org/one', action: 'ROLL' }],
+  });
+  const child = await v01({
+    created_at: '2026-09-14T21:00:00.000Z',
+    seed: 'child',
+    routes: [{ url: 'https://example.net/not-inherited', action: 'ROLL' }],
+    parent: { trail_id: parent.trail_id, fork_at: 1 },
+  });
+  await assert.rejects(() => topology.build([parent, child]), /Fork prefix mismatch/);
+});
+
+test('v0.2 child stops begin after the parent fork and are not inherited', async () => {
+  const parentManifest = await blind.create({
+    created_at: '2026-09-14T22:00:00.000Z',
+    corpus_revision: CORPUS,
+    terrain: 'RESEARCH',
+    trail_salt: SALT,
+  });
+  const parentCommitted = await blind.commit(parentManifest, 'https://example.org/parent', NONCE);
+  const parent = await blind.envelope(parentCommitted.manifest);
+  const childManifest = await blind.create({
+    created_at: '2026-09-14T23:00:00.000Z',
+    corpus_revision: CORPUS,
+    terrain: 'RESEARCH',
+    trail_salt: 'AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI',
+    parent: {
+      trail_id: parent.trail_id,
+      genesis_id: parent.manifest.genesis_id,
+      fork_at: 0,
+      commitment: parent.manifest.steps[0].commitment,
+    },
+  });
+  const childCommitted = await blind.commit(
+    childManifest,
+    'https://example.net/after-fork',
+    'AwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM',
+  );
+  const child = await blind.envelope(childCommitted.manifest);
+  const graph = await topology.build([parent, child]);
+  const childNode = graph.snapshots.find((snapshot) => snapshot.trail_id === child.trail_id);
+  assert.equal(childNode.parent_known, true);
+  assert.equal(childNode.stops[0].inherited, false);
+});
