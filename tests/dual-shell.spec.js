@@ -43,9 +43,12 @@ test('mobile selects the dedicated shell and rolls through the shared engine', a
   await expect(page.locator('#r4mUrl')).toHaveText(/^https?:\/\//);
   await expect(page.locator('#previewDomain')).not.toHaveText('—');
 
-  const route = await page.locator('#r4mUrl').textContent();
-  const expectedHost = new URL(route.trim()).hostname.replace(/^www\./, '').toUpperCase();
-  await expect(page.locator('#r4mDomain')).toHaveText(expectedHost);
+  const mirrored = await page.evaluate(() => ({
+    route: document.getElementById('r4mUrl').textContent.trim(),
+    domain: document.getElementById('r4mDomain').textContent.trim(),
+  }));
+  const expectedHost = new URL(mirrored.route).hostname.replace(/^www\./, '').toUpperCase();
+  expect(mirrored.domain).toBe(expectedHost);
 });
 
 test('mobile terrain filter can select and return to all signals', async ({ page }, testInfo) => {
