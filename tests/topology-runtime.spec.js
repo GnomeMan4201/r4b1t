@@ -12,7 +12,7 @@ test('local topology maps verified snapshots and opens revealed stops', async ({
     return {
       open: document.getElementById('trailTopologyOverlay').classList.contains('open'),
       cards: document.querySelectorAll('.topology-card').length,
-      stops: document.querySelectorAll('.topology-stop[data-url]').length,
+      stops: document.querySelectorAll('.topology-wear .wear-step[data-url]').length,
       title: document.getElementById('trailTopologyTitle').textContent,
     };
   });
