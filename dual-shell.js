@@ -12,6 +12,8 @@
   var routeMotionTimer = null;
   var routeTransitionBusy = false;
   var pendingRouteMotion = null;
+  var rollPendingTimer = null;
+  var ledgerRowObserver = null;
   var motionDebugEnabled = /[?&]debug-motion=1(?:&|$)/.test(window.location.search);
 
   function byId(id) { return document.getElementById(id); }
@@ -161,13 +163,109 @@
       if (!target) return;
       var action = target.getAttribute('data-mobile-action');
       reportTap(action.toUpperCase());
-      handleAction(action);
+      handleAction(action, target);
     });
 
     var backdrop = byId('r4mBackdrop');
     if (backdrop) backdrop.addEventListener('click', closeSheets);
+    bindPressLifecycle(host);
+    runInitialStagger();
     syncEverything();
     observeSource();
+  }
+
+  function runInitialStagger() {
+    var selectors = ['.r4m-header', '.r4m-filter-strip', '.r4m-status', '.r4m-hero', '.r4m-roll'];
+    selectors.forEach(function (selector, index) {
+      var element = document.querySelector(selector);
+      if (!element) return;
+      element.style.setProperty('--motion-delay', String(index * 60) + 'ms');
+      element.classList.add('motion-stagger-in');
+      window.setTimeout(function () { element.classList.remove('motion-stagger-in'); }, 620 + (index * 60));
+    });
+  }
+
+  function bindPressLifecycle(host) {
+    function buttonFrom(event) {
+      var target = event.target && event.target.closest ? event.target.closest('button') : null;
+      return target && host.contains(target) ? target : null;
+    }
+    host.addEventListener('pointerdown', function (event) {
+      var button = buttonFrom(event);
+      if (!button || button.disabled) return;
+      button.classList.remove('motion-released');
+      button.classList.add('motion-pressed');
+      reportMotion('PRESS', button, 'motion-pressed');
+    });
+    function release(event) {
+      var button = buttonFrom(event);
+      if (!button || !button.classList.contains('motion-pressed')) return;
+      button.classList.remove('motion-pressed', 'motion-released');
+      void button.offsetWidth;
+      button.classList.add('motion-released');
+      reportMotion('RELEASE', button, 'motion-released');
+      window.setTimeout(function () { button.classList.remove('motion-released'); }, 190);
+    }
+    host.addEventListener('pointerup', release);
+    host.addEventListener('pointercancel', release);
+    host.addEventListener('pointerleave', release, true);
+  }
+
+  function beginRollPending(button) {
+    if (!button) return;
+    window.clearTimeout(rollPendingTimer);
+    button.classList.add('roll-pending');
+    button.setAttribute('aria-busy', 'true');
+    reportMotion('ROLL-PENDING', button, 'roll-pending');
+  }
+
+  function endRollPending(button) {
+    if (!button) return;
+    button.classList.remove('roll-pending');
+    button.removeAttribute('aria-busy');
+  }
+
+  function animateRouteCounter(value) {
+    var target = byId('r4mRouteNo');
+    if (!target) return;
+    var next = String(value).padStart(3, '0');
+    if (target.dataset.value === next && target.querySelector('.r4m-route-digit')) return;
+    var previous = target.dataset.value || ''.padStart(next.length, ' ');
+    target.dataset.value = next;
+    target.setAttribute('aria-label', next);
+    target.innerHTML = next.split('').map(function (digit, index) {
+      var changed = previous[index] !== digit;
+      return '<span class="r4m-route-digit' + (changed ? ' changed' : '') + '" aria-hidden="true">' + digit + '</span>';
+    }).join('');
+  }
+
+  function prepareLedgerRows() {
+    var list = byId('historyList');
+    if (!list) return;
+    if (ledgerRowObserver) ledgerRowObserver.disconnect();
+    var rows = Array.from(list.children);
+    rows.forEach(function (row) { row.classList.add('r4m-ledger-row'); });
+    if (!('IntersectionObserver' in window)) {
+      rows.forEach(function (row) { row.classList.add('row-in'); });
+      return;
+    }
+    ledgerRowObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('row-in');
+        ledgerRowObserver.unobserve(entry.target);
+      });
+    }, { root: list, threshold: 0.3 });
+    rows.forEach(function (row) { ledgerRowObserver.observe(row); });
+  }
+
+  function flashCopyTarget(button) {
+    if (!button) return;
+    button.classList.remove('copied-flash');
+    void button.offsetWidth;
+    button.classList.add('copied-flash');
+    reportMotion('COPY-ACKNOWLEDGED', button, 'copied-flash');
+    window.setTimeout(function () { button.classList.remove('copied-flash'); }, 250);
   }
 
   function ensureMotionDebug() {
@@ -244,20 +342,26 @@
     var route = byId('r4mRoute');
     var rollButton = byId('r4mRoll');
     playMotion(rollButton, 'motion-control-press', 240);
+    beginRollPending(rollButton);
+    routeTransitionBusy = true;
 
     if (kind === 'next' && route && !route.hidden) {
-      routeTransitionBusy = true;
       playMotion(route, 'reject-exit', 280);
-      window.setTimeout(function () {
+      rollPendingTimer = window.setTimeout(function () {
         pendingRouteMotion = 'forward-enter';
+        endRollPending(rollButton);
         call('roll');
         routeTransitionBusy = false;
       }, 270);
       return;
     }
 
-    pendingRouteMotion = 'roll-enter';
-    call('roll');
+    rollPendingTimer = window.setTimeout(function () {
+      pendingRouteMotion = 'roll-enter';
+      endRollPending(rollButton);
+      call('roll');
+      routeTransitionBusy = false;
+    }, 240);
   }
 
   function toggleHistoryWithMotion() {
@@ -271,6 +375,7 @@
       // open and animate so an empty trail is an explicit state, not a dead tap.
       if (overlay.style.display !== 'flex') overlay.style.display = 'flex';
       window.requestAnimationFrame(function () {
+        prepareLedgerRows();
         playMotion(overlay, 'ledger-open', 340);
       });
       return;
@@ -279,7 +384,7 @@
     window.setTimeout(function () { call('toggleHistory'); }, 250);
   }
 
-  function handleAction(action) {
+  function handleAction(action, sourceElement) {
     if (action === 'filter') return openSheet('r4mFilterSheet');
     if (action === 'close-sheets') return closeSheets();
     if (action === 'next') return runRollTransition('next');
@@ -297,7 +402,11 @@
       window.setTimeout(syncBranch, 60);
       return;
     }
-    if (action === 'share' || action === 'cut') return call('shareCard');
+    if (action === 'share' || action === 'cut') {
+      flashCopyTarget(sourceElement);
+      window.setTimeout(function () { call('shareCard'); }, 120);
+      return;
+    }
     if (action === 'history') return toggleHistoryWithMotion();
     if (action === 'trail-file') return call('openTrailLedger');
     if (action === 'blind-descent') {
@@ -387,10 +496,16 @@
     byId('r4mInspectDomain').textContent = displayDomain;
     byId('r4mInspectUrl').textContent = url;
     byId('r4mInspectDesc').textContent = desc;
+    var routeIndex = 0;
     if (counter) {
       var m = counter.textContent.match(/\d+/);
-      if (m) byId('r4mRouteNo').textContent = String(m[0]).padStart(3, '0');
+      if (m) routeIndex = Number(m[0]);
     }
+    if (!routeIndex) {
+      var trailSource = byId('trailItems');
+      routeIndex = trailSource ? trailSource.querySelectorAll('.trail-item').length : 0;
+    }
+    animateRouteCounter(routeIndex || 1);
     renderRouteWear();
     if (pendingRouteMotion) {
       var nextMotion = pendingRouteMotion;
