@@ -271,11 +271,11 @@
       // open and animate so an empty trail is an explicit state, not a dead tap.
       if (overlay.style.display !== 'flex') overlay.style.display = 'flex';
       window.requestAnimationFrame(function () {
-        playMotion(overlay, 'motion-history-enter', 340);
+        playMotion(overlay, 'ledger-open', 340);
       });
       return;
     }
-    playMotion(overlay, 'motion-history-exit', 260);
+    playMotion(overlay, 'ledger-close', 260);
     window.setTimeout(function () { call('toggleHistory'); }, 250);
   }
 
@@ -319,7 +319,8 @@
     ['r4mFilterSheet', 'r4mBranchSheet', 'r4mInspectSheet'].forEach(function (sheetId) {
       var candidate = byId(sheetId);
       if (candidate && sheetId !== id) {
-        candidate.classList.remove('open');
+        candidate.classList.remove('open', 'sheet-open');
+        candidate.classList.add('sheet-close');
         candidate.setAttribute('aria-hidden', 'true');
       }
     });
@@ -330,7 +331,8 @@
     void backdrop.offsetWidth;
     window.requestAnimationFrame(function () {
       backdrop.classList.add('open');
-      sheet.classList.add('open');
+      sheet.classList.remove('sheet-close');
+      sheet.classList.add('open', 'sheet-open');
       sheet.setAttribute('aria-hidden', 'false');
       reportMotion(id.replace('r4m', '').replace('Sheet', '').toUpperCase(), sheet, 'open');
     });
@@ -341,7 +343,8 @@
     ['r4mFilterSheet', 'r4mBranchSheet', 'r4mInspectSheet'].forEach(function (id) {
       var sheet = byId(id);
       if (!sheet) return;
-      sheet.classList.remove('open');
+      sheet.classList.remove('open', 'sheet-open');
+      sheet.classList.add('sheet-close');
       sheet.setAttribute('aria-hidden', 'true');
     });
     var backdrop = byId('r4mBackdrop');
