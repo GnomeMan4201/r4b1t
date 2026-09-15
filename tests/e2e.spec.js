@@ -283,7 +283,7 @@ test('motion debug overlay reports the real mobile animation', async ({ page }, 
   await page.locator('#r4mRoll').click();
   const debug = page.locator('#r4mMotionDebug');
   await expect(debug).toContainText('LAST TAP: ROLL');
-  await expect(debug).toContainText('MOTION: ROUTE-UNFOLD');
+  await expect(debug).toContainText('MOTION: ROLL-ENTER');
   await expect(debug).toContainText('CLASS: roll-enter');
   await expect(debug).toContainText('ANIMATION: paperUnfold');
   await expect(debug).toContainText('DURATION: 440');
