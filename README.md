@@ -1,15 +1,15 @@
 <p align="center">
   <a href="https://r4b1t.badbananaresearch.com">
-    <img src="./docs/readme/r4b1t-readme-banner.jpg" alt="r4b1t — Not search. Not a feed. Down the rabbit hole." width="100%">
+    <img src="./docs/readme/r4b1t-readme-banner.svg" alt="r4b1t — Not search. Not a feed. Down the rabbit hole." width="100%">
   </a>
 </p>
 
 <p align="center">
-  <img src="./docs/readme/field-reel-mobile-shell.jpg" alt="r4b1t field reel — first contact, route and sprout, terrain lock, and local ledger" width="100%">
+  <img src="./docs/readme/field-reel-mobile-shell.svg" alt="r4b1t field reel — first contact, route and sprout, terrain lock, and local ledger" width="100%">
 </p>
 
 <p align="center">
-  <img src="./docs/readme/mechanism-without-mystique.jpg" alt="r4b1t mechanism — corpus, route card, branching, terrain filters, trails, and privacy model" width="100%">
+  <img src="./docs/readme/mechanism-without-mystique.svg" alt="r4b1t mechanism — corpus, route card, branching, terrain filters, trails, and privacy model" width="100%">
 </p>
 
 # r4b1t
