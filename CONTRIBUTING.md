@@ -54,7 +54,8 @@ Supporting tooling lives in `tools/` and `pool_sweep.py`; the service worker is 
 
 **Before opening a PR:**
 
-- run the repository's Playwright browser tests
+- run `npm test`
+- run `python -m unittest discover -s tests -p 'test_*.py' -v` after installing `requirements-pool-sweep.txt`
 - test the mobile layout
 - preserve the no-tracking/no-account model
 - do not introduce new production JavaScript dependencies without a demonstrated need
@@ -72,7 +73,6 @@ The `tools/` directory contains supporting corpus-maintenance utilities:
 | Script | Purpose |
 |--------|---------|
 | `extract_pool.py` | Extract URLs from `index.html` |
-| `liveness_check.py` | Reachability sweep with timeouts |
 | `clean_pool.py` | Deduplicate and normalize |
 | `r4b1t_classifier.py` | Assign categories |
 | `r4b1t_tagger.py` | Tag metadata |

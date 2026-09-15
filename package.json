@@ -2,9 +2,9 @@
   "name": "r4b1t",
   "version": "1.1.0",
   "private": true,
-  "description": "r4b1t Playwright browser test harness (no build step for the app itself).",
+  "description": "Chance-driven, local-first web discovery with verifiable trails.",
   "scripts": {
-    "test": "node --test tests/trail-manifest.test.js tests/blind-manifest.test.js tests/topology.test.js tests/trail-wear.test.js && playwright test",
+    "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "node --test tests/trail-manifest.test.js tests/blind-manifest.test.js tests/topology.test.js tests/trail-wear.test.js",
     "test:e2e": "playwright test",
     "trail:verify": "node tools/verify-trail.js"

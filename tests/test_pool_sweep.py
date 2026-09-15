@@ -40,9 +40,17 @@ class RaisingSession:
         raise requests.exceptions.Timeout("synthetic timeout")
 
 
+class AllowAllTargetGuard:
+    """Avoid DNS and network policy dependencies in HTTP behavior unit tests."""
+
+    def ensure_allowed(self, _url):
+        return None
+
+
 class PoolSweepTests(unittest.TestCase):
     def setUp(self):
         self.limiter = pool_sweep.RateLimiter(min_gap=0)
+        self.target_guard = AllowAllTargetGuard()
 
     def test_registered_domain_removes_only_literal_www_prefix(self):
         self.assertEqual(
@@ -69,7 +77,11 @@ class PoolSweepTests(unittest.TestCase):
     def test_head_rejection_gets_one_bounded_get_fallback(self):
         session = FakeSession(head_status=405, get_status=200)
         status, reachable, redirect = pool_sweep.check_url(
-            "https://example.com/resource", session, self.limiter, timeout=1
+            "https://example.com/resource",
+            session,
+            self.limiter,
+            timeout=1,
+            target_guard=self.target_guard,
         )
         self.assertEqual(status, 200)
         self.assertEqual(reachable, 1)
@@ -80,7 +92,11 @@ class PoolSweepTests(unittest.TestCase):
     def test_confirmed_404_does_not_trigger_get_fallback(self):
         session = FakeSession(head_status=404, get_status=200)
         status, reachable, _ = pool_sweep.check_url(
-            "https://example.com/missing", session, self.limiter, timeout=1
+            "https://example.com/missing",
+            session,
+            self.limiter,
+            timeout=1,
+            target_guard=self.target_guard,
         )
         self.assertEqual(status, 404)
         self.assertEqual(reachable, 0)
@@ -89,7 +105,11 @@ class PoolSweepTests(unittest.TestCase):
 
     def test_timeout_is_indeterminate_not_missing(self):
         status, reachable, redirect = pool_sweep.check_url(
-            "https://example.com/slow", RaisingSession(), self.limiter, timeout=1
+            "https://example.com/slow",
+            RaisingSession(),
+            self.limiter,
+            timeout=1,
+            target_guard=self.target_guard,
         )
         self.assertIsNone(status)
         self.assertIsNone(reachable)

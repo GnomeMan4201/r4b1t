@@ -2,7 +2,7 @@
 
 const { defineConfig, devices } = require('@playwright/test');
 
-const baseURL = process.env.BASE_URL || 'http://127.0.0.1:8080/r4b1t/';
+const baseURL = process.env.BASE_URL || 'http://127.0.0.1:8080/';
 
 module.exports = defineConfig({
   testDir: './tests',

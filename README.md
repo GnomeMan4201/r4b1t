@@ -364,6 +364,12 @@ Open `http://127.0.0.1:8080/`.
 npm ci
 npx playwright install chromium
 npm test
+
+# Python corpus and pool-sweep tests
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-pool-sweep.txt
+python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
 <table>

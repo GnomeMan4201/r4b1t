@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a reproducible problem in r4b1t.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, private browsing data, or security-sensitive details. Use the private path in SECURITY.md for vulnerabilities.
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the smallest reliable sequence.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and operating system
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Revision or deployment URL
+      description: Commit SHA, release, or URL if known.

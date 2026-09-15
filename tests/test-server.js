@@ -6,7 +6,7 @@ const path = require('node:path');
 
 const HOST = process.env.TEST_HOST || '127.0.0.1';
 const PORT = Number.parseInt(process.env.TEST_PORT || '8080', 10);
-const ROOT = path.resolve(process.env.TEST_ROOT || 'test-site');
+const ROOT = path.resolve(process.env.TEST_ROOT || (process.env.CI ? 'test-site' : '.'));
 
 const MIME_TYPES = new Map([
   ['.css', 'text/css; charset=utf-8'],

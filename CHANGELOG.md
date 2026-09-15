@@ -1,7 +1,22 @@
 # Changelog
 
-All notable changes to r4B1T_h0L3 are documented here.  
+All notable changes to `r4b1t_h0le` are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## [Unreleased]
+
+### Changed
+
+- aligned local and CI browser-test serving paths
+- made pool-sweep HTTP behavior tests fully offline and deterministic
+- refreshed repository metadata, contribution templates, and ignore rules
+- removed obsolete one-off patch scripts and unreferenced legacy screenshots
+
+### Security
+
+- documented private vulnerability reporting and kept generated evidence and local environment files out of version control
 
 ---
 

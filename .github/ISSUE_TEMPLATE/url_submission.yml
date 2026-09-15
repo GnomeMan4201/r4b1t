@@ -1,0 +1,52 @@
+name: URL submission
+description: Propose a resource for human review.
+title: "corpus: "
+labels: [url-submission]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      placeholder: https://example.org/resource
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: Why it belongs
+      description: Explain its value to security, OSINT, research, development, or weird-web discovery.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Suggested terrain
+      options:
+        - CODE
+        - BLOG
+        - NEWS
+        - RESEARCH
+        - PAPER
+        - OSINT
+        - BOUNTY
+        - VIDEO
+        - SOCIAL
+        - REF
+        - ARCHIVE
+        - PKG
+        - COURSE
+        - EVENT
+        - HARDWARE
+        - TOR
+        - Unsure
+    validations:
+      required: true
+  - type: checkboxes
+    id: review
+    attributes:
+      label: Submission checks
+      options:
+        - label: I checked that the URL currently resolves and does not contain embedded credentials.
+          required: true
+        - label: I understand that submission does not guarantee inclusion or endorsement.
+          required: true
