@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-labelledby="title desc">
+<title id="title">r4b1t — Down the rabbit hole</title>
+<desc id="desc">Chance-driven discovery across security, OSINT, research, development, and the weird web.</desc>
+<defs>
+  <linearGradient id="redGlow" x1="0" x2="1"><stop stop-color="#6f0d18"/><stop offset="1" stop-color="#d71920"/></linearGradient>
+  <radialGradient id="pit" cx="50%" cy="40%"><stop offset="0" stop-color="#3b0b10"/><stop offset="1" stop-color="#090909"/></radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="1600" height="800" fill="#080808"/>
+<rect x="0" y="0" width="1600" height="12" fill="#d71920"/>
+<path d="M0 650 L520 540 L760 800 H0Z" fill="#12090a"/>
+<circle cx="1085" cy="435" r="250" fill="#7a1018" opacity=".16" filter="url(#soft)"/>
+<path d="M790 90 L1560 90 L1420 710 L860 760Z" fill="#2a090d" opacity=".38"/>
+
+<text x="78" y="92" fill="#f2eadf" font-family="monospace" font-size="52" font-weight="700">r4b1t</text>
+<rect x="78" y="112" width="185" height="8" fill="#d71920"/>
+<text x="290" y="83" fill="#a69a8a" font-family="monospace" font-size="16">EXPLORE</text>
+<text x="290" y="105" fill="#a69a8a" font-family="monospace" font-size="16">SIDEWAYS</text>
+<text x="290" y="127" fill="#a69a8a" font-family="monospace" font-size="16">GO DEEPER</text>
+
+<text x="78" y="252" fill="#f2eadf" font-family="Arial,Helvetica,sans-serif" font-size="92" font-weight="900" letter-spacing="-3">NOT SEARCH.</text>
+<text x="78" y="344" fill="#f2eadf" font-family="Arial,Helvetica,sans-serif" font-size="92" font-weight="900" letter-spacing="-3">NOT A FEED.</text>
+<text x="78" y="436" fill="#d71920" font-family="Arial,Helvetica,sans-serif" font-size="92" font-weight="900" letter-spacing="-3">DOWN THE</text>
+<text x="78" y="528" fill="#d71920" font-family="Arial,Helvetica,sans-serif" font-size="92" font-weight="900" letter-spacing="-3">RABBIT HOLE.</text>
+<text x="82" y="585" fill="#b9b0a6" font-family="Arial,Helvetica,sans-serif" font-size="24">Chance-driven discovery across security, OSINT, research,</text>
+<text x="82" y="618" fill="#b9b0a6" font-family="Arial,Helvetica,sans-serif" font-size="24">development, and the weird web.</text>
+<text x="82" y="705" fill="#d9d1c5" font-family="monospace" font-size="18" letter-spacing="2">NO PROFILE  /  NO RANKING  /  DEVICE-LOCAL TRAILS</text>
+
+<!-- rabbit / hoodie mark -->
+<g transform="translate(880 160)">
+  <ellipse cx="220" cy="470" rx="245" ry="90" fill="url(#pit)" stroke="#6f0d18" stroke-width="6"/>
+  <path d="M135 120 C110 15 125 -5 155 20 L210 150Z" fill="#e8dfd2" stroke="#d71920" stroke-width="8"/>
+  <path d="M270 150 L325 18 C347 -8 368 18 343 122Z" fill="#e8dfd2" stroke="#d71920" stroke-width="8"/>
+  <path d="M110 250 C115 155 170 122 235 122 C308 122 360 170 362 260 L332 392 L119 392Z" fill="#111" stroke="#d71920" stroke-width="8"/>
+  <ellipse cx="235" cy="220" rx="92" ry="82" fill="#eee6da"/>
+  <path d="M156 206 Q235 156 316 208 Q298 302 235 306 Q171 300 156 206Z" fill="#f3ede4"/>
+  <path d="M180 222 L220 230 L200 245 L174 238Z" fill="#d71920"/>
+  <path d="M250 230 L292 221 L297 238 L270 246Z" fill="#d71920"/>
+  <path d="M215 268 Q238 280 262 266" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <path d="M142 355 C92 365 55 410 45 474 L130 470 L182 388Z" fill="#161616" stroke="#5f0e15" stroke-width="5"/>
+  <path d="M332 354 C395 370 425 410 430 474 L344 470 L287 387Z" fill="#161616" stroke="#5f0e15" stroke-width="5"/>
+  <path d="M96 474 L365 474" stroke="#d71920" stroke-width="5" opacity=".5"/>
+</g>
+
+<!-- interface cards -->
+<g transform="translate(1260 188)">
+  <rect width="250" height="252" rx="8" fill="#130c0d" stroke="#a91720" stroke-width="3"/>
+  <text x="18" y="30" fill="#c6bbae" font-family="monospace" font-size="13">FIRST CONTACT</text>
+  <text x="18" y="72" fill="#f2eadf" font-family="Arial" font-size="26" font-weight="800">NOT SEARCH.</text>
+  <text x="18" y="101" fill="#f2eadf" font-family="Arial" font-size="26" font-weight="800">NOT A FEED.</text>
+  <text x="18" y="133" fill="#d71920" font-family="Arial" font-size="26" font-weight="900">DOWN THE</text>
+  <text x="18" y="163" fill="#d71920" font-family="Arial" font-size="26" font-weight="900">RABBIT HOLE.</text>
+  <rect x="18" y="193" width="214" height="41" fill="#d71920"/>
+  <text x="31" y="220" fill="#fff5ea" font-family="monospace" font-size="18" font-weight="700">ROLL  ↓</text>
+</g>
+<g transform="translate(1260 462)">
+  <rect width="250" height="226" rx="8" fill="#ece3d5" stroke="#8d121b" stroke-width="3"/>
+  <text x="18" y="31" fill="#8d121b" font-family="monospace" font-size="13">FOLLOW THE RABBIT</text>
+  <text x="18" y="72" fill="#111" font-family="Arial" font-size="29" font-weight="900">GITHUB.COM</text>
+  <text x="18" y="97" fill="#645c54" font-family="Arial" font-size="13">Open-source tools, research,</text>
+  <text x="18" y="115" fill="#645c54" font-family="Arial" font-size="13">and strange little utilities.</text>
+  <path d="M35 157 C70 135 78 178 112 154 C143 132 161 176 194 151 C214 136 226 143 232 150" fill="none" stroke="#d71920" stroke-width="4"/>
+  <circle cx="36" cy="158" r="6" fill="#d71920"/><circle cx="111" cy="154" r="6" fill="#d71920"/><circle cx="194" cy="151" r="6" fill="#d71920"/>
+  <text x="18" y="205" fill="#111" font-family="monospace" font-size="13">DEEPER / SIDEWAYS / OPPOSITE / WEIRD</text>
+</g>
+
+<text x="1315" y="112" fill="#e9dfd3" font-family="monospace" font-size="14" text-anchor="middle">A SMALLER WEB / A DEEPER INTERNET</text>
+<text x="1515" y="754" fill="#7f7469" font-family="monospace" font-size="14" text-anchor="end">r4b1t // 2026</text>
+</svg>
