@@ -76,6 +76,7 @@ test('a roll selects a corpus URL through either shell', async ({ page }, testIn
 
   if (testInfo.project.name === 'mobile-chromium') {
     await expect(page.locator('#r4mRoute')).toBeVisible();
+    await expect(page.locator('#r4mRouteWear')).toBeVisible();
     await expect(page.locator('#r4mDomain')).not.toHaveText('—');
     await expect(page.locator('#r4mUrl')).toHaveText(/^https?:\/\//);
     await expect(page.locator('[data-mobile-action="visit"]')).toBeEnabled();
@@ -210,7 +211,7 @@ test('ordinary mobile controls execute visible timed motion', async ({ page }, t
 
   await page.locator('#r4mRoll').click();
   const route = page.locator('#r4mRoute');
-  await expect(route).toHaveClass(/\bmotion-route-unfold\b/);
+  await expect(route).toHaveClass(/\broll-enter\b/);
   const unfold = await route.evaluate((element) => {
     const animation = element.getAnimations()[0];
     return {
@@ -218,11 +219,11 @@ test('ordinary mobile controls execute visible timed motion', async ({ page }, t
       duration: animation && animation.effect.getTiming().duration,
     };
   });
-  expect(unfold.name).toContain('r4mRouteUnfold');
+  expect(unfold.name).toContain('paperUnfold');
   expect(unfold.duration).toBe(440);
 
   await page.locator('[data-mobile-action="next"]').click();
-  await expect(route).toHaveClass(/\bmotion-route-reject\b/);
+  await expect(route).toHaveClass(/\breject-exit\b/);
   const rejection = await route.evaluate((element) => {
     const animation = element.getAnimations()[0];
     return {
@@ -230,10 +231,10 @@ test('ordinary mobile controls execute visible timed motion', async ({ page }, t
       duration: animation && animation.effect.getTiming().duration,
     };
   });
-  expect(rejection.name).toContain('r4mRouteReject');
+  expect(rejection.name).toContain('cardReject');
   expect(rejection.duration).toBe(260);
 
-  await expect(route).toHaveClass(/\bmotion-route-next\b/, { timeout: 1500 });
+  await expect(route).toHaveClass(/\bforward-enter\b/, { timeout: 1500 });
   const nextRoute = await route.evaluate((element) => {
     const animation = element.getAnimations()[0];
     return {
@@ -241,7 +242,7 @@ test('ordinary mobile controls execute visible timed motion', async ({ page }, t
       duration: animation && animation.effect.getTiming().duration,
     };
   });
-  expect(nextRoute.name).toContain('r4mRouteNext');
+  expect(nextRoute.name).toContain('cardForwardEnter');
   expect(nextRoute.duration).toBe(380);
 
   await page.locator('.r4m-nav [data-mobile-action="filter"]').click();
@@ -259,7 +260,7 @@ test('ordinary mobile controls execute visible timed motion', async ({ page }, t
 
   await page.locator('.r4m-nav [data-mobile-action="history"]').click();
   const history = page.locator('#historyOverlay');
-  await expect(history).toHaveClass(/\bmotion-history-enter\b/);
+  await expect(history).toHaveClass(/\bledger-open\b/);
   const historyMotion = await history.evaluate((element) => {
     const animation = element.getAnimations()[0];
     return {
@@ -267,7 +268,7 @@ test('ordinary mobile controls execute visible timed motion', async ({ page }, t
       duration: animation && animation.effect.getTiming().duration,
     };
   });
-  expect(historyMotion.name).toContain('r4mHistoryBackdropIn');
+  expect(historyMotion.name).toContain('ledgerIn');
   expect(historyMotion.duration).toBe(320);
 });
 
@@ -283,7 +284,7 @@ test('motion debug overlay reports the real mobile animation', async ({ page }, 
   const debug = page.locator('#r4mMotionDebug');
   await expect(debug).toContainText('LAST TAP: ROLL');
   await expect(debug).toContainText('MOTION: ROUTE-UNFOLD');
-  await expect(debug).toContainText('CLASS: motion-route-unfold');
-  await expect(debug).toContainText('ANIMATION: r4mRouteUnfold');
+  await expect(debug).toContainText('CLASS: roll-enter');
+  await expect(debug).toContainText('ANIMATION: paperUnfold');
   await expect(debug).toContainText('DURATION: 440');
 });
