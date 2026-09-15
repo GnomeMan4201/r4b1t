@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v11-real-transitions';
+const CACHE = 'r4b1t-v12-mobile-shell-motion';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
