@@ -1,9 +1,9 @@
 # README visual assets
 
-This directory contains the three first-contact visuals used by the repository front page:
+This directory contains the first-contact visuals used by the repository front page.
 
-- `r4b1t-readme-banner.svg` — hero identity / project thesis
-- `field-reel-mobile-shell.svg` — mobile-shell explainer
-- `mechanism-without-mystique.svg` — system-mechanism explainer
+- `r4b1t_h0le-banner.jpg` — final hero banner using the r4b1t_h0le rabbit identity
+- `field-reel-mobile-shell.svg` — mobile-shell explainer; intentionally rabbit-free
+- `r4b1t_h0le-mechanism.jpg` — final mechanism / evidence explainer using the same rabbit identity
 
-The SVG format keeps the graphics crisp at README width and keeps the asset source reviewable in Git.
+These assets are presentation surfaces for the README. The README text and evidence sections remain the authoritative source for exact implementation and corpus claims.
