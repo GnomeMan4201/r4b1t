@@ -200,3 +200,73 @@ test('mobile wear sample exposes revealed concealed and forked states', async ({
   await expect(page.locator('#trailTopologyMap .wear-step.concealed').first()).toBeVisible();
   await expect(page.locator('#trailTopologyMap .wear-fork-mark').first()).toBeVisible();
 });
+
+
+test('ordinary mobile controls execute visible timed motion', async ({ page }, testInfo) => {
+  if (testInfo.project.name !== 'mobile-chromium') test.skip();
+
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
+
+  await page.locator('#r4mRoll').click();
+  const route = page.locator('#r4mRoute');
+  await expect(route).toHaveClass(/\bmotion-route-unfold\b/);
+  const unfold = await route.evaluate((element) => {
+    const animation = element.getAnimations()[0];
+    return {
+      name: getComputedStyle(element).animationName,
+      duration: animation && animation.effect.getTiming().duration,
+    };
+  });
+  expect(unfold.name).toContain('r4mRouteUnfold');
+  expect(unfold.duration).toBe(440);
+
+  await page.locator('[data-mobile-action="next"]').click();
+  await expect(route).toHaveClass(/\bmotion-route-reject\b/);
+  const rejection = await route.evaluate((element) => {
+    const animation = element.getAnimations()[0];
+    return {
+      name: getComputedStyle(element).animationName,
+      duration: animation && animation.effect.getTiming().duration,
+    };
+  });
+  expect(rejection.name).toContain('r4mRouteReject');
+  expect(rejection.duration).toBe(260);
+
+  await expect(route).toHaveClass(/\bmotion-route-next\b/, { timeout: 1500 });
+  const nextRoute = await route.evaluate((element) => {
+    const animation = element.getAnimations()[0];
+    return {
+      name: getComputedStyle(element).animationName,
+      duration: animation && animation.effect.getTiming().duration,
+    };
+  });
+  expect(nextRoute.name).toContain('r4mRouteNext');
+  expect(nextRoute.duration).toBe(380);
+
+  await page.locator('.r4m-nav [data-mobile-action="filter"]').click();
+  const filterSheet = page.locator('#r4mFilterSheet');
+  await expect(filterSheet).toHaveClass(/\bopen\b/);
+  const sheetTiming = await filterSheet.evaluate((element) => ({
+    property: getComputedStyle(element).transitionProperty,
+    duration: getComputedStyle(element).transitionDuration,
+  }));
+  expect(sheetTiming.property).toContain('transform');
+  expect(sheetTiming.duration).toContain('0.36s');
+
+  await filterSheet.locator('[data-mobile-action="close-sheets"]').click();
+  await expect(page.locator('#r4mBackdrop')).toBeHidden({ timeout: 1000 });
+
+  await page.locator('.r4m-nav [data-mobile-action="history"]').click();
+  const history = page.locator('#historyOverlay');
+  await expect(history).toHaveClass(/\bmotion-history-enter\b/);
+  const historyMotion = await history.evaluate((element) => {
+    const animation = element.getAnimations()[0];
+    return {
+      name: getComputedStyle(element).animationName,
+      duration: animation && animation.effect.getTiming().duration,
+    };
+  });
+  expect(historyMotion.name).toContain('r4mHistoryBackdropIn');
+  expect(historyMotion.duration).toBe(320);
+});

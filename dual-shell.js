@@ -8,6 +8,10 @@
   var branchObserver = null;
   var trailObserver = null;
   var resizeTimer = null;
+  var sheetCloseTimer = null;
+  var routeMotionTimer = null;
+  var routeTransitionBusy = false;
+  var pendingRouteMotion = null;
 
   function byId(id) { return document.getElementById(id); }
 
@@ -161,10 +165,67 @@
     observeSource();
   }
 
+  function playMotion(element, className, duration) {
+    if (!element) return;
+    [
+      'motion-route-unfold',
+      'motion-route-reject',
+      'motion-route-next',
+      'motion-control-press',
+      'motion-history-enter',
+      'motion-history-exit'
+    ].forEach(function (name) { element.classList.remove(name); });
+    void element.offsetWidth;
+    element.classList.add(className);
+    window.clearTimeout(routeMotionTimer);
+    routeMotionTimer = window.setTimeout(function () {
+      element.classList.remove(className);
+    }, duration || 500);
+  }
+
+  function runRollTransition(kind) {
+    if (routeTransitionBusy) return;
+    var route = byId('r4mRoute');
+    var rollButton = byId('r4mRoll');
+    playMotion(rollButton, 'motion-control-press', 240);
+
+    if (kind === 'next' && route && !route.hidden) {
+      routeTransitionBusy = true;
+      playMotion(route, 'motion-route-reject', 280);
+      window.setTimeout(function () {
+        pendingRouteMotion = 'motion-route-next';
+        call('roll');
+        routeTransitionBusy = false;
+      }, 270);
+      return;
+    }
+
+    pendingRouteMotion = 'motion-route-unfold';
+    call('roll');
+  }
+
+  function toggleHistoryWithMotion() {
+    var overlay = byId('historyOverlay');
+    if (!overlay) return call('toggleHistory');
+    var open = overlay.style.display === 'flex';
+    if (!open) {
+      call('toggleHistory');
+      // The legacy ledger returns early when empty; mobile history must still
+      // open and animate so an empty trail is an explicit state, not a dead tap.
+      if (overlay.style.display !== 'flex') overlay.style.display = 'flex';
+      window.requestAnimationFrame(function () {
+        playMotion(overlay, 'motion-history-enter', 340);
+      });
+      return;
+    }
+    playMotion(overlay, 'motion-history-exit', 260);
+    window.setTimeout(function () { call('toggleHistory'); }, 250);
+  }
+
   function handleAction(action) {
     if (action === 'filter') return openSheet('r4mFilterSheet');
     if (action === 'close-sheets') return closeSheets();
-    if (action === 'next') return call('roll');
+    if (action === 'next') return runRollTransition('next');
     if (action === 'visit') return call('visit');
     if (action === 'sprout') {
       if (branchModeActive()) call('sprout');
@@ -180,7 +241,7 @@
       return;
     }
     if (action === 'share' || action === 'cut') return call('shareCard');
-    if (action === 'history') return call('toggleHistory');
+    if (action === 'history') return toggleHistoryWithMotion();
     if (action === 'trail-file') return call('openTrailLedger');
     if (action === 'blind-descent') {
       if (typeof window.openBlindDescent !== 'function' || typeof window.blindDescend !== 'function') return;
@@ -197,13 +258,24 @@
   }
 
   function openSheet(id) {
-    closeSheets();
+    window.clearTimeout(sheetCloseTimer);
+    ['r4mFilterSheet', 'r4mBranchSheet', 'r4mInspectSheet'].forEach(function (sheetId) {
+      var candidate = byId(sheetId);
+      if (candidate && sheetId !== id) {
+        candidate.classList.remove('open');
+        candidate.setAttribute('aria-hidden', 'true');
+      }
+    });
     var sheet = byId(id);
     var backdrop = byId('r4mBackdrop');
     if (!sheet || !backdrop) return;
     backdrop.hidden = false;
-    sheet.classList.add('open');
-    sheet.setAttribute('aria-hidden', 'false');
+    void backdrop.offsetWidth;
+    window.requestAnimationFrame(function () {
+      backdrop.classList.add('open');
+      sheet.classList.add('open');
+      sheet.setAttribute('aria-hidden', 'false');
+    });
     document.documentElement.classList.add('r4m-sheet-open');
   }
 
@@ -215,7 +287,11 @@
       sheet.setAttribute('aria-hidden', 'true');
     });
     var backdrop = byId('r4mBackdrop');
-    if (backdrop) backdrop.hidden = true;
+    if (backdrop) {
+      backdrop.classList.remove('open');
+      window.clearTimeout(sheetCloseTimer);
+      sheetCloseTimer = window.setTimeout(function () { backdrop.hidden = true; }, 330);
+    }
     document.documentElement.classList.remove('r4m-sheet-open');
   }
 
@@ -253,6 +329,13 @@
     if (counter) {
       var m = counter.textContent.match(/\d+/);
       if (m) byId('r4mRouteNo').textContent = String(m[0]).padStart(3, '0');
+    }
+    if (pendingRouteMotion) {
+      var nextMotion = pendingRouteMotion;
+      pendingRouteMotion = null;
+      window.requestAnimationFrame(function () {
+        playMotion(route, nextMotion, nextMotion === 'motion-route-next' ? 400 : 460);
+      });
     }
   }
 
@@ -420,7 +503,9 @@
     else if (typeof mq.addListener === 'function') mq.addListener(listener);
 
     var rollButton = byId('r4mRoll');
-    if (rollButton) rollButton.addEventListener('click', function () { call('roll'); });
+    if (rollButton) rollButton.addEventListener('click', function () {
+      runRollTransition('roll');
+    });
     window.addEventListener('pageshow', syncEverything);
     document.addEventListener('r4b1t:reset', function () { window.setTimeout(syncEverything, 20); });
   }
