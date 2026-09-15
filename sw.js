@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v9-visible-wear';
+const CACHE = 'r4b1t-v10-visible-blind-entry';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
