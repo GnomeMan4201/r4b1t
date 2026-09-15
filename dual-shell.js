@@ -229,6 +229,7 @@
     var target = byId('r4mRouteNo');
     if (!target) return;
     var next = String(value).padStart(3, '0');
+    if (target.dataset.value === next && target.querySelector('.r4m-route-digit')) return;
     var previous = target.dataset.value || ''.padStart(next.length, ' ');
     target.dataset.value = next;
     target.setAttribute('aria-label', next);
