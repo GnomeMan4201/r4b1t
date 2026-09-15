@@ -270,3 +270,20 @@ test('ordinary mobile controls execute visible timed motion', async ({ page }, t
   expect(historyMotion.name).toContain('r4mHistoryBackdropIn');
   expect(historyMotion.duration).toBe(320);
 });
+
+
+test('motion debug overlay reports the real mobile animation', async ({ page }, testInfo) => {
+  if (testInfo.project.name !== 'mobile-chromium') test.skip();
+
+  await page.goto('./?debug-motion=1', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
+  await expect(page.locator('#r4mMotionDebug')).toContainText('MOTION DEBUG');
+
+  await page.locator('#r4mRoll').click();
+  const debug = page.locator('#r4mMotionDebug');
+  await expect(debug).toContainText('LAST TAP: ROLL');
+  await expect(debug).toContainText('MOTION: ROUTE-UNFOLD');
+  await expect(debug).toContainText('CLASS: motion-route-unfold');
+  await expect(debug).toContainText('ANIMATION: r4mRouteUnfold');
+  await expect(debug).toContainText('DURATION: 440');
+});
