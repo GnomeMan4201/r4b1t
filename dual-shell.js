@@ -495,10 +495,16 @@
     byId('r4mInspectDomain').textContent = displayDomain;
     byId('r4mInspectUrl').textContent = url;
     byId('r4mInspectDesc').textContent = desc;
+    var routeIndex = 0;
     if (counter) {
       var m = counter.textContent.match(/\d+/);
-      if (m) animateRouteCounter(m[0]);
+      if (m) routeIndex = Number(m[0]);
     }
+    if (!routeIndex) {
+      var trailSource = byId('trailItems');
+      routeIndex = trailSource ? trailSource.querySelectorAll('.trail-item').length : 0;
+    }
+    animateRouteCounter(routeIndex || 1);
     renderRouteWear();
     if (pendingRouteMotion) {
       var nextMotion = pendingRouteMotion;
