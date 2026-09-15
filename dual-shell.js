@@ -110,6 +110,7 @@
             '<button type="button" data-mobile-action="share">SHARE</button>',
             '<button type="button" data-mobile-action="cut">CUT CARD</button>',
           '</div>',
+          '<div class="r4m-route-wear" id="r4mRouteWear" aria-label="Persistent route wear"></div>',
           '<button class="r4m-enter" type="button" data-mobile-action="visit">FOLLOW THE RABBIT ↗</button>',
           '<button class="r4m-next" type="button" data-mobile-action="next">REJECT / NEXT</button>',
         '</section>',
@@ -217,7 +218,14 @@
       'motion-route-unfold',
       'motion-route-reject',
       'motion-route-next',
+      'roll-enter',
+      'reject-exit',
+      'forward-enter',
       'motion-control-press',
+      'sheet-open',
+      'sheet-close',
+      'ledger-open',
+      'ledger-close',
       'motion-history-enter',
       'motion-history-exit'
     ].forEach(function (name) { element.classList.remove(name); });
@@ -239,16 +247,16 @@
 
     if (kind === 'next' && route && !route.hidden) {
       routeTransitionBusy = true;
-      playMotion(route, 'motion-route-reject', 280);
+      playMotion(route, 'reject-exit', 280);
       window.setTimeout(function () {
-        pendingRouteMotion = 'motion-route-next';
+        pendingRouteMotion = 'forward-enter';
         call('roll');
         routeTransitionBusy = false;
       }, 270);
       return;
     }
 
-    pendingRouteMotion = 'motion-route-unfold';
+    pendingRouteMotion = 'roll-enter';
     call('roll');
   }
 
@@ -263,11 +271,11 @@
       // open and animate so an empty trail is an explicit state, not a dead tap.
       if (overlay.style.display !== 'flex') overlay.style.display = 'flex';
       window.requestAnimationFrame(function () {
-        playMotion(overlay, 'motion-history-enter', 340);
+        playMotion(overlay, 'ledger-open', 340);
       });
       return;
     }
-    playMotion(overlay, 'motion-history-exit', 260);
+    playMotion(overlay, 'ledger-close', 260);
     window.setTimeout(function () { call('toggleHistory'); }, 250);
   }
 
@@ -311,7 +319,8 @@
     ['r4mFilterSheet', 'r4mBranchSheet', 'r4mInspectSheet'].forEach(function (sheetId) {
       var candidate = byId(sheetId);
       if (candidate && sheetId !== id) {
-        candidate.classList.remove('open');
+        candidate.classList.remove('open', 'sheet-open');
+        candidate.classList.add('sheet-close');
         candidate.setAttribute('aria-hidden', 'true');
       }
     });
@@ -322,7 +331,8 @@
     void backdrop.offsetWidth;
     window.requestAnimationFrame(function () {
       backdrop.classList.add('open');
-      sheet.classList.add('open');
+      sheet.classList.remove('sheet-close');
+      sheet.classList.add('open', 'sheet-open');
       sheet.setAttribute('aria-hidden', 'false');
       reportMotion(id.replace('r4m', '').replace('Sheet', '').toUpperCase(), sheet, 'open');
     });
@@ -333,7 +343,8 @@
     ['r4mFilterSheet', 'r4mBranchSheet', 'r4mInspectSheet'].forEach(function (id) {
       var sheet = byId(id);
       if (!sheet) return;
-      sheet.classList.remove('open');
+      sheet.classList.remove('open', 'sheet-open');
+      sheet.classList.add('sheet-close');
       sheet.setAttribute('aria-hidden', 'true');
     });
     var backdrop = byId('r4mBackdrop');
@@ -380,16 +391,42 @@
       var m = counter.textContent.match(/\d+/);
       if (m) byId('r4mRouteNo').textContent = String(m[0]).padStart(3, '0');
     }
+    renderRouteWear();
     if (pendingRouteMotion) {
       var nextMotion = pendingRouteMotion;
       pendingRouteMotion = null;
       window.requestAnimationFrame(function () {
-        playMotion(route, nextMotion, nextMotion === 'motion-route-next' ? 400 : 460);
+        playMotion(route, nextMotion, nextMotion === 'forward-enter' ? 400 : 460);
       });
     }
   }
 
-  function syncInspect() { syncRoute(); }
+  function renderRouteWear() {
+    var host = byId('r4mRouteWear');
+    if (!host || !window.R4b1tWear) return;
+    var source = byId('trailItems');
+    var items = source ? Array.from(source.querySelectorAll('.trail-item')) : [];
+    var stops = items.map(function (item, index) {
+      return {
+        index: index,
+        state: 'revealed',
+        label: item.textContent.trim() || 'REVEALED ROUTE',
+        action: 'ROLL'
+      };
+    });
+    var current = currentDomain();
+    if (current && (!stops.length || stops[stops.length - 1].label !== current)) {
+      stops.push({ index: stops.length, state: 'revealed', label: current, action: 'CURRENT' });
+    }
+    window.R4b1tWear.render(host, {
+      stops: stops,
+      depth: stops.length,
+      crease_count: Math.min(12, stops.length),
+      fold_size: Math.min(20, 4 + stops.length)
+    });
+  }
+
+  function syncInspect() { syncRoute(); renderRouteWear(); }
 
   function syncFilter() {
     var source = byId('catFilter');
@@ -505,6 +542,7 @@
 
   function syncEverything() {
     syncRoute();
+    renderRouteWear();
     syncFilter();
     syncBranch();
     syncTrail();

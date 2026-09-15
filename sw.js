@@ -1,4 +1,4 @@
-const CACHE = 'r4b1t-v13-motion-diagnostics';
+const CACHE = 'r4b1t-v14-reference-motion';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
