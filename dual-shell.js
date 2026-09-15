@@ -12,7 +12,7 @@
   var routeMotionTimer = null;
   var routeTransitionBusy = false;
   var pendingRouteMotion = null;
-  var motionDebugEnabled = /(?:^|&)debug-motion=1(?:&|$)/.test(window.location.search);
+  var motionDebugEnabled = /[?&]debug-motion=1(?:&|$)/.test(window.location.search);
 
   function byId(id) { return document.getElementById(id); }
 
