@@ -1,171 +1,226 @@
 <p align="center">
   <a href="https://r4b1t.badbananaresearch.com">
-    <img src="./docs/readme/r4b1t-readme-banner.svg" alt="r4b1t — Not search. Not a feed. Down the rabbit hole." width="100%">
+    <img src="./docs/readme/r4b1t_h0le-banner.jpg" alt="r4b1t_h0le — not search, not a feed, down the rabbit hole" width="100%">
   </a>
 </p>
 
 <p align="center">
-  <img src="./docs/readme/field-reel-mobile-shell.svg" alt="r4b1t field reel — first contact, route and sprout, terrain lock, and local ledger" width="100%">
+  <img src="./docs/readme/field-reel-mobile-shell.svg" alt="r4b1t_h0le field reel — first contact, route and sprout, terrain lock, and local ledger" width="100%">
 </p>
 
 <p align="center">
-  <img src="./docs/readme/mechanism-without-mystique.svg" alt="r4b1t mechanism — corpus, route card, branching, terrain filters, trails, and privacy model" width="100%">
+  <img src="./docs/readme/r4b1t_h0le-mechanism.jpg" alt="r4b1t_h0le mechanism — corpus, route, branch, terrain, and device-local trail" width="100%">
 </p>
 
-# r4b1t
+<h1 align="center">r4b1t_h0le</h1>
 
 <p align="center">
   <strong>Chance-driven discovery across security, OSINT, research, development, and the weird web.</strong><br>
-  No recommendation profile. No engagement feed. No ranking model deciding what deserves to be next.
+  <sub>No recommendation profile. No engagement feed. No ranking model deciding what deserves to be next.</sub>
 </p>
 
 <p align="center">
   <a href="https://r4b1t.badbananaresearch.com"><strong>PROJECT SITE</strong></a>
-  ·
-  <a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH r4b1t</strong></a>
-  ·
+  &nbsp;·&nbsp;
+  <a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH APP</strong></a>
+  &nbsp;·&nbsp;
   <a href="https://dev.to/gnomeman4201/r4b1th0l3-5aa3"><strong>DEV WRITE-UP</strong></a>
-  ·
+  &nbsp;·&nbsp;
   <a href="https://github.com/GnomeMan4201/r4b1t/releases"><strong>RELEASES</strong></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/GnomeMan4201/r4b1t/actions/workflows/test.yml"><img alt="Tests" src="https://github.com/GnomeMan4201/r4b1t/actions/workflows/test.yml/badge.svg"></a>
+  <a href="https://github.com/GnomeMan4201/r4b1t/actions/workflows/test.yml"><img alt="Playwright E2E" src="https://github.com/GnomeMan4201/r4b1t/actions/workflows/test.yml/badge.svg"></a>
   <a href="https://github.com/GnomeMan4201/r4b1t/actions/workflows/corpus-quality.yml"><img alt="Corpus quality" src="https://github.com/GnomeMan4201/r4b1t/actions/workflows/corpus-quality.yml/badge.svg"></a>
   <a href="https://github.com/GnomeMan4201/r4b1t/actions/workflows/deploy.yml"><img alt="Deploy" src="https://github.com/GnomeMan4201/r4b1t/actions/workflows/deploy.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="MIT License" src="https://img.shields.io/github/license/GnomeMan4201/r4b1t?style=flat-square"></a>
-  <img alt="Local-first" src="https://img.shields.io/badge/state-local--first-111111?style=flat-square">
+  <img alt="Local-first" src="https://img.shields.io/badge/state-device--local-111111?style=flat-square">
   <img alt="Vanilla JavaScript" src="https://img.shields.io/badge/client-vanilla%20JS-d71920?style=flat-square">
+</p>
+
+<p align="center">
+  <a href="#what-r4b1t_h0le-is">WHAT IT IS</a> ·
+  <a href="#how-it-works">HOW IT WORKS</a> ·
+  <a href="#evidence-boundary">EVIDENCE</a> ·
+  <a href="#two-shells-one-engine">ARCHITECTURE</a> ·
+  <a href="#verifiable-trails">TRAILS</a> ·
+  <a href="#trust-privacy--external-content">TRUST</a>
 </p>
 
 ---
 
-## What this is
+## What `r4b1t_h0le` is
 
-**r4b1t is a random-discovery instrument built around a curated corpus rather than a ranked feed.**
+> [!NOTE]
+> **Not search. Not a feed.** `r4b1t_h0le` is a chance-driven discovery instrument built around a curated corpus rather than a ranked result set.
 
-You roll the corpus. One route appears. You can follow it, reject it, inspect it, narrow the terrain, or branch away from it. The route you actually make can be preserved locally as a trail.
+You do not begin with a query. You begin with an aperture.
 
-The point is not to compete with search. Search is good when you already know what you want. r4b1t is for the opposite situation: when you want to discover something useful, strange, adjacent, forgotten, or simply outside the path an engagement system would normally place in front of you.
+A route is rolled from the current eligible ground. From there you can follow it, refuse it, inspect it, narrow the terrain, or sprout outward in a new direction. The route you actually make can be preserved locally as a trail.
 
-```text
-CORPUS → CHANCE → ROUTE → BRANCH → DEVICE-LOCAL TRAIL
-```
+<p align="center"><code>CORPUS → CHANCE → ROUTE → BRANCH → DEVICE-LOCAL TRAIL</code></p>
 
-### Design boundary
+<table>
+<tr>
+<td width="25%" align="center"><strong>50,109</strong><br><sub>structurally valid URLs</sub></td>
+<td width="25%" align="center"><strong>12,396</strong><br><sub>unique hosts</sub></td>
+<td width="25%" align="center"><strong>0</strong><br><sub>invalid / duplicate / credential-bearing entries admitted</sub></td>
+<td width="25%" align="center"><strong>LOCAL</strong><br><sub>trail and session state</sub></td>
+</tr>
+</table>
 
-| r4b1t does | r4b1t does not |
-| --- | --- |
-| Surface an eligible route by chance | Rank results by popularity or predicted relevance |
-| Let you narrow the eligible terrain | Build a recommendation profile |
-| Preserve session/trail state locally | Require an account to explore |
-| Offer directional branching | Turn branch labels into a hidden engagement score |
-| Keep evidence claims bounded | Claim that structural validity proves safety or truth |
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### What it does
+
+- surfaces an eligible route by chance
+- lets you narrow the eligible terrain without ranking it
+- branches in four explicit directions instead of silently profiling you
+- preserves the route you made locally
+- separates corpus claims from stronger claims the evidence cannot support
+
+</td>
+<td width="50%" valign="top">
+
+### What it refuses to become
+
+- a ranked search-results page
+- a personalized recommendation profile
+- an engagement-maximizing feed
+- a cloud account requirement for exploration
+- a claim that structural validity proves safety, truth, or current liveness
+
+</td>
+</tr>
+</table>
 
 ---
 
-## Why I built it
+## Why this exists
 
-Modern discovery is extremely good at narrowing.
+Modern discovery systems are extremely good at narrowing.
 
-Search engines optimize for relevance. Social feeds optimize for engagement. Recommendation systems learn what keeps you clicking. Those systems are useful, but they tend to keep exploration inside increasingly well-defined neighborhoods.
+Search engines optimize for relevance. Feeds optimize for engagement. Recommendation systems learn the neighborhood most likely to keep you clicking. Those systems are useful when you know what you want — but they are poor substitutes for wandering.
 
-I wanted the other behavior back: **deliberate serendipity**.
+`r4b1t_h0le` is built for the opposite condition: **you do not know the useful thing yet.**
 
-The project started from the same hole StumbleUpon left behind, but the goal became more specific: build a discovery surface useful for security research, OSINT, development, research, and the stranger edges of the web without turning the user into another recommendation profile.
+> [!TIP]
+> The design goal is deliberate serendipity: enough structure to make exploration useful, but not enough invisible scoring to collapse it back into a recommendation engine.
 
-The original build notes and early design reasoning are documented in the DEV article:
+The project grew out of the hole left by StumbleUpon, then became more specific: security research, OSINT, development, technical research, obscure tools, old corners of the web, and the kinds of useful links that rarely win a ranking contest.
 
-> **[r4b1t_h0l3 — 53,000+ curated links for security and OSINT](https://dev.to/gnomeman4201/r4b1th0l3-5aa3)**
+The original public build notes are here:
 
-That article captures an earlier corpus revision. This repository and the current evidence surfaces are authoritative for the present implementation.
+**[r4b1t_h0l3 — 53,000+ curated links for security and OSINT](https://dev.to/gnomeman4201/r4b1th0l3-5aa3)**
+
+<sub>That post documents an earlier corpus revision. The repository and evidence surfaces below are authoritative for the current implementation.</sub>
 
 ---
 
-## The interaction model
+## How it works
 
-### 01 / ROLL — chance chooses
+<table>
+<tr>
+<td width="20%" align="center"><kbd>ROLL</kbd><br><sub>chance chooses</sub></td>
+<td width="20%" align="center"><kbd>FOLLOW</kbd><br><sub>open the route</sub></td>
+<td width="20%" align="center"><kbd>REJECT</kbd><br><sub>refuse it</sub></td>
+<td width="20%" align="center"><kbd>SPROUT ×4</kbd><br><sub>branch outward</sub></td>
+<td width="20%" align="center"><kbd>TRAIL</kbd><br><sub>keep the path</sub></td>
+</tr>
+</table>
 
-A roll selects one eligible route from the current terrain. There is no ranked result page and no relevance score exposed as an ordering mechanism.
+### `01 / ROLL` — chance chooses
 
-Immediate repetition and excessive domain repetition are constrained so randomness does not collapse into repeatedly showing the same host.
+A roll selects one route from the currently eligible terrain. There is no ranked results page and no relevance score exposed as an ordering mechanism. Immediate repetition and excessive domain repetition are constrained so randomness does not collapse into the same host repeatedly.
 
-### 02 / FOLLOW or REJECT — you choose
+### `02 / FOLLOW or REJECT` — you choose
 
-A surfaced route is not an instruction.
+A surfaced route is an invitation, not an instruction. Follow it outward, inspect it, share/cut the card, or reject it and roll again. Refusal is part of the route — not a negative engagement signal used to tune a hidden profile.
 
-You can follow it outward, inspect it, share/cut the card, or reject it and roll again. Refusal is part of the path rather than a negative signal used to tune a recommendation profile.
+### `03 / SPROUT` — branch without becoming a feed
 
-### 03 / SPROUT — branch without becoming a feed
+| Direction | Intent | Mental model |
+| --- | --- | --- |
+| **DEEPER** | stay near the current niche | same neighborhood, more depth |
+| **SIDEWAYS** | move into adjacent territory | related context, different angle |
+| **OPPOSITE** | deliberately contrast the current route | counter-direction / tension |
+| **WEIRD** | take the low-signal tangent | distant, unusual, serendipitous |
 
-From a route, **SPROUT** exposes four directional pivots:
+Branch generation uses available page metadata and lightweight semantic signals against the existing corpus. The branch labels are navigational directions, not a personalized recommendation score.
 
-| Direction | Intent |
-| --- | --- |
-| **DEEPER** | Stay near the current niche and drill further in |
-| **SIDEWAYS** | Move into adjacent territory or shared context |
-| **OPPOSITE** | Surface a contrasting direction or perspective |
-| **WEIRD** | Intentionally take the low-signal, unexpected tangent |
-
-Branch generation uses available page metadata and lightweight semantic signals against the existing corpus. The branch labels are navigational directions, not personalized recommendations.
-
-### 04 / TERRAIN — narrow the ground
+### `04 / TERRAIN` — narrow the ground, not the ranking
 
 Filtering changes **what is eligible to appear**, not **what the system thinks should appear**.
 
-Current terrain labels include:
+<p align="center">
+  <code>CODE</code> · <code>BLOG</code> · <code>NEWS</code> · <code>RESEARCH</code> · <code>PAPER</code> · <code>OSINT</code> · <code>BOUNTY</code> · <code>VIDEO</code> · <code>SOCIAL</code> · <code>REF</code> · <code>ARCHIVE</code> · <code>PKG</code> · <code>COURSE</code> · <code>EVENT</code> · <code>HARDWARE</code> · <code>TOR</code>
+</p>
 
-`CODE` · `BLOG` · `NEWS` · `RESEARCH` · `PAPER` · `OSINT` · `BOUNTY` · `VIDEO` · `SOCIAL` · `REF` · `ARCHIVE` · `PKG` · `COURSE` · `EVENT` · `HARDWARE` · `TOR`
+### `05 / TRAIL` — preserve the route you made
 
-### 05 / TRAIL — keep the route you made
-
-History is useful when it reflects your movement rather than a platform's model of you.
-
-r4b1t keeps route/session state on the device so you can revisit what appeared, where you branched, and where you went next. There is no account requirement for this state.
+History is useful when it reflects your movement rather than a platform's model of you. Route/session state stays on the device so you can revisit what appeared, where you branched, and where you went next without requiring an account.
 
 ---
 
-## One engine, two shells
+## Two shells. One engine.
 
-Desktop and mobile are **two presentations of the same application**, not separate discovery engines.
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### DESKTOP / WORKSTATION
+
+**For deliberate exploration.**
+
+Keyboard-first controls, expanded route context, branch topology, history, trail tooling, and the larger investigative surface.
+
+<p align="center"><a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH WORKSTATION ↗</strong></a></p>
+
+</td>
+<td width="50%" valign="top">
+
+### MOBILE / FIELD SHELL
+
+**For the same engine in your hand.**
+
+First-contact clarity, compact route cards, thumb-first controls, terrain sheets, branching, and the device-local ledger.
+
+<p align="center"><a href="https://gnomeman4201.github.io/r4b1t/"><strong>LAUNCH FIELD SHELL ↗</strong></a></p>
+
+</td>
+</tr>
+</table>
 
 ```text
-                same corpus
-                    │
-              shared engine
-                    │
-          shared session state
-                    │
-          ┌─────────┴─────────┐
-          │                   │
-      > 900 px             ≤ 900 px
-   workstation           field shell
-          │                   │
-          └─────────┬─────────┘
-                    │
-       roll / follow / sprout / filter
-       history / trail / share / inspect
+                         same corpus
+                             │
+                       shared engine
+                             │
+                   shared session state
+                             │
+                 ┌───────────┴───────────┐
+                 │                       │
+             > 900 px                 ≤ 900 px
+          workstation               field shell
+                 │                       │
+                 └───────────┬───────────┘
+                             │
+           roll / follow / sprout / filter
+           history / trail / share / inspect
 ```
 
-The viewport selects the shell. Crossing the breakpoint can switch presentation without replacing the underlying discovery state.
-
-### Desktop / workstation
-
-The larger interface keeps the exploratory workstation model: keyboard-first controls, expanded route context, branching surfaces, history, and trail tooling.
-
-### Mobile / field shell
-
-The phone interface is recomposed instead of simply shrinking the desktop UI. It emphasizes first-contact clarity, route cards, one-thumb controls, terrain selection, branching, and the local ledger.
+The breakpoint changes presentation, not the discovery engine or corpus.
 
 ---
 
-## Corpus and evidence boundary
+## Evidence boundary
 
-The corpus changes over time. Evidence should not.
+> [!IMPORTANT]
+> **The corpus changes over time. Evidence should not.** A frozen baseline is a statement about one audited revision, not a promise about the future state of the open web.
 
-The current frozen structural baseline is:
-
-| Measurement | Baseline |
+| Measurement | Frozen baseline |
 | --- | ---: |
 | Structurally valid URLs | **50,109** |
 | Unique hosts | **12,396** |
@@ -173,58 +228,52 @@ The current frozen structural baseline is:
 | Exact duplicates admitted | **0** |
 | Credential-bearing entries admitted | **0** |
 
-Baseline SHA-256:
+**Baseline SHA-256**
 
 ```text
 5d7339b8cbfe7bd35bb8502ca753e5b4663bc2fc4ba3721b23b791dbace01c41
 ```
 
-### What that proves
+### What this establishes
 
-It provides a reproducible structural count for that audited corpus revision and a cryptographic identifier for the source material being described.
+The baseline provides a reproducible structural count for the audited revision and a cryptographic identifier for the source material being described.
 
-### What that does not prove
+### What it deliberately does not establish
 
-Structural validity does **not** prove that a third-party URL is currently reachable, relevant, trustworthy, safe, unchanged, or correct.
+Structural validity does **not** prove that a third-party URL is currently reachable, relevant, trustworthy, safe, unchanged, or factually correct. Those are separate measurements. Liveness sweeps are time-bounded evidence and do not rewrite older frozen evidence because the web later changed.
 
-Those are separate measurements. Liveness sweeps are time-bounded evidence; they do not rewrite an older frozen evidence record just because the web changed later.
+<details>
+<summary><strong>Corpus inputs and promotion boundary</strong></summary>
 
-### Corpus inputs
+<br>
 
-Corpus work has included:
+Corpus work has included Start.me OSINT/security collections gathered through browser automation, GitHub awesome-lists across 21 categories, manual curation, automated liveness sweeps, human relevance review, and duplicate/credential/policy checks before evidence-bound revisions are promoted.
 
-- Start.me OSINT and security collections gathered through browser automation
-- GitHub awesome-lists across 21 categories
-- manual curation passes
-- automated liveness sweeps
-- human relevance review
-- duplicate, credential, and policy checks before evidence-bound revisions are promoted
+The guiding rule is simple: **do not upgrade a structural observation into a stronger claim without the evidence required for that claim.**
+
+</details>
 
 ---
 
 ## Verifiable trails
 
-r4b1t can export content-addressed trail material without requiring a server-side identity record.
+`r4b1t_h0le` can export content-addressed trail material without requiring a server-side identity record.
 
-The trail work separates **what can be cryptographically verified** from stronger claims the artifact cannot support.
+The trail system separates what can be cryptographically verified from stronger claims an artifact cannot support. A verified reveal can establish that disclosed route material matches its commitment; it does not, by itself, establish authorship or prove real-world wall-clock ordering.
 
-A verified reveal can establish that disclosed route material matches its commitment. It does not, by itself, establish authorship or prove real-world wall-clock ordering.
-
-Relevant architecture decisions:
-
-- [`ADR 0001 — Anti-ranking boundary`](./docs/adr/0001-anti-ranking-boundary.md)
-- [`ADR 0002 — Content-addressed trails`](./docs/adr/0002-content-addressed-trails.md)
-- [`ADR 0003 — Blind Descent commit/reveal`](./docs/adr/0003-blind-descent-commit-reveal.md)
-
-Verify an exported trail locally:
+<table>
+<tr>
+<td width="33%" valign="top"><strong>ADR 0001</strong><br><a href="./docs/adr/0001-anti-ranking-boundary.md">Anti-ranking boundary</a></td>
+<td width="33%" valign="top"><strong>ADR 0002</strong><br><a href="./docs/adr/0002-content-addressed-trails.md">Content-addressed trails</a></td>
+<td width="33%" valign="top"><strong>ADR 0003</strong><br><a href="./docs/adr/0003-blind-descent-commit-reveal.md">Blind Descent commit/reveal</a></td>
+</tr>
+</table>
 
 ```bash
+# Verify one exported trail
 npm run trail:verify -- trail.json
-```
 
-Verify a child and declared parent together:
-
-```bash
+# Verify a child and its declared parent together
 npm run trail:verify -- child.json parent.json
 ```
 
@@ -232,39 +281,65 @@ npm run trail:verify -- child.json parent.json
 
 ## Architecture
 
-The production browser client is intentionally lightweight and framework-free.
-
 ```text
-                         r4b1t
-                           │
-                   vanilla browser client
-                           │
-              ┌────────────┴────────────┐
-              │                         │
-       desktop workstation        mobile field shell
-              │                         │
-              └────────────┬────────────┘
-                           │
-                corpus + session state
-                           │
-              optional metadata services
+                           r4b1t_h0le
+                                │
+                      vanilla browser client
+                                │
+                 ┌──────────────┴──────────────┐
+                 │                             │
+        desktop workstation             mobile field shell
+                 │                             │
+                 └──────────────┬──────────────┘
+                                │
+                     corpus + session state
+                                │
+                  optional metadata services
 ```
 
-Core surfaces include static HTML/CSS/JavaScript, PWA/service-worker support, trail/topology runtimes, Playwright regression tests, and corpus maintenance tooling. Node.js exists primarily for development and verification tooling rather than as an application build requirement.
+<table>
+<tr><th>Surface</th><th>Role</th></tr>
+<tr><td><code>index.html</code> / <code>r4b1t.html</code></td><td>application entry surfaces</td></tr>
+<tr><td><code>dual-shell.js</code> / <code>dual-shell.css</code></td><td>shared responsive shell behavior</td></tr>
+<tr><td><code>trail-runtime.js</code> / <code>trail-manifest.js</code></td><td>trail state, export, and verification support</td></tr>
+<tr><td><code>trail-topology.js</code> / <code>topology-runtime.js</code></td><td>trail topology and lineage surfaces</td></tr>
+<tr><td><code>blind-runtime.js</code> / <code>blind-manifest.js</code></td><td>Blind Descent commit/reveal behavior</td></tr>
+<tr><td><code>trail-wear.js</code> / <code>trail-wear.css</code></td><td>persistent visual trail-wear layer</td></tr>
+<tr><td><code>pool_sweep.py</code></td><td>time-bounded liveness and pool maintenance</td></tr>
+<tr><td><code>urls.txt</code></td><td>corpus route material</td></tr>
+<tr><td><code>tests/</code></td><td>browser and regression coverage</td></tr>
+<tr><td><code>docs/adr/</code></td><td>architectural decisions and trust boundaries</td></tr>
+</table>
+
+<details>
+<summary><strong>Why the client stays framework-free</strong></summary>
+
+<br>
+
+The production surface is static HTML, CSS, and JavaScript. Node.js exists primarily for development, test, and verification tooling rather than as an application build requirement. This keeps the browser runtime small, inspectable, and directly hostable while preserving a separate test harness for regression coverage.
+
+</details>
 
 ---
 
-## Quick start
+## Run it
 
-### Launch the deployed application
+<table>
+<tr>
+<td width="50%" valign="top">
 
-**https://gnomeman4201.github.io/r4b1t/**
+### Production
 
-The custom project front door is:
+**Project front door**  
+https://r4b1t.badbananaresearch.com
 
-**https://r4b1t.badbananaresearch.com**
+**Direct application**  
+https://gnomeman4201.github.io/r4b1t/
 
-### Run locally
+</td>
+<td width="50%" valign="top">
+
+### Local preview
 
 ```bash
 git clone https://github.com/GnomeMan4201/r4b1t.git
@@ -272,19 +347,18 @@ cd r4b1t
 python3 -m http.server 8080
 ```
 
-Then open:
+Open `http://127.0.0.1:8080/`.
 
-```text
-http://127.0.0.1:8080/
-```
+</td>
+</tr>
+</table>
 
-Some metadata/preview behavior can depend on deployed services, so a bare static server is not identical to production. It is still suitable for the primary client, PWA shell, navigation, corpus, and interface regression work.
+> [!NOTE]
+> Some metadata/preview behavior can depend on deployed services, so a bare static server is not identical to production. It is still suitable for primary client, PWA-shell, navigation, corpus, and interface regression work.
 
 ---
 
 ## Tests and verification
-
-Install development dependencies and the Chromium test target:
 
 ```bash
 npm ci
@@ -292,106 +366,71 @@ npx playwright install chromium
 npm test
 ```
 
-The repository maintains dedicated workflow surfaces for:
+<table>
+<tr>
+<td width="33%" align="center"><strong>Browser regression</strong><br><sub>desktop + mobile Chromium</sub></td>
+<td width="33%" align="center"><strong>Corpus quality</strong><br><sub>bounded data checks</sub></td>
+<td width="33%" align="center"><strong>Dependency gate</strong><br><sub>high-severity npm audit rejection</sub></td>
+</tr>
+</table>
 
-- browser regression testing
-- corpus-quality checks
-- deployment
-- pool/liveness maintenance
-- dependency auditing
+The browser suite covers shell selection, viewport switching, roll propagation, filtering, branching, route fidelity, overflow containment, trail behavior, Blind Descent leak prevention, topology/tamper cases, and desktop preservation.
 
-The browser suite covers both desktop and mobile behavior, including shell selection, viewport switching, roll propagation, filtering, branching, route fidelity, overflow containment, trail behavior, Blind Descent leak prevention, and topology/tamper cases.
-
-A green test workflow verifies the paths tested for that revision. It does **not** certify the safety or continued availability of every external destination in the corpus.
-
----
-
-## Repository map
-
-| Surface | Purpose |
-| --- | --- |
-| `index.html` / `r4b1t.html` | Application entry surfaces |
-| `dual-shell.js` / `dual-shell.css` | Shared responsive shell behavior |
-| `trail-runtime.js` / `trail-manifest.js` | Trail state and export/verification support |
-| `trail-topology.js` / `topology-runtime.js` | Trail topology and lineage surfaces |
-| `blind-runtime.js` / `blind-manifest.js` | Blind Descent commit/reveal behavior |
-| `trail-wear.js` / `trail-wear.css` | Persistent visual trail-wear layer |
-| `pool_sweep.py` | Time-bounded liveness/pool maintenance workflow |
-| `urls.txt` | Corpus route material |
-| `tests/` | Browser and regression coverage |
-| `docs/adr/` | Architectural decisions and trust boundaries |
+> [!WARNING]
+> A green workflow verifies the tested behavior for that revision. It does **not** certify the safety or continued availability of every external destination in the corpus.
 
 ---
 
-## Privacy model
+## Trust, privacy & external content
 
-r4b1t deliberately minimizes what the application itself needs to know about you.
+> [!CAUTION]
+> **`r4b1t_h0le` curates pointers. It does not control the destinations those pointers lead to.**
 
-- no r4b1t account required for exploration
-- no recommendation profile used to rank routes
-- route/session state is designed to remain device-local
-- the core selection loop does not require a personalized server-side feed
+The application itself is deliberately local-first: no r4b1t account is required for exploration, route/session state is designed to remain device-local, and the core selection loop does not depend on a personalized server-side feed.
 
-This boundary stops at the destination.
+That boundary ends when you leave the application origin.
 
-When you follow a route to a third-party site, that destination operates under **its own** logging, cookies, analytics, authentication, privacy policy, security posture, and legal terms. Device-local state inside r4b1t does not make external browsing anonymous.
+Third-party destinations may log requests, set cookies, require authentication, run analytics, redirect, disappear, change ownership, or become compromised. Inclusion in the corpus is not an endorsement, certification, guarantee of safety, or statement that a resource remains unchanged after review.
 
----
+Category and branch labels are navigation aids, not legal, security, or factual classifications. A successful liveness check establishes reachability at a point in time — not trustworthiness or content integrity.
 
-## Trust, external content, and liability
-
-> **r4b1t curates pointers. It does not control the destinations those pointers lead to.**
-
-The corpus contains references to independent third-party resources. Inclusion in the corpus is **not** an endorsement, certification, guarantee of safety, or statement that a resource remains unchanged after review.
-
-In particular:
-
-- a structurally valid URL can later disappear, redirect, expire, be repurposed, or change ownership
-- a successful liveness check does not establish trustworthiness or content integrity
-- category and branch labels are navigation aids, not legal, security, or factual classifications
-- external sites may collect network, browser, account, or behavioral information according to their own policies
-- users are responsible for evaluating third-party content before downloading, executing, authenticating to, or otherwise relying on it
-
-The software itself is distributed under the MIT License and is provided **"AS IS"**, without warranty of any kind, as described in [`LICENSE`](./LICENSE).
-
-If a vulnerability is in **r4b1t itself**, use the process in [`SECURITY.md`](./SECURITY.md). Vulnerabilities belonging to third-party destinations should be reported to the relevant owner rather than treated as a vulnerability in this project.
+The software is distributed under the MIT License and provided **“AS IS”**, without warranty of any kind. See [`LICENSE`](./LICENSE). Vulnerabilities in `r4b1t_h0le` itself should be reported through [`SECURITY.md`](./SECURITY.md); vulnerabilities in third-party destinations belong with the relevant operator.
 
 ---
 
 ## Project links
 
-| Resource | Link |
-| --- | --- |
-| Project site | **[r4b1t.badbananaresearch.com](https://r4b1t.badbananaresearch.com)** |
-| Live application | **[gnomeman4201.github.io/r4b1t](https://gnomeman4201.github.io/r4b1t/)** |
-| Original DEV write-up | **[r4b1t_h0l3](https://dev.to/gnomeman4201/r4b1th0l3-5aa3)** |
-| DEV profile | **[dev.to/gnomeman4201](https://dev.to/gnomeman4201)** |
-| Releases | **[GitHub Releases](https://github.com/GnomeMan4201/r4b1t/releases)** |
-| Changelog | **[CHANGELOG.md](./CHANGELOG.md)** |
-| Issues / URL submissions | **[GitHub Issues](https://github.com/GnomeMan4201/r4b1t/issues)** |
-| Contributing | **[CONTRIBUTING.md](./CONTRIBUTING.md)** |
-| Security | **[SECURITY.md](./SECURITY.md)** |
+<table>
+<tr><td><strong>Project site</strong></td><td><a href="https://r4b1t.badbananaresearch.com">r4b1t.badbananaresearch.com</a></td></tr>
+<tr><td><strong>Live application</strong></td><td><a href="https://gnomeman4201.github.io/r4b1t/">gnomeman4201.github.io/r4b1t/</a></td></tr>
+<tr><td><strong>Original DEV write-up</strong></td><td><a href="https://dev.to/gnomeman4201/r4b1th0l3-5aa3">r4b1t_h0l3 — 53,000+ curated links for security and OSINT</a></td></tr>
+<tr><td><strong>DEV profile</strong></td><td><a href="https://dev.to/gnomeman4201">dev.to/gnomeman4201</a></td></tr>
+<tr><td><strong>Releases</strong></td><td><a href="https://github.com/GnomeMan4201/r4b1t/releases">GitHub Releases</a></td></tr>
+<tr><td><strong>Changelog</strong></td><td><a href="./CHANGELOG.md">CHANGELOG.md</a></td></tr>
+<tr><td><strong>Issues / URL submissions</strong></td><td><a href="https://github.com/GnomeMan4201/r4b1t/issues">GitHub Issues</a></td></tr>
+<tr><td><strong>Contributing</strong></td><td><a href="./CONTRIBUTING.md">CONTRIBUTING.md</a></td></tr>
+<tr><td><strong>Security</strong></td><td><a href="./SECURITY.md">SECURITY.md</a></td></tr>
+</table>
 
 ---
 
 ## Contributing
 
-Useful contributions include corpus-quality fixes, broken-link reports, reproducible UI bugs, accessibility problems, evidence/verification corrections, and well-scoped improvements that preserve the project's anti-ranking boundary.
+Useful contributions are the ones that sharpen the instrument without breaking its trust boundary: corpus-quality fixes, broken-link reports, reproducible UI bugs, accessibility problems, evidence/verification corrections, and well-scoped changes that preserve the anti-ranking model.
 
-Start with [`CONTRIBUTING.md`](./CONTRIBUTING.md). For a new corpus candidate, use the repository issue flow rather than silently changing evidence-bound material.
-
----
-
-## License
-
-MIT. See [`LICENSE`](./LICENSE).
+Start with [`CONTRIBUTING.md`](./CONTRIBUTING.md). New corpus candidates should go through the issue/submission flow rather than silently mutating evidence-bound material.
 
 ---
 
-## Built by
+<p align="center">
+  <strong>badBANANA Research Collective</strong><br>
+  <sub>open internet exploration · bounded claims · local-first trails</sub>
+</p>
 
-**badBANANA Research Collective / [GnomeMan4201](https://github.com/GnomeMan4201)**
-
-Research notes and technical writing: **[dev.to/gnomeman4201](https://dev.to/gnomeman4201)**
+<p align="center">
+  <a href="https://github.com/GnomeMan4201">GitHub</a> ·
+  <a href="https://dev.to/gnomeman4201">DEV</a> ·
+  <a href="https://r4b1t.badbananaresearch.com">r4b1t_h0le</a>
+</p>
 
 <p align="center"><strong>NOT SEARCH. NOT A FEED. DOWN THE RABBIT HOLE.</strong></p>
