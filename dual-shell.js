@@ -210,11 +210,12 @@
     var open = overlay.style.display === 'flex';
     if (!open) {
       call('toggleHistory');
-      if (overlay.style.display === 'flex') {
-        window.requestAnimationFrame(function () {
-          playMotion(overlay, 'motion-history-enter', 340);
-        });
-      }
+      // The legacy ledger returns early when empty; mobile history must still
+      // open and animate so an empty trail is an explicit state, not a dead tap.
+      if (overlay.style.display !== 'flex') overlay.style.display = 'flex';
+      window.requestAnimationFrame(function () {
+        playMotion(overlay, 'motion-history-enter', 340);
+      });
       return;
     }
     playMotion(overlay, 'motion-history-exit', 260);
