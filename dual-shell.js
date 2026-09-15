@@ -360,7 +360,7 @@
       endRollPending(rollButton);
       call('roll');
       routeTransitionBusy = false;
-    }, 180);
+    }, 240);
   }
 
   function toggleHistoryWithMotion() {
