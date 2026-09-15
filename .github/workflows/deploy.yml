@@ -16,3 +16,35 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git push origin main:gh-pages --force
+
+      - name: Remove superseded development branches
+        run: |
+          git push origin --delete \
+            agent/r4b1t-flagship-links \
+            agent/use-r4b1t-custom-domain \
+            closeout/ci-and-corpus-safety \
+            closeout/report-only-pool-sweep \
+            copy/down-the-rabbit-hole \
+            copy/follow-the-rabbit \
+            debug/visible-motion-diagnostics \
+            feature/blind-descent-v02 \
+            feature/connective-motion-pass \
+            feature/production-motion-sync \
+            feature/reproducible-rabbit-trails \
+            feature/trail-topology-atlas \
+            feature/trail-wear-visual-layer \
+            feature/verifiable-trail-lineage \
+            fix/expose-blind-wear-visuals \
+            fix/mobile-shell-interaction-motion \
+            fix/pool-sweep-fake-response-headers \
+            fix/pwa-motion-token-precache \
+            fix/real-trail-transitions \
+            mobile/dual-shell-interface \
+            mobile/dual-shell-refinements \
+            portfolio-polish/local-test-docs \
+            readme/production-refresh \
+            readme/r4b1t-hole-final \
+            readme/r4b1t-hole-v2 \
+            ui/follow-route-copy \
+            ui/hole-not-slogan \
+            ui/restore-rabbit-hero
