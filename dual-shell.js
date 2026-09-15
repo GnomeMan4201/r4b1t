@@ -12,6 +12,7 @@
   var routeMotionTimer = null;
   var routeTransitionBusy = false;
   var pendingRouteMotion = null;
+  var motionDebugEnabled = /(?:^|&)debug-motion=1(?:&|$)/.test(window.location.search);
 
   function byId(id) { return document.getElementById(id); }
 
@@ -148,6 +149,7 @@
 
   function buildShell() {
     if (byId('r4mShellHost')) return;
+    if (motionDebugEnabled) ensureMotionDebug();
     var host = document.createElement('div');
     host.id = 'r4mShellHost';
     host.innerHTML = shellMarkup();
@@ -156,13 +158,53 @@
     host.addEventListener('click', function (event) {
       var target = event.target.closest('[data-mobile-action]');
       if (!target) return;
-      handleAction(target.getAttribute('data-mobile-action'));
+      var action = target.getAttribute('data-mobile-action');
+      reportTap(action.toUpperCase());
+      handleAction(action);
     });
 
     var backdrop = byId('r4mBackdrop');
     if (backdrop) backdrop.addEventListener('click', closeSheets);
     syncEverything();
     observeSource();
+  }
+
+  function ensureMotionDebug() {
+    if (!motionDebugEnabled || byId('r4mMotionDebug')) return;
+    var panel = document.createElement('aside');
+    panel.id = 'r4mMotionDebug';
+    panel.setAttribute('aria-live', 'polite');
+    panel.style.cssText = 'position:fixed;z-index:12000;right:8px;bottom:calc(76px + env(safe-area-inset-bottom));width:min(310px,calc(100vw - 16px));padding:10px;background:#050505ee;color:#f3ead8;border:1px solid #ff3333;box-shadow:4px 4px 0 #3a0808;font:500 10px/1.55 "DM Mono",monospace;letter-spacing:.04em;pointer-events:none;white-space:pre-wrap';
+    panel.textContent = 'MOTION DEBUG / waiting for input';
+    document.body.appendChild(panel);
+  }
+
+  function reportMotion(action, element, className) {
+    if (!motionDebugEnabled || !element) return;
+    ensureMotionDebug();
+    var panel = byId('r4mMotionDebug');
+    if (!panel) return;
+    var style = getComputedStyle(element);
+    var animation = element.getAnimations && element.getAnimations()[0];
+    var timing = animation && animation.effect ? animation.effect.getTiming() : {};
+    var animationName = style.animationName && style.animationName !== 'none' ? style.animationName : 'none';
+    var duration = timing.duration || style.animationDuration || 'none';
+    var transition = style.transitionDuration && style.transitionDuration !== '0s' ? style.transitionDuration : 'none';
+    panel.textContent =
+      'MOTION DEBUG\\n' +
+      'ACTION: ' + action + '\\n' +
+      'TARGET: #' + (element.id || element.className || element.tagName).toString().replace(/\\s+/g, '.') + '\\n' +
+      'CLASS: ' + (className || '(none)') + '\\n' +
+      'ANIMATION: ' + animationName + '\\n' +
+      'DURATION: ' + String(duration) + '\\n' +
+      'TRANSITION: ' + transition;
+  }
+
+  function reportTap(action) {
+    if (!motionDebugEnabled) return;
+    ensureMotionDebug();
+    var panel = byId('r4mMotionDebug');
+    if (panel) panel.textContent = 'MOTION DEBUG\\nACTION: ' + action + '\\nWAITING FOR TARGET MOTION…';
   }
 
   function playMotion(element, className, duration) {
@@ -177,6 +219,7 @@
     ].forEach(function (name) { element.classList.remove(name); });
     void element.offsetWidth;
     element.classList.add(className);
+    reportMotion(className.replace(/^motion-/, '').toUpperCase(), element, className);
     window.clearTimeout(routeMotionTimer);
     routeMotionTimer = window.setTimeout(function () {
       element.classList.remove(className);
@@ -185,6 +228,7 @@
 
   function runRollTransition(kind) {
     if (routeTransitionBusy) return;
+    reportTap(kind === 'next' ? 'REJECT / NEXT' : 'ROLL');
     var route = byId('r4mRoute');
     var rollButton = byId('r4mRoll');
     playMotion(rollButton, 'motion-control-press', 240);
@@ -205,6 +249,7 @@
   }
 
   function toggleHistoryWithMotion() {
+    reportTap('HISTORY');
     var overlay = byId('historyOverlay');
     if (!overlay) return call('toggleHistory');
     var open = overlay.style.display === 'flex';
@@ -275,6 +320,7 @@
       backdrop.classList.add('open');
       sheet.classList.add('open');
       sheet.setAttribute('aria-hidden', 'false');
+      reportMotion(id.replace('r4m', '').replace('Sheet', '').toUpperCase(), sheet, 'open');
     });
     document.documentElement.classList.add('r4m-sheet-open');
   }
