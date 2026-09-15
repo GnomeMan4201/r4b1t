@@ -181,6 +181,7 @@
       if (!element) return;
       element.style.setProperty('--motion-delay', String(index * 60) + 'ms');
       element.classList.add('motion-stagger-in');
+      window.setTimeout(function () { element.classList.remove('motion-stagger-in'); }, 620 + (index * 60));
     });
   }
 
