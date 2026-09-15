@@ -123,3 +123,35 @@ test('mobile viewport exposes one-thumb controls', async ({ page }, testInfo) =>
   await expect(page.locator('#r4mRoute')).toBeVisible();
   await expect(page.locator('[data-mobile-action="visit"]')).toBeVisible();
 });
+
+
+test('mobile blind descent entry commits and displays wear immediately', async ({ page }, testInfo) => {
+  if (testInfo.project.name !== 'mobile-chromium') test.skip();
+
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
+
+  const entry = page.locator('[data-mobile-action="blind-descent"]');
+  await expect(entry).toBeVisible();
+  await expect(page.locator('[data-mobile-action="wear-sample"]')).toBeVisible();
+  await entry.click();
+
+  await expect(page.locator('#blindDescentOverlay')).toHaveClass(/\bopen\b/);
+  await expect(page.locator('#blindStatus')).toContainText('CONCEALED');
+  await expect(page.locator('#blindWear .trail-wear')).toBeVisible();
+  await expect(page.locator('#blindWear .wear-step.concealed')).toHaveCount(1);
+  await expect(page.locator('#blindCard')).toHaveClass(/\bmotion-descend-card\b/);
+});
+
+test('mobile wear sample exposes revealed concealed and forked states', async ({ page }, testInfo) => {
+  if (testInfo.project.name !== 'mobile-chromium') test.skip();
+
+  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
+  await page.locator('[data-mobile-action="wear-sample"]').click();
+
+  await expect(page.locator('#trailTopologyOverlay')).toHaveClass(/\bopen\b/);
+  await expect(page.locator('#trailTopologyMap .wear-step.revealed').first()).toBeVisible();
+  await expect(page.locator('#trailTopologyMap .wear-step.concealed').first()).toBeVisible();
+  await expect(page.locator('#trailTopologyMap .wear-fork-mark').first()).toBeVisible();
+});
