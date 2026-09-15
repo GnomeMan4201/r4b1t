@@ -87,3 +87,40 @@ html[data-r4b1t-interface="desktop"] #r4mShellHost{display:none!important}
   .r4m-descent-actions{display:grid;grid-template-columns:1.25fr 1fr;gap:7px}.r4m-descent-actions button{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #6d302e;background:#15100e;color:#e8deca;padding:10px 11px;text-align:left;font:600 .5rem var(--font-mono,"DM Mono",monospace);letter-spacing:.1em}.r4m-descent-actions button:first-child{border-color:var(--r4m-red-hi);background:var(--r4m-red-hi);color:#090807}.r4m-descent-actions button b{font-size:1.2rem;line-height:1}
 }
 @media (max-width:390px){.r4m-descent-actions{grid-template-columns:1fr}.r4m-descent-entry strong{font-size:1.7rem}}
+
+
+/* Motion for the ordinary mobile shell — these are the controls users actually touch. */
+@media (max-width:900px){
+  .r4m-roll.motion-control-press{animation:r4mControlPress 220ms cubic-bezier(.34,1.56,.64,1)}
+  .r4m-route.motion-route-unfold{animation:r4mRouteUnfold 440ms cubic-bezier(.19,1,.22,1) both;transform-origin:50% 0}
+  .r4m-route.motion-route-reject{animation:r4mRouteReject 260ms cubic-bezier(.6,.04,.98,.34) both;pointer-events:none}
+  .r4m-route.motion-route-next{animation:r4mRouteNext 380ms cubic-bezier(.18,.89,.32,1.15) both;transform-origin:0 50%}
+  @keyframes r4mControlPress{0%{transform:scale(1)}42%{transform:scale(.968);box-shadow:inset 0 0 0 4px #09080655}100%{transform:scale(1)}}
+  @keyframes r4mRouteUnfold{0%{clip-path:inset(0 0 100% 0);transform:translateY(-18px) scaleY(.72);opacity:0}64%{clip-path:inset(0 0 0 0);transform:translateY(4px) scaleY(1.015);opacity:1}100%{clip-path:inset(0 0 0 0);transform:translateY(0) scaleY(1);opacity:1}}
+  @keyframes r4mRouteReject{0%{transform:translateX(0) rotate(0);opacity:1}100%{transform:translateX(-112%) rotate(-2.2deg);opacity:0}}
+  @keyframes r4mRouteNext{0%{transform:translateX(34%) rotate(1.6deg) scale(.96);opacity:0}68%{transform:translateX(-2%) rotate(-.18deg) scale(1.006);opacity:1}100%{transform:translateX(0) rotate(0) scale(1);opacity:1}}
+
+  .r4m-sheet{opacity:.28;transition:transform 360ms cubic-bezier(.2,.8,.2,1),opacity 280ms cubic-bezier(.33,1,.68,1)}
+  .r4m-sheet.open{opacity:1}
+  .r4m-sheet-backdrop{opacity:0;transition:opacity 300ms cubic-bezier(.33,1,.68,1)}
+  .r4m-sheet-backdrop.open{opacity:1}
+  .r4m-filter-options>button,.r4m-branch-options>button{transform:translateY(10px);opacity:0;transition:transform 280ms cubic-bezier(.16,1,.3,1),opacity 220ms ease-out}
+  .r4m-sheet.open .r4m-filter-options>button,.r4m-sheet.open .r4m-branch-options>button{transform:translateY(0);opacity:1}
+  .r4m-sheet.open .r4m-filter-options>button:nth-child(2),.r4m-sheet.open .r4m-branch-options>button:nth-child(2){transition-delay:35ms}
+  .r4m-sheet.open .r4m-filter-options>button:nth-child(3),.r4m-sheet.open .r4m-branch-options>button:nth-child(3){transition-delay:70ms}
+  .r4m-sheet.open .r4m-filter-options>button:nth-child(n+4),.r4m-sheet.open .r4m-branch-options>button:nth-child(n+4){transition-delay:105ms}
+
+  #historyOverlay.motion-history-enter{animation:r4mHistoryBackdropIn 320ms cubic-bezier(.33,1,.68,1) both}
+  #historyOverlay.motion-history-enter>div{animation:r4mHistoryLedgerIn 320ms cubic-bezier(.16,1,.3,1) both}
+  #historyOverlay.motion-history-exit{animation:r4mHistoryBackdropOut 240ms cubic-bezier(.7,0,.84,0) both}
+  #historyOverlay.motion-history-exit>div{animation:r4mHistoryLedgerOut 240ms cubic-bezier(.7,0,.84,0) both}
+  @keyframes r4mHistoryBackdropIn{0%{opacity:0}100%{opacity:1}}
+  @keyframes r4mHistoryLedgerIn{0%{transform:translateY(46px) scale(.96);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+  @keyframes r4mHistoryBackdropOut{0%{opacity:1}100%{opacity:0}}
+  @keyframes r4mHistoryLedgerOut{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(34px) scale(.965);opacity:0}}
+
+  .r4m-nav button:active,.r4m-route-actions button:active,.r4m-enter:active,.r4m-next:active{transform:translateY(2px) scale(.97);transition:transform 90ms ease-out}
+}
+@media (prefers-reduced-motion:reduce) and (max-width:900px){
+  .r4m-roll,.r4m-route,.r4m-sheet,.r4m-sheet-backdrop,#historyOverlay,#historyOverlay>div,.r4m-filter-options>button,.r4m-branch-options>button{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
