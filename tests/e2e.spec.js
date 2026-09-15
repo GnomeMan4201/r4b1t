@@ -288,3 +288,36 @@ test('motion debug overlay reports the real mobile animation', async ({ page }, 
   await expect(debug).toContainText('ANIMATION: paperUnfold');
   await expect(debug).toContainText('DURATION: 440');
 });
+
+
+test('mobile connective motion covers press pending counter ledger and copy states', async ({ page }, testInfo) => {
+  if (testInfo.project.name !== 'mobile-chromium') test.skip();
+
+  await page.goto('./?debug-motion=1', { waitUntil: 'domcontentloaded' });
+  await waitForApplicationReady(page);
+
+  const filterButton = page.locator('.r4m-nav [data-mobile-action="filter"]');
+  await filterButton.dispatchEvent('pointerdown');
+  await expect(filterButton).toHaveClass(/\bmotion-pressed\b/);
+  await filterButton.dispatchEvent('pointerup');
+  await expect(filterButton).toHaveClass(/\bmotion-released\b/);
+
+  const rollButton = page.locator('#r4mRoll');
+  await rollButton.click();
+  await expect(rollButton).toHaveClass(/\broll-pending\b/);
+  await expect(rollButton).toHaveAttribute('aria-busy', 'true');
+
+  const route = page.locator('#r4mRoute');
+  await expect(route).toBeVisible();
+  await expect(route).toHaveClass(/\broll-enter\b/);
+  await expect(page.locator('#r4mRouteNo .r4m-route-digit')).toHaveCount(3);
+  await expect(page.locator('#r4mRouteNo .r4m-route-digit.changed').first()).toBeAttached();
+
+  const shareButton = page.locator('.r4m-route-actions [data-mobile-action="share"]');
+  await shareButton.click();
+  await expect(shareButton).toHaveClass(/\bcopied-flash\b/);
+
+  await page.locator('.r4m-nav [data-mobile-action="history"]').click();
+  await expect(page.locator('#historyOverlay')).toHaveClass(/\bledger-open\b/);
+  await expect(page.locator('#historyList > .r4m-ledger-row.row-in').first()).toBeVisible();
+});
