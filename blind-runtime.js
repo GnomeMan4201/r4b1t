@@ -130,9 +130,13 @@
 
   async function returnTowardSurface() {
     await ready();
+    var returnFromIndex = Math.max(0, state.currentDepth - 1);
     state.currentDepth = Math.max(0, state.currentDepth - 1);
     save();
-    render('RETURNING / COMMITMENTS UNCHANGED', { motion: 'return' });
+    render('RETURNING / COMMITMENTS UNCHANGED', {
+      motion: 'return',
+      returnFromIndex: returnFromIndex
+    });
     return state.currentDepth;
   }
 
@@ -256,7 +260,8 @@
         crease_count: wear.creases,
         fold_size: wear.fold_size,
         motion: transition.motion === 'reveal' ? null : transition.motion,
-        revealIndex: transition.revealIndex
+        revealIndex: transition.revealIndex,
+        returnFromIndex: transition.returnFromIndex
       });
     }
   }

@@ -144,7 +144,9 @@
       segment.className = 'wear-step ' + stop.state +
         (stop.inherited ? ' inherited' : '') +
         (stop.divergent ? ' divergent' : '') +
-        (options.revealIndex === index ? ' ink-reveal' : '');
+        (options.revealIndex === index ? ' ink-reveal' : '') +
+        (options.returnFromIndex === index ? ' return-leave' : '') +
+        (index >= model.depth ? ' beyond-current' : '');
       segment.dataset.stepIndex = String(index);
       var number = document.createElement('span');
       number.className = 'wear-step-index';
@@ -174,9 +176,10 @@
         }
       }
       if (options.revealIndex === index) {
-        var bloom = document.createElement('span');
-        bloom.className = 'ink-bloom';
-        segment.appendChild(bloom);
+        var radialOrigin = document.createElement('span');
+        radialOrigin.className = 'ink-radial-origin';
+        radialOrigin.setAttribute('aria-hidden', 'true');
+        segment.appendChild(radialOrigin);
       }
       track.appendChild(segment);
     });

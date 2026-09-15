@@ -18,23 +18,29 @@ button.wear-step{cursor:pointer}.wear-step:nth-child(3n+2){background:#dfd2bc;tr
 .wear-fork-mark:after{content:"FORK";position:absolute;top:8px;left:8px;color:#cc1111;font-size:7px;letter-spacing:.15em}
 .wear-depth-marker{position:absolute;z-index:6;bottom:0;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:9px solid #cc1111;transform:translateX(-7px)}
 .wear-empty{padding:34px 20px;color:#756750;font-size:9px;letter-spacing:.15em}
-.trail-wear.motion-descend .wear-step:last-child{animation:wearDescend .52s cubic-bezier(.16,.84,.24,1) both;transform-origin:left center}
-.trail-wear.motion-descend .wear-paper{animation:wearPush .52s cubic-bezier(.16,.84,.24,1)}
-.trail-wear.motion-return .wear-paper{animation:wearReturn .5s cubic-bezier(.55,.02,.55,.96)}
-.trail-wear.motion-return .wear-depth-marker{animation:wearMarkerReturn .5s ease-out}
-@keyframes wearDescend{0%{transform:translateX(-38px) scaleX(.08) skewX(-12deg);filter:contrast(1.5)}65%{transform:translateX(6px) scaleX(1.04) skewX(2deg)}100%{transform:translateX(0) scaleX(1) skewX(0)}}
-@keyframes wearPush{0%{transform:translateX(-8px)}58%{transform:translateX(10px)}100%{transform:translateX(0)}}
-@keyframes wearReturn{0%{transform:translateX(0) scaleX(1)}50%{transform:translateX(-24px) scaleX(.93)}100%{transform:translateX(0) scaleX(1)}}
-@keyframes wearMarkerReturn{0%{filter:drop-shadow(0 0 0 #cc1111)}45%{filter:drop-shadow(12px 0 5px #cc1111);transform:translateX(11px) rotate(-28deg)}100%{filter:none}}
-.wear-step.ink-reveal{isolation:isolate}.wear-step.ink-reveal .wear-step-label{animation:inkResolve 1.12s cubic-bezier(.2,.68,.22,1) both}
-.ink-bloom{position:absolute;z-index:8;left:18%;top:42%;width:32px;height:27px;border-radius:42% 58% 63% 37%;background:radial-gradient(circle at 34% 44%,#050101 0 18%,#561014 24% 52%,#9e171c 59% 70%,transparent 74%);filter:url(#r4b1tInkBleed);mix-blend-mode:multiply;pointer-events:none;animation:inkBloom 1.05s cubic-bezier(.12,.58,.18,1) both}
-.blind-card.ink-reveal-card:after{content:"";position:absolute;z-index:1;left:18%;top:38%;width:70px;height:56px;border-radius:47% 53% 39% 61%;background:radial-gradient(circle,#050101 0 16%,#5b0c10 27% 49%,#b11a20 57% 68%,transparent 72%);filter:url(#r4b1tInkBleed);mix-blend-mode:multiply;animation:inkBloomCard 1.12s cubic-bezier(.12,.58,.18,1) both;pointer-events:none}
-.blind-card.ink-reveal-card .blind-message,.blind-card.ink-reveal-card .blind-proof{animation:inkResolve 1.12s cubic-bezier(.2,.68,.22,1) both}
-.blind-card.motion-descend-card{animation:blindCommit .48s cubic-bezier(.12,.76,.21,1)}.blind-card.motion-return-card{animation:blindWithdraw .5s cubic-bezier(.55,.02,.55,.96)}
-@keyframes inkBloom{0%{transform:scale(.05) rotate(-9deg);opacity:.15}32%{transform:scale(1.7) rotate(7deg);opacity:.92}72%{transform:scale(5.5) rotate(-3deg);opacity:.82}100%{transform:scale(7.4) rotate(2deg);opacity:0}}
-@keyframes inkBloomCard{0%{transform:scale(.04) rotate(-11deg);opacity:.18}38%{transform:scale(3.2) rotate(6deg);opacity:.95}76%{transform:scale(8.8) rotate(-2deg);opacity:.76}100%{transform:scale(11) rotate(3deg);opacity:0}}
-@keyframes inkResolve{0%,30%{color:transparent;filter:blur(9px);text-shadow:0 0 11px #160203,4px 2px 8px #8c1015,-3px 1px 6px #090000}64%{color:#120d0d;filter:blur(2.2px);text-shadow:1px 0 2px #7d0d11}100%{filter:blur(0);text-shadow:none}}
-@keyframes blindCommit{0%{transform:translateY(24px) scale(.965)}62%{transform:translateY(-5px) scale(1.008)}100%{transform:translateY(0) scale(1)}}
-@keyframes blindWithdraw{0%{transform:translateX(0) scale(1)}48%{transform:translateX(-28px) scale(.94)}100%{transform:translateX(0) scale(1)}}
+.wear-step.beyond-current{opacity:.24;filter:saturate(.55);transform:scaleX(.94);transform-origin:left center}
+.trail-wear.motion-descend .wear-step:last-child{animation:wearExtend 360ms cubic-bezier(.16,1,.3,1) both;transform-origin:left center}
+.trail-wear.motion-descend .wear-depth-marker{animation:markerAdvance 360ms cubic-bezier(.16,1,.3,1) both}
+.trail-wear.motion-return .wear-step.return-leave{animation:wearRetract 340ms cubic-bezier(.7,0,.84,0) both;transform-origin:left center}
+.trail-wear.motion-return .wear-depth-marker{animation:markerRetract 340ms cubic-bezier(.7,0,.84,0) both}
+@keyframes wearExtend{0%{transform:translateX(-34px) scaleX(.18) scaleY(.9);opacity:0}72%{transform:translateX(5px) scaleX(1.025) scaleY(1);opacity:1}100%{transform:translateX(0) scaleX(1) scaleY(1);opacity:1}}
+@keyframes markerAdvance{0%{transform:translateX(-34px) scale(.6);opacity:0}100%{transform:translateX(-7px) scale(1);opacity:1}}
+@keyframes wearRetract{0%{transform:translateX(0) scaleX(1);opacity:1}100%{transform:translateX(38px) scaleX(.22);opacity:.08}}
+@keyframes markerRetract{0%{transform:translateX(-7px) scale(1);opacity:1}100%{transform:translateX(28px) scale(.55);opacity:.16}}
+
+/* Reveal owns the radial-mask + blur language; navigation never uses either. */
+.wear-step.ink-reveal{isolation:isolate;opacity:1;filter:none}
+.wear-step.ink-reveal>span:not(.ink-radial-origin){position:relative;z-index:3;animation:stepRadialResolve 680ms cubic-bezier(.22,.61,.36,1) both}
+.ink-radial-origin{position:absolute!important;z-index:2!important;inset:-2px;background:#2a090a;background-image:repeating-linear-gradient(118deg,#1a0506 0 7px,#4c0d10 8px 10px,#1a0506 11px 17px);pointer-events:none;animation:concealmentRelease 680ms cubic-bezier(.22,.61,.36,1) both}
+.blind-card.ink-reveal-card:after{content:"";position:absolute;z-index:1;inset:0;background:#210809;background-image:repeating-linear-gradient(118deg,#140405 0 12px,#4c0d10 13px 16px,#140405 17px 27px);pointer-events:none;animation:concealmentRelease 680ms cubic-bezier(.22,.61,.36,1) both}
+.blind-card.ink-reveal-card .blind-message,.blind-card.ink-reveal-card .blind-proof{position:relative;z-index:2;animation:cardRadialResolve 680ms cubic-bezier(.22,.61,.36,1) both}
+@keyframes stepRadialResolve{0%{clip-path:circle(0% at 50% 50%);filter:blur(8px);opacity:.12}58%{filter:blur(3px);opacity:.78}100%{clip-path:circle(150% at 50% 50%);filter:blur(0);opacity:1}}
+@keyframes cardRadialResolve{0%{clip-path:circle(0% at 50% 50%);filter:blur(8px);opacity:.08}62%{filter:blur(2.5px);opacity:.82}100%{clip-path:circle(150% at 50% 50%);filter:blur(0);opacity:1}}
+@keyframes concealmentRelease{0%{clip-path:circle(150% at 50% 50%);opacity:1}100%{clip-path:circle(0% at 50% 50%);opacity:0}}
+
+.blind-card.motion-descend-card{animation:blindExtend 360ms cubic-bezier(.16,1,.3,1) both;transform-origin:center bottom}
+.blind-card.motion-return-card{animation:blindRetract 340ms cubic-bezier(.7,0,.84,0) both;transform-origin:center top}
+@keyframes blindExtend{0%{transform:translateY(28px) scale(.92);opacity:0}72%{transform:translateY(-4px) scale(1.012);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes blindRetract{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-20px) scale(.94);opacity:.58}}
 @media(max-width:600px){.wear-paper{overflow-x:auto}.wear-step{flex-basis:102px;min-width:102px}.wear-readout{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.trail-wear *,.blind-card{animation-duration:.001ms!important;animation-iteration-count:1!important}}
