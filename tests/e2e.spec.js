@@ -125,7 +125,7 @@ test('mobile viewport exposes one-thumb controls', async ({ page }, testInfo) =>
 });
 
 
-test('mobile blind descent entry commits and displays wear immediately', async ({ page }, testInfo) => {
+test('mobile blind descent uses real and distinct timed transitions', async ({ page }, testInfo) => {
   if (testInfo.project.name !== 'mobile-chromium') test.skip();
 
   await page.goto('./', { waitUntil: 'domcontentloaded' });
@@ -133,14 +133,59 @@ test('mobile blind descent entry commits and displays wear immediately', async (
 
   const entry = page.locator('[data-mobile-action="blind-descent"]');
   await expect(entry).toBeVisible();
-  await expect(page.locator('[data-mobile-action="wear-sample"]')).toBeVisible();
   await entry.click();
 
   await expect(page.locator('#blindDescentOverlay')).toHaveClass(/\bopen\b/);
   await expect(page.locator('#blindStatus')).toContainText('CONCEALED');
-  await expect(page.locator('#blindWear .trail-wear')).toBeVisible();
-  await expect(page.locator('#blindWear .wear-step.concealed')).toHaveCount(1);
-  await expect(page.locator('#blindCard')).toHaveClass(/\bmotion-descend-card\b/);
+  const concealedStep = page.locator('#blindWear .wear-step.concealed').last();
+  await expect(concealedStep).toBeVisible();
+
+  const descendMotion = await concealedStep.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const animation = element.getAnimations()[0];
+    return {
+      name: style.animationName,
+      duration: animation && animation.effect.getTiming().duration,
+      curve: style.animationTimingFunction,
+    };
+  });
+  expect(descendMotion.name).toContain('wearExtend');
+  expect(descendMotion.duration).toBe(360);
+
+  await page.locator('[data-blind-action="reveal"]').click();
+  await expect(page.locator('#blindStatus')).toContainText('COMMITMENT VERIFIED');
+  const revealedContent = page.locator('#blindWear .wear-step.ink-reveal .wear-step-label').last();
+  await expect(revealedContent).toBeVisible();
+
+  const revealMotion = await revealedContent.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const animation = element.getAnimations()[0];
+    return {
+      name: style.animationName,
+      duration: animation && animation.effect.getTiming().duration,
+      curve: style.animationTimingFunction,
+    };
+  });
+  expect(revealMotion.name).toContain('stepRadialResolve');
+  expect(revealMotion.duration).toBe(680);
+  await expect(page.locator('#blindWear .ink-radial-origin').last()).toBeAttached();
+
+  await page.locator('[data-blind-action="return"]').click();
+  const retractedStep = page.locator('#blindWear .wear-step.return-leave').last();
+  await expect(retractedStep).toBeAttached();
+
+  const returnMotion = await retractedStep.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const animation = element.getAnimations()[0];
+    return {
+      name: style.animationName,
+      duration: animation && animation.effect.getTiming().duration,
+      curve: style.animationTimingFunction,
+    };
+  });
+  expect(returnMotion.name).toContain('wearRetract');
+  expect(returnMotion.duration).toBe(340);
+  expect(new Set([descendMotion.curve, revealMotion.curve, returnMotion.curve]).size).toBe(3);
 });
 
 test('mobile wear sample exposes revealed concealed and forked states', async ({ page }, testInfo) => {
