@@ -87,6 +87,13 @@
         '<button class="r4m-roll" id="r4mRoll" type="button">',
           '<span><small>R / RANDOM</small><strong>ROLL</strong><em id="r4mRollScope">FULL CORPUS</em></span><b>↓</b>',
         '</button>',
+        '<section class="r4m-descent-entry" aria-label="Blind descent and trail wear">',
+          '<div><small>TRAIL / COMMITTED</small><strong>BLIND DESCENT</strong><p>Lock a route before seeing it. Wear records every step.</p></div>',
+          '<div class="r4m-descent-actions">',
+            '<button type="button" data-mobile-action="blind-descent"><span>DESCEND BLIND</span><b>↓</b></button>',
+            '<button type="button" data-mobile-action="wear-sample"><span>VIEW WEAR SAMPLE</span><b>↗</b></button>',
+          '</div>',
+        '</section>',
         '<section class="r4m-route" id="r4mRoute" hidden>',
           '<div class="r4m-route-top"><span>ROUTE / <b id="r4mRouteNo">001</b></span><strong id="r4mTag">ROUTE</strong></div>',
           '<small id="r4mProtocol">https://</small>',
@@ -175,6 +182,14 @@
     if (action === 'share' || action === 'cut') return call('shareCard');
     if (action === 'history') return call('toggleHistory');
     if (action === 'trail-file') return call('openTrailLedger');
+    if (action === 'blind-descent') {
+      if (typeof window.openBlindDescent !== 'function' || typeof window.blindDescend !== 'function') return;
+      Promise.resolve(window.openBlindDescent())
+        .then(function () { return window.blindDescend(); })
+        .catch(function (error) { console.error('Blind descent failed', error); });
+      return;
+    }
+    if (action === 'wear-sample') return call('openTrailWearSample');
     if (action === 'inspect') {
       syncInspect();
       return openSheet('r4mInspectSheet');
