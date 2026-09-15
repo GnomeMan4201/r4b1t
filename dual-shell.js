@@ -192,7 +192,8 @@
     var transition = style.transitionDuration && style.transitionDuration !== '0s' ? style.transitionDuration : 'none';
     panel.textContent =
       'MOTION DEBUG\\n' +
-      'ACTION: ' + action + '\\n' +
+      'LAST TAP: ' + (panel.dataset.lastTap || action) + '\\n' +
+      'MOTION: ' + action + '\\n' +
       'TARGET: #' + (element.id || element.className || element.tagName).toString().replace(/\\s+/g, '.') + '\\n' +
       'CLASS: ' + (className || '(none)') + '\\n' +
       'ANIMATION: ' + animationName + '\\n' +
@@ -204,7 +205,10 @@
     if (!motionDebugEnabled) return;
     ensureMotionDebug();
     var panel = byId('r4mMotionDebug');
-    if (panel) panel.textContent = 'MOTION DEBUG\\nACTION: ' + action + '\\nWAITING FOR TARGET MOTION…';
+    if (panel) {
+      panel.dataset.lastTap = action;
+      panel.textContent = 'MOTION DEBUG\\nLAST TAP: ' + action + '\\nMOTION: waiting for target…';
+    }
   }
 
   function playMotion(element, className, duration) {
