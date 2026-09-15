@@ -1,9 +1,10 @@
-const CACHE = 'r4b1t-v15-connective-motion';
+const CACHE = 'r4b1t-v16-motion-token-precache';
 const PRECACHE = [
   '/r4b1t/',
   '/r4b1t/index.html',
   '/r4b1t/anime.min.js',
   '/r4b1t/anime-core.min.js',
+  '/r4b1t/motion-tokens.js',
   '/r4b1t/dual-shell.js',
   '/r4b1t/dual-shell.css',
   '/r4b1t/trail-manifest.js',
